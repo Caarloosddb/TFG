@@ -7,81 +7,81 @@ $padding: 0.5rem 1rem;
 $max-width: 1200px; // Ancho máximo para centrar el navbar
 
 .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $navbar-bg;
+  padding: $padding;
+  max-width: $max-width;
+  margin: 0 auto; // Centra el navbar dentro del viewport
+
+  .navbar-left {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: $navbar-bg;
-    padding: $padding;
-    max-width: $max-width;
-    margin: 0 auto; // Centra el navbar dentro del viewport
 
-    .navbar-left {
-        display: flex;
-        align-items: center;
-
-        .logo-img {
-            width: 40px;
-            height: 40px;
-            margin-right: 0.5rem;
-        }
-
-        .logo-text {
-            color: $navbar-text;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-right: 1rem;
-        }
-
-        li {
-            list-style: none;
-            margin-right: 1rem;
-
-            a {
-                color: $navbar-text;
-                text-decoration: none;
-                font-size: 1rem;
-                transition: color 0.3s ease;
-
-                &:hover {
-                    color: $navbar-hover;
-                }
-            }
-        }
+    .logo-img {
+      width: 40px;
+      height: 40px;
+      margin-right: 0.5rem;
     }
 
-    .navbar-right {
-        display: flex;
-        align-items: center;
-
-        li {
-            list-style: none;
-            margin-left: 1rem;
-
-            a {
-                color: $navbar-text;
-                text-decoration: none;
-                font-size: 1rem;
-                transition: color 0.3s ease;
-
-                &:hover {
-                    color: $navbar-hover;
-                }
-            }
-
-            i {
-                color: $navbar-text;
-                font-size: 1.2rem;
-                transition: color 0.3s ease;
-
-                &:hover {
-                    color: $navbar-hover;
-                }
-            }
-        }
+    .logo-text {
+      color: $navbar-text;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-right: 1rem;
     }
+
+    li {
+      list-style: none;
+      margin-right: 1rem;
+
+      a {
+        color: $navbar-text;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $navbar-hover;
+        }
+      }
+    }
+  }
+
+  .navbar-right {
+    display: flex;
+    align-items: center;
+
+    li {
+      list-style: none;
+      margin-left: 1rem;
+
+      a {
+        color: $navbar-text;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $navbar-hover;
+        }
+      }
+
+      i {
+        color: $navbar-text;
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $navbar-hover;
+        }
+      }
+    }
+  }
 }
 
-// Variables de configuración
+// Variables de configuración para el footer
 $footer-bg: #111;
 $footer-text: #fff;
 $footer-hover: #ccc;
@@ -91,84 +91,84 @@ $max-width: 1200px;
 
 // Footer
 .footer {
-    background-color: $footer-bg;
-    color: $footer-text;
-    font-family: $font-family;
-    padding: $padding;
-    max-width: $max-width;
-    margin: 0 auto; // Centra el footer en la pantalla
+  background-color: $footer-bg;
+  color: $footer-text;
+  font-family: $font-family;
+  padding: $padding;
+  max-width: $max-width;
+  margin: 0 auto; // Centra el footer en la pantalla
 
-    &-bottom {
+  &-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+
+    .social {
+      .footer-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .social-links {
+        list-style: none;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
-        text-align: center;
+        gap: 1.5rem;
+        padding: 0;
 
-        .social {
-            .footer-title {
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
+        li {
+          a {
+            color: $footer-text;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+
+            i {
+              margin-right: 0.5rem;
             }
 
-            .social-links {
-                list-style: none;
-                display: flex;
-                gap: 1.5rem;
-                padding: 0;
-
-                li {
-                    a {
-                        color: $footer-text;
-                        text-decoration: none;
-                        font-size: 1rem;
-                        transition: color 0.3s ease;
-
-                        i {
-                            margin-right: 0.5rem;
-                        }
-
-                        &:hover {
-                            color: $footer-hover;
-                        }
-                    }
-                }
+            &:hover {
+              color: $footer-hover;
             }
+          }
         }
-
-        .columns {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-
-            .column {
-                flex: 1 1 150px;
-                min-width: 150px;
-
-                h3 {
-                    font-size: 1.2rem;
-                    margin-bottom: 1rem;
-                }
-
-                ul {
-                    list-style: none;
-
-                    li {
-                        margin-bottom: 0.5rem;
-
-                        a {
-                            color: $footer-text;
-                            text-decoration: none;
-                            transition: color 0.3s ease;
-
-                            &:hover {
-                                color: $footer-hover;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+      }
     }
+
+    .columns {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+
+      .column {
+        flex: 1 1 150px;
+        min-width: 150px;
+
+        h3 {
+          font-size: 1.2rem;
+          margin-bottom: 1rem;
+        }
+
+        ul {
+          list-style: none;
+
+          li {
+            margin-bottom: 0.5rem;
+
+            a {
+              color: $footer-text;
+              text-decoration: none;
+              transition: color 0.3s ease;
+
+              &:hover {
+                color: $footer-hover;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
