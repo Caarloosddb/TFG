@@ -35,7 +35,7 @@ export class LoginComponent {
 
   loginWithGoogle(): void {
     this.authService.loginWithGoogle().subscribe({
-      next: () => this.router.navigate(['/register']),
+      next: () => this.router.navigate(['/home']),
       error: () => this.error = 'Error con Google'
     });
   }
