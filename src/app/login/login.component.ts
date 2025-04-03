@@ -28,7 +28,7 @@ export class LoginComponent {
   onSubmit(): void {
     const { email, password } = this.loginForm.value;
     this.authService.login(email, password).subscribe({
-      next: () => this.router.navigate(['/register']),
+      next: () => this.router.navigate(['/home']),
       error: () => this.error = 'Credenciales incorrectas'
     });
   }
