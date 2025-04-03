@@ -1,0 +1,18 @@
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="form-container text-center bg-light p-4 rounded shadow">
+      <h2 class="text-center text-dark">Iniciar Sesión</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <input type="email" formControlName="email" class="form-control" placeholder="Correo electrónico" required />
+        </div>
+        <div class="mb-3">
+          <input type="password" formControlName="password" class="form-control" placeholder="Contraseña" required />
+        </div>
+        <button type="submit" class="btn btn-danger w-100">Ingresar</button>
+        <button (click)="loginWithGoogle()" class="btn btn-dark w-100 mt-3">Iniciar con Google</button>
+        <p class="mt-3 text-center">¿No tienes cuenta? <a routerLink="/register" class="text-danger">Regístrate</a></p>
+      </form>
+    </div>
+  </div>
+  
