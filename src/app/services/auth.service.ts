@@ -10,7 +10,8 @@ import {
   user,
   User,
   setPersistence,
-  updatePassword
+  updatePassword,
+  updateProfile
 } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 
@@ -57,11 +58,11 @@ export class AuthService {
   }
 
   updatePassword(newPassword: string): Observable<void> {
-    const currentUser = this.firebaseAuth.currentUser;
-    if (currentUser) {
-      return from(updatePassword(currentUser, newPassword).then(() => {}));
-    } else {
-      throw new Error('No hay ningun usuaruio iniciado.');
-    }
+    return from(updatePassword(this.firebaseAuth.currentUser!, newPassword).then(() => {}));
   }
+
+  updateUserProfile(displayName: string, photoURL: string): Observable<void> {
+    return from(updateProfile(this.firebaseAuth.currentUser!, { displayName, photoURL }).then(() => {}));
+  }
+  
 }

@@ -10,14 +10,50 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/futbol">Fútbol</a></li>
+        <li class="nav-item"><a class="nav-link text-white" routerLink="/futbol/fixtures/140/2023/38">Fútbol</a></li>
         <li class="nav-item"><a class="nav-link text-white" routerLink="/equipos">Equipos</a></li>
         <li class="nav-item"><a class="nav-link text-white" routerLink="/competiciones">Competiciones</a></li>
       </ul>
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/login">Iniciar Sesión</a></li>
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/ajustes"><i class="bi bi-gear-fill"></i></a></li>
+        <!-- Mostrar si SI hay usuario -->
+        <ng-container *ngIf="user$ | async as user; else loginBtn">
+          <li class="nav-item dropdown">
+            <a 
+              class="nav-link dropdown-toggle text-white" 
+              href="#" 
+              id="userDropdown" 
+              role="button" 
+              data-bs-toggle="dropdown" 
+              aria-expanded="false"
+            >
+              {{ user.displayName || user.email }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <a class="dropdown-item" routerLink="/usuario">Mi Perfil</a>
+              </li>
+              <li>
+                <button class="dropdown-item" (click)="logout()">Cerrar sesión</button>
+              </li>
+            </ul>
+          </li>
+        </ng-container>
+        
+      
+        <!-- Mostrar si NO hay usuario -->
+        <ng-template #loginBtn>
+          <li class="nav-item">
+            <a class="nav-link text-white" routerLink="/login">Iniciar Sesión</a>
+          </li>
+        </ng-template>
+      
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/ajustes">
+            <i class="bi bi-gear-fill"></i>
+          </a>
+        </li>
       </ul>
+
     </div>
   </div>
 </nav>
