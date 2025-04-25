@@ -6,6 +6,7 @@ import { HomeComponent } from './componentes/home/home.component';
 import { FutbolComponent } from './componentes/futbol/futbol.component';
 import { EquiposComponent } from './componentes/equipos/equipos.component';
 import { UsuarioComponent } from './componentes/usuario/usuario.component';
+import { ClasificacionComponent } from './clasificacion/clasificacion.component';
 
 
 export const routes: Routes = [
@@ -15,6 +16,7 @@ export const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'usuario', component: UsuarioComponent, canActivate: [AuthGuard]},
     {path: 'futbol/:endpoint/:leagueId/:season/:round', component: FutbolComponent},
+    {path: 'clasificacion', component: ClasificacionComponent},
 
 
     {path: '', redirectTo: 'home', pathMatch: 'full'},
