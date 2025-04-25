@@ -6,11 +6,12 @@ import { NavbarComponent } from "../../navbar/navbar.component";
 import { FooterComponent } from "../../footer/footer.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SidebarComponent } from "../../sidebar/sidebar.component";
 
 @Component({
   selector: 'app-futbol',
   standalone: true,
-  imports: [RouterLink, RouterModule, NavbarComponent, FooterComponent, CommonModule, FormsModule],
+  imports: [RouterLink, RouterModule, NavbarComponent, FooterComponent, CommonModule, FormsModule, SidebarComponent],
   templateUrl: './futbol.component.html',
   styleUrls: ['./futbol.component.scss']
 })
