@@ -1,21 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="home.component.scss">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-</head>
-<body>
-
 <app-navbar></app-navbar>
 
-  <div class="container my-4">
-    <h2 class="text-center">Noticias de última hora</h2>
+<div class="container py-5">
+  <h2 class="text-center mb-5">Noticias deportivas</h2>
+
+  <!-- Spinner global mientras no llega ninguna noticia -->
+  <div *ngIf="!futbolNews.length && !nbaNews.length && !f1News.length" class="d-flex justify-content-center my-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
   </div>
 
-<app-footer></app-footer>
+  <!-- Fútbol (Soccer) -->
+  <section class="mb-5">
+    <h3 class="mb-4">Fútbol</h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <div *ngFor="let art of futbolNews" class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="ratio ratio-16x9">
+            <img
+              *ngIf="art.urlToImage; else noImageFut"
+              [src]="art.urlToImage"
+              class="card-img-top object-fit-cover"
+              alt="Imagen noticia"
+            >
+            <ng-template #noImageFut>
+              <div class="bg-secondary d-flex align-items-center justify-content-center text-white">
+                Sin imagen
+              </div>
+            </ng-template>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ art.title }}</h5>
+            <p class="card-text text-muted small">{{ art.source.name }}</p>
+            <p class="card-text mb-4 flex-grow-1">{{ art.description }}</p>
+            <a [href]="art.url" target="_blank" class="mt-auto btn btn-outline-primary">
+              Leer más →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</body>
-</html>
+  <!-- NBA -->
+  <section class="mb-5">
+    <h3 class="mb-4">Baloncesto</h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <div *ngFor="let art of nbaNews" class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="ratio ratio-16x9">
+            <img
+              *ngIf="art.urlToImage; else noImageNba"
+              [src]="art.urlToImage"
+              class="card-img-top object-fit-cover"
+              alt="Imagen noticia"
+            >
+            <ng-template #noImageNba>
+              <div class="bg-secondary d-flex align-items-center justify-content-center text-white">
+                Sin imagen
+              </div>
+            </ng-template>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ art.title }}</h5>
+            <p class="card-text text-muted small">{{ art.source.name }}</p>
+            <p class="card-text mb-4 flex-grow-1">{{ art.description }}</p>
+            <a [href]="art.url" target="_blank" class="mt-auto btn btn-outline-primary">
+              Leer más →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fórmula 1 -->
+  <section class="mb-5">
+    <h3 class="mb-4">Fórmula 1</h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <div *ngFor="let art of f1News" class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="ratio ratio-16x9">
+            <img
+              *ngIf="art.urlToImage; else noImageF1"
+              [src]="art.urlToImage"
+              class="card-img-top object-fit-cover"
+              alt="Imagen noticia"
+            >
+            <ng-template #noImageF1>
+              <div class="bg-secondary d-flex align-items-center justify-content-center text-white">
+                Sin imagen
+              </div>
+            </ng-template>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ art.title }}</h5>
+            <p class="card-text text-muted small">{{ art.source.name }}</p>
+            <p class="card-text mb-4 flex-grow-1">{{ art.description }}</p>
+            <a [href]="art.url" target="_blank" class="mt-auto btn btn-outline-primary">
+              Leer más →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<app-footer></app-footer>
