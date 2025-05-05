@@ -69,3 +69,87 @@ h2 {
   color: #fff;
   box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.3); /* Efecto visual */
 }
+/* Contenedor de la fila */
+.container-fluid {
+  display: flex;
+  flex-direction: row;
+  gap: 15px; /* Espacio entre el anuncio y el contenido */
+}
+
+/* El slider de anuncios ocupará toda la altura */
+.col-md-2 {
+  flex: 0 0 auto;
+  height: 100vh; /* 100% del alto de la ventana */
+  transition: all 0.3s ease-out;
+  overflow: hidden;
+}
+
+/* Estilo del contenedor de anuncios */
+.bg-light {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+.bg-light .img-fluid {
+  width: 100%; /* La imagen ocupará todo el ancho */
+  height: 100%; /* La imagen ocupará toda la altura */
+  object-fit: cover; /* La imagen se recorta para llenar el área sin deformarse */
+  border-radius: 0; /* Elimina cualquier borde o redondeo */
+}
+.custom-close {
+  width: 36px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.6); /* fondo oscuro semitransparente */
+  border-radius: 50%;                  /* forma redonda */
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* sombra para destacar más */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.custom-close::before,
+.custom-close::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transform-origin: center;
+}
+
+.custom-close::before {
+  transform: rotate(45deg);
+}
+
+.custom-close::after {
+  transform: rotate(-45deg);
+}
+
+.custom-close:hover {
+  background-color: rgba(255, 0, 0, 0.8); /* rojo intenso al hacer hover */
+  transform: scale(1.1);
+}
+
+.custom-close:hover::before,
+.custom-close:hover::after {
+  background-color: white;
+}
+
+
+/* El contenido principal se adapta */
+.col-md {
+  flex: 1 1 auto; /* Ocupa todo el espacio disponible */
+  transition: all 0.3s ease;
+}
+
+/* Cuando el anuncio se oculta, el contenido se expande para ocupar todo el espacio */
+.col-md-2.d-none {
+  display: none !important;
+}
+
+
+
