@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    /* Light theme */
+    --bs-body-bg:     #ffffff;
+    --bs-body-color:  #212529;
+    --bs-card-bg:     #ffffff;
+    --bs-card-color:  #212529;
+    --bs-primary:     #0d6efd;
+    --bs-secondary:   #6c757d;
+  }
+  
+  .dark-theme {
+    /* Dark theme overrides */
+    --bs-body-bg:     #121212;
+    --bs-body-color:  #e1e1e1;
+    --bs-card-bg:     #1e1e1e;
+    --bs-card-color:  #e1e1e1;
+    --bs-primary:     #4dabf7;
+    --bs-secondary:   #ced4da;
+  }
+
+  body {
+    background-color: var(--bs-body-bg) !important;
+    color:            var(--bs-body-color) !important;
+  }
+  
+  .card {
+    background-color: var(--bs-card-bg);
+    color:            var(--bs-card-color);
+  }
+
+  

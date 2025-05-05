@@ -50,3 +50,5 @@ export class UsuarioComponent {
 
 
 }
+
+export type { User };

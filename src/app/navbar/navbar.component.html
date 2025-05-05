@@ -1,26 +1,75 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+<!-- src/app/componentes/navbar/navbar.component.html -->
+<nav 
+  class="navbar navbar-expand-lg px-3"
+  [ngClass]="{
+    'navbar-dark bg-dark': themeService.isDark(),
+    'navbar-light bg-light': !themeService.isDark()
+  }"
+>
   <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center gap-2 text-white" routerLink="/home">
-      <img src="Logo1-TFG.png" alt="logo" width="24" height="24"
-           class="d-inline-block" style="transform: scale(2); transform-origin: center;">
-      <span class="fs-5 fw-bold align-middle" style="line-height: 1;">TopScore</span>
+    <a 
+      class="navbar-brand d-flex align-items-center gap-2" 
+      routerLink="/home"
+    >
+      <img 
+        src="Logo1-TFG.png" 
+        alt="logo" 
+        width="24" 
+        height="24"
+        class="d-inline-block"
+        style="transform: scale(2); transform-origin: center;"
+      >
+      <span class="fs-5 fw-bold align-middle" style="line-height: 1;">
+        TopScore
+      </span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/futbol/fixtures/140/2023/38">Fútbol</a></li>
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/equipos">NBA</a></li>
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/equipos">Formula 1</a></li>
-        <li class="nav-item"><a class="nav-link text-white" routerLink="/competiciones">Noticias</a></li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/futbol/fixtures/140/2023/38">Fútbol</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/equipos">NBA</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/equipos">Formula 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/competiciones">Noticias</a>
+        </li>
       </ul>
-      <ul class="navbar-nav ms-auto">
-        <!-- Mostrar si SI hay usuario -->
+
+      <ul class="navbar-nav ms-auto align-items-center">
+
+        <!-- Toggle modo claro/oscuro -->
+        <li class="nav-item me-2">
+          <button 
+            class="btn btn-outline-secondary"
+            (click)="themeService.toggleTheme()"
+            [attr.aria-pressed]="themeService.isDark()"
+            title="Alternar modo claro/oscuro"
+          >
+            <i 
+              class="bi" 
+              [ngClass]="themeService.isDark() ? 'bi-sun-fill' : 'bi-moon-fill'"
+            ></i>
+          </button>
+        </li>
+
+        <!-- Usuario logueado -->
         <ng-container *ngIf="user$ | async as user; else loginBtn">
           <li class="nav-item dropdown">
             <a 
-              class="nav-link dropdown-toggle text-white" 
+              class="nav-link dropdown-toggle" 
               href="#" 
               id="userDropdown" 
               role="button" 
@@ -39,17 +88,17 @@
             </ul>
           </li>
         </ng-container>
-        
-      
-        <!-- Mostrar si NO hay usuario -->
+
+        <!-- Botón de login si no hay usuario -->
         <ng-template #loginBtn>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/login">Iniciar Sesión</a>
+            <a class="nav-link" routerLink="/login">Iniciar Sesión</a>
           </li>
         </ng-template>
-      
+
+        <!-- Ajustes -->
         <li class="nav-item">
-          <a class="nav-link text-white" routerLink="/ajustes">
+          <a class="nav-link" routerLink="/ajustes">
             <i class="bi bi-gear-fill"></i>
           </a>
         </li>

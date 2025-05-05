@@ -1,33 +1,31 @@
-import { Component , OnInit} from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
-import { User } from '@angular/fire/auth';
+import { Component }    from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { RouterLink }   from '@angular/router';
+import { ThemeService } from '../core/theme.service';
+import { AuthService }  from '../../app/services/auth.service';
+import { Observable }   from 'rxjs';
+import { User }         from '../componentes/usuario/usuario.component'; // ajústalo según tu modelo
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, CommonModule],
+  standalone: true,
+  imports: [ CommonModule, RouterLink ],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
-
+export class NavbarComponent {
+  // expone el observable de usuario
   user$: Observable<User | null>;
 
-  constructor(private authService: AuthService, private router: Router) {
-
-    this.user$ = this.authService.user$;
+  // inyecta los servicios, ojo al public en themeService
+  constructor(
+    public themeService: ThemeService,
+    private auth: AuthService
+  ) {
+    this.user$ = this.auth.user$;
   }
 
-  logout() {
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/home']); 
-    });
+  logout(): void {
+    this.auth.logout();
   }
-
-  ngOnInit(): void {}
-
 }
