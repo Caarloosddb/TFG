@@ -27,7 +27,7 @@ export class NewsService {
   /** Noticias de Fútbol */
   getFutbolNews(): Observable<Article[]> {
     const url = `${this.everythingUrl}`
-      + `?q=futbol`
+      + `?q=Champions%20League%20OR%20Premier%20League%20OR%20La%20Liga%20OR%20Serie%20A%20OR%20Bundesliga%20OR%20Europa%20League`
       + `&language=es`
       + `&sortBy=publishedAt`
       + `&pageSize=9`
