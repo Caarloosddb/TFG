@@ -55,5 +55,6 @@ export class NewsService {
       + `&pageSize=9`
       + `&apiKey=${this.apiKey}`;
     return this.http.get<NewsResponse>(url).pipe(map(res => res.articles));
-  }
+  }  
+  
 }

@@ -25,19 +25,19 @@
         <button 
           class="btn btn-outline-primary" 
           (click)="irJornadaSiguiente()" 
-          [disabled]="round >= 38">
+          [disabled]="round >= jornadas.length">
           Siguiente &#8594;
         </button>
 
         <!-- Selector de temporada -->
         <div class="ms-4">
-          <label for="anioSelect" class="form-label mb-0">Temporada</label>
+          <label for="anoSelect" class="form-label mb-0">Temporada</label>
           <select 
-            id="anioSelect" 
+            id="anoSelect" 
             class="form-select" 
             [(ngModel)]="selectedTemporada" 
             (change)="onFiltroCambio()">
-            <option *ngFor="let anio of temporadas" [value]="anio">{{ anio }}</option>
+            <option *ngFor="let ano of temporadas" [value]="ano">{{ ano }}</option>
           </select>
         </div>
 
