@@ -1,0 +1,15 @@
+footer a {
+    transition: all 0.06s ease-in-out;
+  }
+  
+  footer a:hover {
+    font-weight: bold;
+    transform: scale(1.05);
+    text-decoration: underline;
+  }
+  footer h5 {
+    border-bottom: 1px solid gray;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+    
