@@ -8,10 +8,10 @@
     [style.height]="hideAds ? 'auto' : '100vh'"
 
   >
-    <div class="bg-light  h-100 position-relative">
+    <div class="bg-light position-fixed h-100 position-relative">
       <div 
       class="custom-close position-absolute top-0 end-0 m-2" 
-      (click)="hideAdPanel()"
+      (click)="hideAd()"
       role="button"
       aria-label="Cerrar"
     ></div>
@@ -19,7 +19,7 @@
       <!-- Imagen fija -->
       <div class="h-100 w-100 overflow-hidden">
         <img 
-          [src]="images[currentImageIndex]" 
+          [src]="images[image]" 
           class="w-100 h-100" 
           style="object-fit: cover;" 
           alt="Anuncio" 

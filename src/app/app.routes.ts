@@ -16,7 +16,7 @@ export const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'usuario', component: UsuarioComponent, canActivate: [AuthGuard]},
     {path: 'futbol/:endpoint/:leagueId/:season/:round', component: FutbolComponent},
-    {path: 'clasificacion', component: ClasificacionComponent},
+    {path: 'clasificacion/:leagueId/:season', component: ClasificacionComponent},
 
 
     {path: '', redirectTo: 'home', pathMatch: 'full'},

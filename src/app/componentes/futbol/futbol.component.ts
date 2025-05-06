@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { FooterComponent } from "../../footer/footer.component";
 import { CommonModule } from '@angular/common';
@@ -35,7 +35,6 @@ export class FutbolComponent implements OnInit {
 
   ngOnInit(): void {
     this.temporadas = [2021, 2022, 2023];
-    this.jornadas = Array.from({ length: 38 }, (_, i) => i + 1);
 
     this.route.params.subscribe(params => {
       this.endpoint = params['endpoint'];
@@ -44,6 +43,12 @@ export class FutbolComponent implements OnInit {
       this.round = +params['round'];
 
       this.selectedTemporada = this.season;
+
+      if (this.leagueId === 78 || this.leagueId === 61) {
+        this.jornadas = Array.from({ length: 34 }, (_, i) => i + 1);
+      } else {
+        this.jornadas = Array.from({ length: 38 }, (_, i) => i + 1);
+      }
 
       this.cargarPartidos();
     });
@@ -57,7 +62,7 @@ export class FutbolComponent implements OnInit {
   }
   
   irJornadaSiguiente() {
-    if (this.round < 38) {
+    if (this.round < this.jornadas.length) {
       this.round++;
       this.actualizarRuta();
     }
@@ -65,7 +70,6 @@ export class FutbolComponent implements OnInit {
   
   onFiltroCambio() {
     this.season = this.selectedTemporada;
-    this.round = this.selectedJornada;
     this.actualizarRuta();
   }
 
