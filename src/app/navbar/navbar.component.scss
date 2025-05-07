@@ -1,3 +1,8 @@
+
+.custom-light-navbar {
+    background-color: #cbcece !important; /* Un poco más oscuro que #f8f9fa */
+  }
+
   .navbar-nav .nav-link {
     transition: all 0.06s ease-in-out;
   }
@@ -6,3 +11,5 @@
     font-weight: bold;
     transform: scale(1.05);
   }
+
+  
