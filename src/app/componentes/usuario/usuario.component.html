@@ -1,87 +1,149 @@
+<!-- src/app/componentes/usuario/usuario.component.html -->
 <app-navbar></app-navbar>
 
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Mi Cuenta</h2>
-  
-    <!-- Si deseas mostrar la imagen del perfil actual -->
-    <div class="text-center mt-4">
-        <img [src]="profilePic || ''" alt="Foto de Perfil" class="rounded-circle" width="100">
-        </div>
-    </div>
+<div class="container mt-5">
 
-    <!-- Información del usuario -->
-    <p class="text-center"><strong>Correo actual:</strong> {{ userEmail }}</p>
-  
-    <!-- Formulario para actualizar correo y contraseña -->
-    <div class="user-container mb-5">
-      <h4>Actualizar Contraseña</h4>
-      <form (ngSubmit)="updatePassword()">
-        <div class="mb-3">
-          <label for="currentPassword" class="form-label">Contraseña Actual</label>
-          <input type="password" id="currentPassword" [(ngModel)]="currentPassword" class="form-control" placeholder="Introduce tu contraseña actual" name="currentPassword">
-        </div>
-        <div class="mb-3">
-          <label for="newPassword" class="form-label">Nueva Contraseña</label>
-          <input type="password" id="newPassword" [(ngModel)]="newPassword" class="form-control" placeholder="Introduce tu nueva contraseña" name="newPassword">
-        </div>
-        <div class="d-flex justify-content-center">
-          <button type="submit" class="btn btn-dark">Actualizar Contraseña</button>
-        </div>
-      </form>
-    </div>
+  <!-- Cabecera de perfil -->
+  <section class="text-center mb-5">
+    <img
+      *ngIf="profilePic; else sinFoto"
+      [src]="profilePic"
+      alt="Foto de Perfil"
+      class="rounded-circle mb-3"
+      width="120"
+      height="120"
+    >
+    <ng-template #sinFoto>
+      <div
+        class="rounded-circle bg-secondary mb-3 d-inline-block"
+        style="width:120px; height:120px;"
+      ></div>
+    </ng-template>
+    <h3>{{ user?.displayName || 'Tu Nombre' }}</h3>
+    <p class="text-muted">{{ userEmail }}</p>
+  </section>
 
-    <div class="container mt-4">
-        <h2 class="text-center mb-4">Actualizar Perfil</h2>
-      
-        <!-- Formulario para actualizar nombre de usuario y foto -->
-        <form (ngSubmit)="actualizarPerfil()" #profileForm="ngForm">
-          <div class="mb-3">
-            <label for="displayName" class="form-label">Nombre de Usuario</label>
-            <input type="text" 
-                   id="displayName" 
-                   [(ngModel)]="username" 
-                   name="displayName" 
-                   class="form-control" 
-                   required>
-          </div>
-          
-          <!-- <div class="mb-3">
-            <label for="profilePic" class="form-label">Seleccionar Foto de Perfil</label>
-            <input type="file" id="profilePic" (change)="onFileSelected($event)" class="form-control">
-          </div> -->
-          
-      
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary">Actualizar Perfil</button>
-          </div>
-        </form>
-      
-  
-    <!-- Switch de notificaciones -->
-    <div class="form-check form-switch mb-4">
-        <input 
-        class="form-check-input" 
-        type="checkbox" 
-        id="notificationsSwitch" 
-        [(ngModel)]="notificationsEnabled" 
-        name="notificationsEnabled"
+  <!-- Sección de contraseña -->
+  <section class="mb-5">
+    <h4 class="text-center mb-3">Actualizar Contraseña</h4>
+    <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
+      <div class="mb-3">
+        <label for="currentPassword" class="form-label">Contraseña Actual</label>
+        <input
+          id="currentPassword"
+          type="password"
+          class="form-control"
+          formControlName="currentPassword"
+          placeholder="Tu contraseña actual"
+        >
+        <div
+          *ngIf="passwordForm.get('currentPassword')?.touched &&
+                  passwordForm.get('currentPassword')?.invalid"
+          class="invalid-feedback d-block"
+        >
+          Debes introducir tu contraseña actual.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="newPassword" class="form-label">Nueva Contraseña</label>
+        <input
+          id="newPassword"
+          type="password"
+          class="form-control"
+          formControlName="newPassword"
+          placeholder="Mínimo 8 caracteres"
+        >
+        <div
+          *ngIf="passwordForm.get('newPassword')?.touched &&
+                  passwordForm.get('newPassword')?.hasError('minlength')"
+          class="invalid-feedback d-block"
+        >
+          Debe tener al menos 8 caracteres.
+        </div>
+      </div>
+
+      <div class="d-grid">
+        <button
+          type="submit"
+          class="btn btn-dark"
+          [disabled]="passwordForm.invalid || isUpdatingPassword"
+        >
+          {{ isUpdatingPassword ? 'Actualizando...' : 'Actualizar Contraseña' }}
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Sección de perfil -->
+  <section class="mb-5">
+    <h4 class="text-center mb-3">Actualizar Perfil</h4>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmitProfile()">
+      <div class="mb-3">
+        <label for="displayName" class="form-label">Nombre de Usuario</label>
+        <input
+          id="displayName"
+          type="text"
+          class="form-control"
+          formControlName="username"
+          placeholder="Tu nombre de usuario"
+        >
+        <div
+          *ngIf="profileForm.get('username')?.touched &&
+                  profileForm.get('username')?.invalid"
+          class="invalid-feedback d-block"
+        >
+          El nombre es obligatorio.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="fileInput" class="form-label">Foto de Perfil</label>
+        <input
+          id="fileInput"
+          type="file"
+          class="form-control"
+          (change)="onFileSelected($event)"
+        >
+      </div>
+
+      <div class="form-check form-switch mb-4">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="notificationsSwitch"
+          formControlName="notificationsEnabled"
         >
         <label class="form-check-label" for="notificationsSwitch">
-        Notificaciones
+          Notificaciones
         </label>
-    </div>
-  
-  
-    <!-- Favoritos -->
-    <div class="mb-5">
-      <h4>Tus Equipos y Jugadores Favoritos</h4>
-      <ul class="list-group">
-        <li class="list-group-item">⚽ FC Barcelona</li>
-        <li class="list-group-item">⭐ Lionel Messi</li>
-        <li class="list-group-item">⚽ Manchester City</li>
-        <li class="list-group-item">⭐ Kevin De Bruyne</li>
-      </ul>
-    </div>
-  </div>
-  
+      </div>
+
+      <div class="d-grid">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="profileForm.invalid || isUpdatingProfile"
+        >
+          {{ isUpdatingProfile ? 'Guardando...' : 'Actualizar Perfil' }}
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Lista de favoritos -->
+  <section>
+    <h4 class="text-center mb-3">Tus Favoritos</h4>
+    <ul class="list-group w-50 mx-auto">
+      <li class="list-group-item" *ngFor="let fav of favorites">
+        <ng-container [ngSwitch]="fav.type">
+          <span *ngSwitchCase="'team'">⚽ {{ fav.name }}</span>
+          <span *ngSwitchCase="'player'">⭐ {{ fav.name }}</span>
+        </ng-container>
+      </li>
+    </ul>
+  </section>
+
+</div>
+
 <app-footer></app-footer>

@@ -1,10 +1,11 @@
-import { Component }    from '@angular/core';
+// src/app/navbar/navbar.component.ts
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink }   from '@angular/router';
+import { Observable } from 'rxjs';
 import { ThemeService } from '../core/theme.service';
-import { AuthService }  from '../../app/services/auth.service';
-import { Observable }   from 'rxjs';
-import { User }         from '../componentes/usuario/usuario.component'; // ajústalo según tu modelo
+import { AuthService } from '../../app/services/auth.service';
+import { User } from 'firebase/auth';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -14,11 +15,12 @@ import { User }         from '../componentes/usuario/usuario.component'; // ajú
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  // expone el observable de usuario
   user$: Observable<User | null>;
 
-  // inyecta los servicios, ojo al public en themeService
-  constructor(public themeService: ThemeService, private auth: AuthService) {
+  constructor(
+    public themeService: ThemeService,
+    private auth: AuthService
+  ) {
     this.user$ = this.auth.user$;
   }
 
