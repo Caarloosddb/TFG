@@ -19,6 +19,7 @@ export class FutbolComponent implements OnInit {
   temporadas: number[] = [];
   jornadas: number[] = [];
   partidos: any[] = [];
+  rondas: any[] = [];
 
   endpoint: string = '';
   leagueId!: number;
@@ -29,6 +30,8 @@ export class FutbolComponent implements OnInit {
 
   selectedTemporada!: number;
   selectedJornada!: number;
+  selectedRonda!: string;
+
 
   errorMessage: string = '';
 
@@ -37,6 +40,7 @@ export class FutbolComponent implements OnInit {
 
   ngOnInit(): void {
     this.temporadas = [2021, 2022, 2023];
+    this.rondas = ['Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];
 
     this.route.params.subscribe(params => {
       this.endpoint = params['endpoint'];
@@ -47,6 +51,8 @@ export class FutbolComponent implements OnInit {
       } else {
         this.knockout = params['round'];
       }
+
+      this.selectedRonda = this.knockout
 
       this.selectedTemporada = this.season;
 
@@ -61,16 +67,32 @@ export class FutbolComponent implements OnInit {
   }
 
   irJornadaAnterior() {
+    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
     if (this.round > 1) {
       this.round--;
       this.actualizarRuta();
+      }
+    }else {
+      const i = this.rondas.indexOf(this.knockout);
+      if (i > 0) {
+        this.knockout = this.rondas[i - 1];
+        this.actualizarRuta();
+      }
     }
   }
   
   irJornadaSiguiente() {
+    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
     if (this.round < this.jornadas.length) {
       this.round++;
       this.actualizarRuta();
+      }
+    }else {
+      const i = this.rondas.indexOf(this.knockout);
+      if (i < this.rondas.length - 1) {
+        this.knockout = this.rondas[i + 1];
+        this.actualizarRuta();
+      }
     }
   }
   
@@ -122,4 +144,11 @@ export class FutbolComponent implements OnInit {
       }
     });
   }
+
+  get textoJornada(): string {
+    const ligasConRound = [140, 39, 135, 78, 61];
+    return ligasConRound.includes(this.leagueId) ? `Jornada ${this.round}` : this.knockout;
+  }
+  
 }
+
