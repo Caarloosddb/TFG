@@ -24,6 +24,8 @@ export class FutbolComponent implements OnInit {
   leagueId!: number;
   season!: number;
   round!: number;
+  knockout!: string;
+
 
   selectedTemporada!: number;
   selectedJornada!: number;
@@ -40,7 +42,11 @@ export class FutbolComponent implements OnInit {
       this.endpoint = params['endpoint'];
       this.leagueId = +params['leagueId'];
       this.season = +params['season'];
-      this.round = +params['round'];
+      if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
+        this.round = +params['round'];
+      } else {
+        this.knockout = params['round'];
+      }
 
       this.selectedTemporada = this.season;
 
@@ -74,7 +80,11 @@ export class FutbolComponent implements OnInit {
   }
 
   actualizarRuta() {
-    this.router.navigate(['/futbol', this.endpoint, this.leagueId, this.season, this.round]);
+    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
+      this.router.navigate(['/futbol', this.endpoint, this.leagueId, this.season, this.round]);
+    } else {
+      this.router.navigate(['/futbol', this.endpoint, this.leagueId, this.season, this.knockout]);
+    }
   }
 
   cargarPartidos() {
@@ -82,10 +92,15 @@ export class FutbolComponent implements OnInit {
       'x-apisports-key': '56025bbd56166f8696e74b9786336369'
     });
 
+    let url = ''
+
     const roundText = encodeURIComponent(`Regular Season - ${this.round}`);
 
-    const url1 = `https://v3.football.api-sports.io`;
-    const url = `https://v3.football.api-sports.io/${this.endpoint}?league=${this.leagueId}&season=${this.season}&round=${roundText}`;
+    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
+      url = `https://v3.football.api-sports.io/${this.endpoint}?league=${this.leagueId}&season=${this.season}&round=${roundText}`;
+    } else {
+      url = `https://v3.football.api-sports.io/${this.endpoint}?league=${this.leagueId}&season=${this.season}&round=${this.knockout}`;
+    }
 
     console.log('Requesting URL:', url);
 

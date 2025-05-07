@@ -1,0 +1,58 @@
+<app-navbar></app-navbar>
+
+<div class="d-flex">
+
+<app-sidebar></app-sidebar>
+<div class="flex-grow-1 p-4">
+
+  <!-- Selector de temporada -->
+  <div class="d-flex align-items-center mb-4">
+    <label for="anoSelect" class="form-label me-2 mb-0 fw-semibold">Temporada:</label>
+    <select 
+      id="anoSelect" 
+      class="form-select w-auto" 
+      [(ngModel)]="selectedTemporada" 
+      (change)="onFiltroCambio()"
+    >
+      <option *ngFor="let ano of temporadas" [value]="ano">{{ ano }}</option>
+    </select>
+  </div>
+
+  <!-- Tabla de clasificación -->
+  <div class="table-responsive shadow-sm rounded bg-white">
+    <table class="table table-hover table-bordered text-center align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th class="text-start">Equipo</th>
+          <th>Puntos</th>
+          <th>PG</th>
+          <th>PE</th>
+          <th>PP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let equipo of clasificacion">
+          <td>{{ equipo.rank }}</td>
+          <td class="text-start d-flex align-items-center gap-2">
+            <img [src]="equipo.team.logo" width="24" height="24" />
+            <span>{{ equipo.team.name }}</span>
+          </td>
+          <td>{{ equipo.points }}</td>
+          <td>{{ equipo.all.win }}</td>
+          <td>{{ equipo.all.draw }}</td>
+          <td>{{ equipo.all.lose }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-4">
+    {{ errorMessage }}
+  </div>
+
+</div>
+</div>
+
+ <app-footer></app-footer>
