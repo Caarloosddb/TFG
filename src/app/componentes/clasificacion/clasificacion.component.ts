@@ -67,7 +67,7 @@ export class ClasificacionComponent {
           this.clasificacion = data.response[0]?.league?.standings?.[0];
           this.errorMessage = '';
         } else {
-          this.errorMessage = "No hay partidos disponibles";
+          this.errorMessage = "No hay datos disponibles";
         }
       },
       error: (error) => {
