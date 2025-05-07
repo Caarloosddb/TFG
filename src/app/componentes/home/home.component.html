@@ -1,35 +1,29 @@
 <app-navbar></app-navbar>
 
-<div class="row g-0">
+<div class="layout-wrapper d-flex">
   <!-- Slider lateral -->
   <div 
-    class="col-md-2 d-none d-md-block"
-    [ngClass]="{ 'd-none': hideAds }"
-    [style.height]="hideAds ? 'auto' : '100vh'"
-
+    class="slider d-none d-md-block"
+    *ngIf="!hideAds"
   >
-    <div class="bg-light position-fixed h-100 position-relative">
+    <div class="bg-light position-relative slider-inner">
       <div 
-      class="custom-close position-absolute top-0 end-0 m-2" 
-      (click)="hideAd()"
-      role="button"
-      aria-label="Cerrar"
-    ></div>
-
-      <!-- Imagen fija -->
-      <div class="h-100 w-100 overflow-hidden">
-        <img 
-          [src]="images[image]" 
-          class="w-100 h-100" 
-          style="object-fit: cover;" 
-          alt="Anuncio" 
-        />
-      </div>
+        class="custom-close position-absolute" 
+        (click)="hideAd()"
+        role="button"
+        aria-label="Cerrar"
+      ></div>
+      <img 
+        [src]="images[image]" 
+        class="slider-img" 
+        alt="Anuncio" 
+      />
     </div>
   </div>
+  
 
-  <!-- Contenido principal (fuera del slider) -->
-  <div class="col-md" [class.col-md-10]="!hideAds" [class.col-12]="hideAds">
+  <!-- Contenido principal -->
+  <div class="main-content flex-grow-1">
     <div class="container py-5">
       <h2 class="text-center mb-5">Noticias deportivas</h2>
 
@@ -43,9 +37,10 @@
       <!-- Fútbol -->
       <section class="mb-5">
         <h3 class="section-title">Fútbol</h3>
+        <hr class="section-divider" />
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
           <div *ngFor="let art of futbolNews" class="col">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm sport-card">
               <div class="ratio ratio-16x9">
                 <img *ngIf="art.urlToImage; else noImageFut" [src]="art.urlToImage" class="card-img-top object-fit-cover" alt="Imagen noticia">
                 <ng-template #noImageFut>
@@ -66,9 +61,10 @@
       <!-- NBA -->
       <section class="mb-5">
         <h3 class="section-title">Baloncesto</h3>
+        <hr class="section-divider" />
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
           <div *ngFor="let art of nbaNews" class="col">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm sport-card">
               <div class="ratio ratio-16x9">
                 <img *ngIf="art.urlToImage; else noImageNba" [src]="art.urlToImage" class="card-img-top object-fit-cover" alt="Imagen noticia">
                 <ng-template #noImageNba>
@@ -89,9 +85,10 @@
       <!-- Fórmula 1 -->
       <section class="mb-5">
         <h3 class="section-title">Fórmula 1</h3>
+        <hr class="section-divider" />
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
           <div *ngFor="let art of f1News" class="col">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm sport-card">
               <div class="ratio ratio-16x9">
                 <img *ngIf="art.urlToImage; else noImageF1" [src]="art.urlToImage" class="card-img-top object-fit-cover" alt="Imagen noticia">
                 <ng-template #noImageF1>

@@ -1,61 +1,53 @@
-/* TITULARES */
+/* Layout general sin margen arriba */
+.layout-wrapper {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  margin-top: 0; /* sin margen superior */
+}
+
+/* Slider lateral ajustado al alto de la ventana - navbar */
+.slider {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.slider-inner {
+  height: calc(100vh - 56px); /* 56px = altura típica del navbar */
+  position: sticky;
+ 
+  overflow: hidden;
+}
+
+.slider-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Contenido principal */
+.main-content {
+  padding: 2rem;
+  padding-bottom: 100px;
+}
+
+/* Footer separado visualmente */
+
+/* Títulos y tarjetas */
 h2 {
-    font-weight: 700;
-    color: var(--bs-primary);
-  }
-  
-  /* NAV-PILLS PERSONALIZADAS */
-  .nav-pills .nav-link {
-    font-size: 1rem;
-    padding: 0.5rem 1.25rem;
-    border-radius: 2rem;
-    transition: background 0.2s;
-    &.active {
-      background-color: #0d6efd;
-    }
-  }
-  
-  /* TARJETAS CON OVERLAY */
-  .sport-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
-    }
-  
-    .card-img-overlay {
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      
-      .overlay-gradient {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-        z-index: 1;
-      }
-  
-      .card-title,
-      .text-white-50,
-      .btn {
-        position: relative;
-        z-index: 2;
-      }
-    }
-  }
-  
-  /* PLACEHOLDERS */
-  .placeholder {
-    height: 1em;
-    display: inline-block;
-    &.col-6 { width: 60%; }
-    &.col-8 { width: 80%; }
-    &.col-4 { width: 40%; }
-  }
-  /* BOTONES: estilo azul normal + azul oscuro en hover */
+  font-weight: 700;
+  color: var(--bs-primary);
+}
+
+.sport-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sport-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
+}
+
 .btn-outline-primary {
   color: #fff;
   background-color: #0d6efd;
@@ -64,50 +56,27 @@ h2 {
 }
 
 .btn-outline-primary:hover {
-  background-color: #084298; /* Azul más oscuro */
+  background-color: #084298;
   border-color: #084298;
   color: #fff;
-  box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.3); /* Efecto visual */
-}
-/* Contenedor de la fila */
-.container-fluid {
-  display: flex;
-  flex-direction: row;
-  gap: 15px; /* Espacio entre el anuncio y el contenido */
+  box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.3);
 }
 
-/* El slider de anuncios ocupará toda la altura */
-.col-md-2 {
-  flex: 0 0 auto;
-  height: 100vh; /* 100% del alto de la ventana */
-  transition: all 0.3s ease-out;
-  overflow: hidden;
-}
-
-/* Estilo del contenedor de anuncios */
-.bg-light {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-}
-.bg-light .img-fluid {
-  width: 100%; /* La imagen ocupará todo el ancho */
-  height: 100%; /* La imagen ocupará toda la altura */
-  object-fit: cover; /* La imagen se recorta para llenar el área sin deformarse */
-  border-radius: 0; /* Elimina cualquier borde o redondeo */
-}
+/* Botón de cerrar slider */
 .custom-close {
   width: 36px;
   height: 36px;
-  background-color: rgba(0, 0, 0, 0.6); /* fondo oscuro semitransparente */
-  border-radius: 50%;                  /* forma redonda */
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
   cursor: pointer;
-  position: relative;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* sombra para destacar más */
+  top: 10px;
+  right: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 10;
 }
 
 .custom-close::before,
@@ -130,38 +99,13 @@ h2 {
 }
 
 .custom-close:hover {
-  background-color: rgba(255, 0, 0, 0.8); /* rojo intenso al hacer hover */
+  background-color: rgba(0, 47, 255, 0.8);
   transform: scale(1.1);
 }
-
-.custom-close:hover::before,
-.custom-close:hover::after {
-  background-color: white;
+.section-divider {
+  border: none;
+  height: 2px;
+  background-color: #0026ff;
+  margin: 0.5rem 0 1.5rem 0;
 }
-
-
-/* El contenido principal se adapta */
-.col-md {
-  flex: 1 1 auto; /* Ocupa todo el espacio disponible */
-  transition: all 0.3s ease;
-}
-
-/* Cuando el anuncio se oculta, el contenido se expande para ocupar todo el espacio */
-.col-md-2.d-none {
-  display: none !important;
-}
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
-}
-.section-title {
-  border-bottom: 1px solid #ccc; /* línea gris clara */
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
 
