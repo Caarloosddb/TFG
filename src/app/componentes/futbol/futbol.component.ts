@@ -19,14 +19,19 @@ export class FutbolComponent implements OnInit {
   temporadas: number[] = [];
   jornadas: number[] = [];
   partidos: any[] = [];
+  rondas: any[] = [];
 
   endpoint: string = '';
   leagueId!: number;
   season!: number;
   round!: number;
+  knockout!: string;
+
 
   selectedTemporada!: number;
   selectedJornada!: number;
+  selectedRonda!: string;
+
 
   errorMessage: string = '';
 
@@ -35,12 +40,19 @@ export class FutbolComponent implements OnInit {
 
   ngOnInit(): void {
     this.temporadas = [2021, 2022, 2023];
+    this.rondas = ['Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];
 
     this.route.params.subscribe(params => {
       this.endpoint = params['endpoint'];
       this.leagueId = +params['leagueId'];
       this.season = +params['season'];
-      this.round = +params['round'];
+      if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
+        this.round = +params['round'];
+      } else {
+        this.knockout = params['round'];
+      }
+
+      this.selectedRonda = this.knockout
 
       this.selectedTemporada = this.season;
 
@@ -55,16 +67,32 @@ export class FutbolComponent implements OnInit {
   }
 
   irJornadaAnterior() {
+    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
     if (this.round > 1) {
       this.round--;
       this.actualizarRuta();
+      }
+    }else {
+      const i = this.rondas.indexOf(this.knockout);
+      if (i > 0) {
+        this.knockout = this.rondas[i - 1];
+        this.actualizarRuta();
+      }
     }
   }
   
   irJornadaSiguiente() {
+    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
     if (this.round < this.jornadas.length) {
       this.round++;
       this.actualizarRuta();
+      }
+    }else {
+      const i = this.rondas.indexOf(this.knockout);
+      if (i < this.rondas.length - 1) {
+        this.knockout = this.rondas[i + 1];
+        this.actualizarRuta();
+      }
     }
   }
   
@@ -74,7 +102,11 @@ export class FutbolComponent implements OnInit {
   }
 
   actualizarRuta() {
-    this.router.navigate(['/futbol', this.endpoint, this.leagueId, this.season, this.round]);
+    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
+      this.router.navigate(['/futbol', this.endpoint, this.leagueId, this.season, this.round]);
+    } else {
+      this.router.navigate(['/futbol', this.endpoint, this.leagueId, this.season, this.knockout]);
+    }
   }
 
   cargarPartidos() {
@@ -82,10 +114,15 @@ export class FutbolComponent implements OnInit {
       'x-apisports-key': '56025bbd56166f8696e74b9786336369'
     });
 
+    let url = ''
+
     const roundText = encodeURIComponent(`Regular Season - ${this.round}`);
 
-    const url1 = `https://v3.football.api-sports.io`;
-    const url = `https://v3.football.api-sports.io/${this.endpoint}?league=${this.leagueId}&season=${this.season}&round=${roundText}`;
+    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
+      url = `https://v3.football.api-sports.io/${this.endpoint}?league=${this.leagueId}&season=${this.season}&round=${roundText}`;
+    } else {
+      url = `https://v3.football.api-sports.io/${this.endpoint}?league=${this.leagueId}&season=${this.season}&round=${this.knockout}`;
+    }
 
     console.log('Requesting URL:', url);
 
@@ -107,4 +144,11 @@ export class FutbolComponent implements OnInit {
       }
     });
   }
+
+  get textoJornada(): string {
+    const ligasConRound = [140, 39, 135, 78, 61];
+    return ligasConRound.includes(this.leagueId) ? `Jornada ${this.round}` : this.knockout;
+  }
+  
 }
+

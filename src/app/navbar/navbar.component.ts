@@ -18,10 +18,7 @@ export class NavbarComponent {
   user$: Observable<User | null>;
 
   // inyecta los servicios, ojo al public en themeService
-  constructor(
-    public themeService: ThemeService,
-    private auth: AuthService
-  ) {
+  constructor(public themeService: ThemeService, private auth: AuthService) {
     this.user$ = this.auth.user$;
   }
 

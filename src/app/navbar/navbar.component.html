@@ -2,8 +2,8 @@
 <nav 
   class="navbar navbar-expand-lg px-3 py-4"
   [ngClass]="{
-    'navbar-dark bg-dark': themeService.isDark(),
-    'navbar-light custom-light-navbar': !themeService.isDark()
+    'bg-dark text-white': themeService.isDark(),
+    'bg-light text-body': !themeService.isDark()
   }"  
 >
   <div class="container-fluid">
@@ -19,7 +19,7 @@
         class="d-inline-block"
         style="transform: scale(2); transform-origin: center;"
       >
-      <span class="fs-5 fw-bold align-middle" style="line-height: 1;">
+      <span class="fs-5 fw-bold align-middle" style="line-height: 1;" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
         TopScore
       </span>
     </a>
@@ -35,16 +35,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/futbol/fixtures/140/2023/38">Fútbol</a>
+          <a class="nav-link" routerLink="/futbol/fixtures/140/2023/38" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Fútbol</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/equipos">NBA</a>
+          <a class="nav-link" routerLink="/equipos" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">NBA</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/equipos">Formula 1</a>
+          <a class="nav-link" routerLink="/equipos" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Formula 1</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/competiciones">Noticias</a>
+          <a class="nav-link" routerLink="/competiciones" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Noticias</a>
         </li>
       </ul>
 
@@ -57,6 +57,7 @@
             (click)="themeService.toggleTheme()"
             [attr.aria-pressed]="themeService.isDark()"
             title="Alternar modo claro/oscuro"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
           >
             <i 
               class="bi" 
@@ -75,15 +76,16 @@
               role="button" 
               data-bs-toggle="dropdown" 
               aria-expanded="false"
+              [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
             >
               {{ user.displayName || user.email }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
               <li>
-                <a class="dropdown-item" routerLink="/usuario">Mi Perfil</a>
+                <a class="dropdown-item" routerLink="/usuario" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Mi Perfil</a>
               </li>
               <li>
-                <button class="dropdown-item" (click)="logout()">Cerrar sesión</button>
+                <button class="dropdown-item" (click)="logout()" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Cerrar sesión</button>
               </li>
             </ul>
           </li>
@@ -92,13 +94,13 @@
         <!-- Botón de login si no hay usuario -->
         <ng-template #loginBtn>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/login">Iniciar Sesión</a>
+            <a class="nav-link" routerLink="/login" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Iniciar Sesión</a>
           </li>
         </ng-template>
 
         <!-- Ajustes -->
         <li class="nav-item">
-          <a class="nav-link" routerLink="/ajustes">
+          <a class="nav-link" routerLink="/ajustes" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
             <i class="bi bi-gear-fill"></i>
           </a>
         </li>

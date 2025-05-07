@@ -5,9 +5,9 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { NavbarComponent } from "../navbar/navbar.component";
-import { FooterComponent } from "../footer/footer.component";
-import { SidebarComponent } from "../sidebar/sidebar.component";
+import { NavbarComponent } from "../../navbar/navbar.component";
+import { FooterComponent } from "../../footer/footer.component";
+import { SidebarComponent } from "../../sidebar/sidebar.component";
 
 @Component({
   selector: 'app-clasificacion',
@@ -67,7 +67,7 @@ export class ClasificacionComponent {
           this.clasificacion = data.response[0]?.league?.standings?.[0];
           this.errorMessage = '';
         } else {
-          this.errorMessage = "No hay partidos disponibles";
+          this.errorMessage = "No hay datos disponibles";
         }
       },
       error: (error) => {
