@@ -1,27 +1,19 @@
+<!-- src/app/componentes/home/home.component.html -->
 <app-navbar></app-navbar>
 
 <div class="layout-wrapper d-flex">
   <!-- Slider lateral -->
-  <div 
-    class="slider d-none d-md-block"
-    *ngIf="!hideAds"
-  >
+  <div class="slider d-none d-md-block" *ngIf="!hideAds">
     <div class="bg-light position-relative slider-inner">
-
-      <div 
-        class="custom-close position-absolute" 
+      <div
+        class="custom-close position-absolute"
         (click)="hideAd()"
         role="button"
         aria-label="Cerrar"
       ></div>
-      <img 
-        [src]="images[image]" 
-        class="slider-img" 
-        alt="Anuncio" 
-      />
+      <img [src]="images[image]" class="slider-img" alt="Anuncio" />
     </div>
   </div>
-  
 
   <!-- Contenido principal -->
   <div class="main-content flex-grow-1">
@@ -29,83 +21,281 @@
       <h2 class="text-center mb-5">Noticias deportivas</h2>
 
       <!-- Spinner global -->
-      <div *ngIf="!futbolNews.length && !nbaNews.length && !f1News.length" class="d-flex justify-content-center my-5">
+      <div
+        *ngIf="!futbolNews.length && !nbaNews.length && !f1News.length"
+        class="d-flex justify-content-center my-5"
+      >
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Cargando...</span>
         </div>
       </div>
 
-      <!-- Fútbol -->
-      <section class="mb-5">
-        <h3 class="section-title">Fútbol</h3>
-        <hr class="section-divider" />
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-          <div *ngFor="let art of futbolNews" class="col">
-            <div class="card h-100 shadow-sm sport-card">
-              <div class="ratio ratio-16x9">
-                <img *ngIf="art.urlToImage; else noImageFut" [src]="art.urlToImage" class="card-img-top object-fit-cover" alt="Imagen noticia">
-                <ng-template #noImageFut>
-                  <div class="bg-secondary d-flex align-items-center justify-content-center text-white">Sin imagen</div>
-                </ng-template>
-              </div>
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{ art.title }}</h5>
-                <p class="card-text text-muted small">{{ art.source.name }}</p>
-                <p class="card-text mb-4 flex-grow-1">{{ art.description }}</p>
-                <a [href]="art.url" target="_blank" class="mt-auto btn btn-outline-primary">Leer más →</a>
+      <!-- Vista inicial: sólo 3 noticias por sección -->
+      <ng-container *ngIf="!showAll">
+        <!-- Fútbol -->
+        <section>
+          <h3 class="section-title">Fútbol</h3>
+          <hr class="section-divider" />
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div *ngFor="let art of futbolNews | slice:0:3" class="col">
+              <div class="card h-100 shadow-sm sport-card">
+                <div class="ratio ratio-16x9">
+                  <img
+                    *ngIf="art.urlToImage; else noImageFut"
+                    [src]="art.urlToImage"
+                    class="card-img-top object-fit-cover"
+                    alt="Imagen noticia"
+                  >
+                  <ng-template #noImageFut>
+                    <div
+                      class="bg-secondary d-flex align-items-center justify-content-center text-white"
+                    >
+                      Sin imagen
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title">{{ art.title }}</h5>
+                  <p class="card-text text-muted small">{{ art.source.name }}</p>
+                  <p class="card-text mb-4 flex-grow-1">{{ art.description }}</p>
+                  <a
+                    [href]="art.url"
+                    target="_blank"
+                    class="mt-auto btn btn-outline-primary"
+                  >
+                    Leer más →
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- NBA -->
-      <section class="mb-5">
-        <h3 class="section-title">Baloncesto</h3>
-        <hr class="section-divider" />
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-          <div *ngFor="let art of nbaNews" class="col">
-            <div class="card h-100 shadow-sm sport-card">
-              <div class="ratio ratio-16x9">
-                <img *ngIf="art.urlToImage; else noImageNba" [src]="art.urlToImage" class="card-img-top object-fit-cover" alt="Imagen noticia">
-                <ng-template #noImageNba>
-                  <div class="bg-secondary d-flex align-items-center justify-content-center text-white">Sin imagen</div>
-                </ng-template>
-              </div>
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{ art.title }}</h5>
-                <p class="card-text text-muted small">{{ art.source.name }}</p>
-                <p class="card-text mb-4 flex-grow-1">{{ art.description }}</p>
-                <a [href]="art.url" target="_blank" class="mt-auto btn btn-outline-primary">Leer más →</a>
+        <!-- Baloncesto -->
+        <section>
+          <h3 class="section-title">Baloncesto</h3>
+          <hr class="section-divider" />
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div *ngFor="let art of nbaNews | slice:0:3" class="col">
+              <div class="card h-100 shadow-sm sport-card">
+                <div class="ratio ratio-16x9">
+                  <img
+                    *ngIf="art.urlToImage; else noImageNba"
+                    [src]="art.urlToImage"
+                    class="card-img-top object-fit-cover"
+                    alt="Imagen noticia"
+                  >
+                  <ng-template #noImageNba>
+                    <div
+                      class="bg-secondary d-flex align-items-center justify-content-center text-white"
+                    >
+                      Sin imagen
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title">{{ art.title }}</h5>
+                  <p class="card-text text-muted small">{{ art.source.name }}</p>
+                  <p class="card-text mb-4 flex-grow-1">{{ art.description }}</p>
+                  <a
+                    [href]="art.url"
+                    target="_blank"
+                    class="mt-auto btn btn-outline-primary"
+                  >
+                    Leer más →
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Fórmula 1 -->
-      <section class="mb-5">
-        <h3 class="section-title">Fórmula 1</h3>
-        <hr class="section-divider" />
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-          <div *ngFor="let art of f1News" class="col">
-            <div class="card h-100 shadow-sm sport-card">
-              <div class="ratio ratio-16x9">
-                <img *ngIf="art.urlToImage; else noImageF1" [src]="art.urlToImage" class="card-img-top object-fit-cover" alt="Imagen noticia">
-                <ng-template #noImageF1>
-                  <div class="bg-secondary d-flex align-items-center justify-content-center text-white">Sin imagen</div>
-                </ng-template>
-              </div>
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{ art.title }}</h5>
-                <p class="card-text text-muted small">{{ art.source.name }}</p>
-                <p class="card-text mb-4 flex-grow-1">{{ art.description }}</p>
-                <a [href]="art.url" target="_blank" class="mt-auto btn btn-outline-primary">Leer más →</a>
+        <!-- Fórmula 1 -->
+        <section>
+          <h3 class="section-title">Fórmula 1</h3>
+          <hr class="section-divider" />
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div *ngFor="let art of f1News | slice:0:3" class="col">
+              <div class="card h-100 shadow-sm sport-card">
+                <div class="ratio ratio-16x9">
+                  <img
+                    *ngIf="art.urlToImage; else noImageF1"
+                    [src]="art.urlToImage"
+                    class="card-img-top object-fit-cover"
+                    alt="Imagen noticia"
+                  >
+                  <ng-template #noImageF1>
+                    <div
+                      class="bg-secondary d-flex align-items-center justify-content-center text-white"
+                    >
+                      Sin imagen
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title">{{ art.title }}</h5>
+                  <p class="card-text text-muted small">{{ art.source.name }}</p>
+                  <p class="card-text mb-4 flex-grow-1">{{ art.description }}</p>
+                  <a
+                    [href]="art.url"
+                    target="_blank"
+                    class="mt-auto btn btn-outline-primary"
+                  >
+                    Leer más →
+                  </a>
+                </div>
               </div>
             </div>
           </div>
+        </section>
+
+        <!-- Botón Ver más -->
+        <div class="text-center">
+          <button
+            class="btn btn-outline-primary mb-5 transition"
+            (click)="showAll = true"
+          >
+            Ver más noticias
+          </button>
         </div>
-      </section>
+      </ng-container>
+
+      <!-- Secciones adicionales -->
+      <ng-container *ngIf="showAll">
+        <h2 class="text-center mb-5">Más noticias</h2>
+
+        <!-- Fútbol adicionales -->
+        <section
+          *ngIf="futbolNews.length > 3"
+        >
+          <h3 class="section-title">Fútbol</h3>
+          <hr class="section-divider" />
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div
+              *ngFor="let art of futbolNews | slice:3:futbolNews.length"
+              class="col"
+            >
+              <div class="card h-100 shadow-sm sport-card">
+                <div class="ratio ratio-16x9">
+                  <img
+                    *ngIf="art.urlToImage; else noImageFut2"
+                    [src]="art.urlToImage"
+                    class="card-img-top object-fit-cover"
+                    alt="Imagen noticia"
+                  >
+                  <ng-template #noImageFut2>
+                    <div
+                      class="bg-secondary d-flex align-items-center justify-content-center text-white"
+                    >
+                      Sin imagen
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title">{{ art.title }}</h5>
+                  <p class="card-text text-muted small">{{ art.source.name }}</p>
+                  <p class="card-text mb-4 flex-grow-1">
+                    {{ art.description }}
+                  </p>
+                  <a
+                    [href]="art.url"
+                    target="_blank"
+                    class="mt-auto btn btn-outline-primary"
+                  >
+                    Leer más →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Baloncesto adicionales -->
+        <section
+          *ngIf="nbaNews.length > 3"
+        >
+          <h3 class="section-title">Baloncesto</h3>
+          <hr class="section-divider" />
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div *ngFor="let art of nbaNews | slice:3:nbaNews.length" class="col">
+              <div class="card h-100 shadow-sm sport-card">
+                <div class="ratio ratio-16x9">
+                  <img
+                    *ngIf="art.urlToImage; else noImageNba2"
+                    [src]="art.urlToImage"
+                    class="card-img-top object-fit-cover"
+                    alt="Imagen noticia"
+                  >
+                  <ng-template #noImageNba2>
+                    <div
+                      class="bg-secondary d-flex align-items-center justify-content-center text-white"
+                    >
+                      Sin imagen
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title">{{ art.title }}</h5>
+                  <p class="card-text text-muted small">{{ art.source.name }}</p>
+                  <p class="card-text mb-4 flex-grow-1">
+                    {{ art.description }}
+                  </p>
+                  <a
+                    [href]="art.url"
+                    target="_blank"
+                    class="mt-auto btn btn-outline-primary"
+                  >
+                    Leer más →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Fórmula 1 adicionales -->
+        <section
+          *ngIf="f1News.length > 3"
+        >
+          <h3 class="section-title">Fórmula 1</h3>
+          <hr class="section-divider" />
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div *ngFor="let art of f1News | slice:3:f1News.length" class="col">
+              <div class="card h-100 shadow-sm sport-card">
+                <div class="ratio ratio-16x9">
+                  <img
+                    *ngIf="art.urlToImage; else noImageF1_2"
+                    [src]="art.urlToImage"
+                    class="card-img-top object-fit-cover"
+                    alt="Imagen noticia"
+                  >
+                  <ng-template #noImageF1_2>
+                    <div
+                      class="bg-secondary d-flex align-items-center justify-content-center text-white"
+                    >
+                      Sin imagen
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title">{{ art.title }}</h5>
+                  <p class="card-text text-muted small">{{ art.source.name }}</p>
+                  <p class="card-text mb-4 flex-grow-1">
+                    {{ art.description }}
+                  </p>
+                  <a
+                    [href]="art.url"
+                    target="_blank"
+                    class="mt-auto btn btn-outline-primary"
+                  >
+                    Leer más →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </ng-container>
     </div>
   </div>
 </div>
