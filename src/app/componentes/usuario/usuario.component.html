@@ -1,149 +1,210 @@
 <!-- src/app/componentes/usuario/usuario.component.html -->
 <app-navbar></app-navbar>
 
-<div class="container mt-5">
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
 
-  <!-- Cabecera de perfil -->
-  <section class="text-center mb-5">
-    <img
-      *ngIf="profilePic; else sinFoto"
-      [src]="profilePic"
-      alt="Foto de Perfil"
-      class="rounded-circle mb-3"
-      width="120"
-      height="120"
-    >
-    <ng-template #sinFoto>
-      <div
-        class="rounded-circle bg-secondary mb-3 d-inline-block"
-        style="width:120px; height:120px;"
-      ></div>
-    </ng-template>
-    <h3>{{ user?.displayName || 'Tu Nombre' }}</h3>
-    <p class="text-muted">{{ userEmail }}</p>
-  </section>
+      <!-- Habilitamos toggle (abre/cierra) -->
+      <div class="accordion" id="profileAccordion" data-bs-allow-toggle="true">
 
-  <!-- Sección de contraseña -->
-  <section class="mb-5">
-    <h4 class="text-center mb-3">Actualizar Contraseña</h4>
-    <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
-      <div class="mb-3">
-        <label for="currentPassword" class="form-label">Contraseña Actual</label>
-        <input
-          id="currentPassword"
-          type="password"
-          class="form-control"
-          formControlName="currentPassword"
-          placeholder="Tu contraseña actual"
-        >
-        <div
-          *ngIf="passwordForm.get('currentPassword')?.touched &&
-                  passwordForm.get('currentPassword')?.invalid"
-          class="invalid-feedback d-block"
-        >
-          Debes introducir tu contraseña actual.
+        <!-- PANEL 1: Ver Perfil -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingView">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseView"
+              aria-expanded="true"
+              aria-controls="collapseView">
+              <i class="bi bi-person-circle me-2"></i> Ver Perfil
+            </button>
+          </h2>
+          <div
+            id="collapseView"
+            class="accordion-collapse collapse show"
+            aria-labelledby="headingView"
+            data-bs-parent="#profileAccordion">
+            <div class="accordion-body text-center">
+              <div class="position-relative d-inline-block mb-3">
+                <img
+                  *ngIf="profilePic; else noAvatar"
+                  [src]="profilePic"
+                  class="rounded-circle border border-2"
+                  width="120" height="120"
+                  alt="Avatar">
+                <ng-template #noAvatar>
+                  <div class="rounded-circle bg-secondary" style="width:120px; height:120px;"></div>
+                </ng-template>
+              </div>
+              <h4 class="fw-bold mb-1">{{ user?.displayName || 'Tu Nombre' }}</h4>
+              <p class="text-muted">{{ userEmail }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL 2: Editar Perfil -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingEdit">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseEdit"
+              aria-expanded="false"
+              aria-controls="collapseEdit">
+              <i class="bi bi-pencil-square me-2"></i> Editar Perfil
+            </button>
+          </h2>
+          <div
+            id="collapseEdit"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingEdit"
+            data-bs-parent="#profileAccordion">
+            <div class="accordion-body">
+              <form [formGroup]="profileForm" (ngSubmit)="onSubmitProfile()">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="editUsername"
+                    formControlName="username"
+                    placeholder="Usuario">
+                  <label for="editUsername">Nombre de usuario</label>
+                  <div
+                    *ngIf="profileForm.get('username')?.touched && profileForm.get('username')?.invalid"
+                    class="invalid-feedback d-block">
+                    Obligatorio.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Foto de perfil</label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    (change)="onFileSelected($event)">
+                </div>
+                <div class="form-check form-switch mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="editNotifications"
+                    formControlName="notificationsEnabled">
+                  <label class="form-check-label" for="editNotifications">
+                    Notificaciones
+                  </label>
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-primary w-100"
+                  [disabled]="profileForm.invalid || isUpdatingProfile">
+                  {{ isUpdatingProfile ? 'Guardando...' : 'Guardar cambios' }}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL 3: Cambiar Contraseña -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingPass">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapsePass"
+              aria-expanded="false"
+              aria-controls="collapsePass">
+              <i class="bi bi-lock-fill me-2"></i> Cambiar Contraseña
+            </button>
+          </h2>
+          <div
+            id="collapsePass"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingPass"
+            data-bs-parent="#profileAccordion">
+            <div class="accordion-body">
+              <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
+                <div class="form-floating mb-3">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="oldPassword"
+                    formControlName="currentPassword"
+                    placeholder="Actual">
+                  <label for="oldPassword">Contraseña actual</label>
+                  <div
+                    *ngIf="passwordForm.get('currentPassword')?.touched && passwordForm.get('currentPassword')?.invalid"
+                    class="invalid-feedback d-block">
+                    Requerido.
+                  </div>
+                </div>
+                <div class="form-floating mb-4">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="newPassword2"
+                    formControlName="newPassword"
+                    placeholder="Nueva">
+                  <label for="newPassword2">Contraseña nueva (8+)</label>
+                  <div
+                    *ngIf="passwordForm.get('newPassword')?.touched && passwordForm.get('newPassword')?.hasError('minlength')"
+                    class="invalid-feedback d-block">
+                    Mín. 8 caracteres.
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-dark w-100"
+                  [disabled]="passwordForm.invalid || isUpdatingPassword">
+                  {{ isUpdatingPassword ? 'Actualizando...' : 'Actualizar' }}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL 4: Favoritos -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFavs">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseFavs"
+              aria-expanded="false"
+              aria-controls="collapseFavs">
+              <i class="bi bi-star-fill text-warning me-2"></i> Tus Favoritos
+            </button>
+          </h2>
+          <div
+            id="collapseFavs"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingFavs"
+            data-bs-parent="#profileAccordion">
+            <div class="accordion-body">
+              <ul class="list-group">
+                <li
+                  class="list-group-item d-flex align-items-center"
+                  *ngFor="let fav of favorites">
+                  <i class="me-3"
+                     [ngClass]="fav.type==='team'
+                       ? 'bi bi-patch-check-fill text-primary'
+                       : 'bi bi-person-fill text-secondary'">
+                  </i>
+                  {{ fav.name }}
+                </li>
+                <li *ngIf="!favorites.length" class="list-group-item text-center text-muted">
+                  Aún no tienes favoritos.
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="mb-3">
-        <label for="newPassword" class="form-label">Nueva Contraseña</label>
-        <input
-          id="newPassword"
-          type="password"
-          class="form-control"
-          formControlName="newPassword"
-          placeholder="Mínimo 8 caracteres"
-        >
-        <div
-          *ngIf="passwordForm.get('newPassword')?.touched &&
-                  passwordForm.get('newPassword')?.hasError('minlength')"
-          class="invalid-feedback d-block"
-        >
-          Debe tener al menos 8 caracteres.
-        </div>
-      </div>
-
-      <div class="d-grid">
-        <button
-          type="submit"
-          class="btn btn-dark"
-          [disabled]="passwordForm.invalid || isUpdatingPassword"
-        >
-          {{ isUpdatingPassword ? 'Actualizando...' : 'Actualizar Contraseña' }}
-        </button>
-      </div>
-    </form>
-  </section>
-
-  <!-- Sección de perfil -->
-  <section class="mb-5">
-    <h4 class="text-center mb-3">Actualizar Perfil</h4>
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmitProfile()">
-      <div class="mb-3">
-        <label for="displayName" class="form-label">Nombre de Usuario</label>
-        <input
-          id="displayName"
-          type="text"
-          class="form-control"
-          formControlName="username"
-          placeholder="Tu nombre de usuario"
-        >
-        <div
-          *ngIf="profileForm.get('username')?.touched &&
-                  profileForm.get('username')?.invalid"
-          class="invalid-feedback d-block"
-        >
-          El nombre es obligatorio.
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="fileInput" class="form-label">Foto de Perfil</label>
-        <input
-          id="fileInput"
-          type="file"
-          class="form-control"
-          (change)="onFileSelected($event)"
-        >
-      </div>
-
-      <div class="form-check form-switch mb-4">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="notificationsSwitch"
-          formControlName="notificationsEnabled"
-        >
-        <label class="form-check-label" for="notificationsSwitch">
-          Notificaciones
-        </label>
-      </div>
-
-      <div class="d-grid">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="profileForm.invalid || isUpdatingProfile"
-        >
-          {{ isUpdatingProfile ? 'Guardando...' : 'Actualizar Perfil' }}
-        </button>
-      </div>
-    </form>
-  </section>
-
-  <!-- Lista de favoritos -->
-  <section>
-    <h4 class="text-center mb-3">Tus Favoritos</h4>
-    <ul class="list-group w-50 mx-auto">
-      <li class="list-group-item" *ngFor="let fav of favorites">
-        <ng-container [ngSwitch]="fav.type">
-          <span *ngSwitchCase="'team'">⚽ {{ fav.name }}</span>
-          <span *ngSwitchCase="'player'">⭐ {{ fav.name }}</span>
-        </ng-container>
-      </li>
-    </ul>
-  </section>
-
+    </div>
+  </div>
 </div>
 
 <app-footer></app-footer>
