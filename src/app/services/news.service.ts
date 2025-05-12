@@ -49,7 +49,7 @@ export class NewsService {
   /** Noticias NBA */
   getNbaNews(): Observable<Article[]> {
     const url = `${this.everythingUrl}`
-      + `?q=NBA`
+      + `?q=NBA%20Playoffs%20Finales`
       + `&language=es`
       + `&sortBy=publishedAt`
       + `&pageSize=9`

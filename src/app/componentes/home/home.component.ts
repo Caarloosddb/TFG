@@ -24,15 +24,15 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.newsService.getFutbolNews().subscribe(a => this.futbolNews = a);
-    this.newsService.getNbaNews()   .subscribe(a => this.nbaNews    = a);
-    this.newsService.getF1News()    .subscribe(a => this.f1News     = a);
+    this.newsService.getNbaNews().subscribe(a => this.nbaNews = a);
+    this.newsService.getF1News().subscribe(a => this.f1News = a);
     this.anuncio();
   }
 
   anuncio(): void {
     setInterval(() => {
       this.image = (this.image + 1) % this.images.length;
-      this.cdRef.detectChanges();  // Para asegurarse de que la vista se actualiza
+      this.cdRef.detectChanges();
     }, 5000);
   }
 

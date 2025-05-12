@@ -7,6 +7,7 @@ import { FooterComponent } from "../../footer/footer.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from "../../sidebar/sidebar.component";
+import { ThemeService } from '../../core/theme.service';
 
 @Component({
   selector: 'app-futbol',
@@ -36,7 +37,7 @@ export class FutbolComponent implements OnInit {
   errorMessage: string = '';
 
 
-  constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public themeService: ThemeService) {}
 
   ngOnInit(): void {
     this.temporadas = [2021, 2022, 2023];

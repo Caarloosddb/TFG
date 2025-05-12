@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ThemeService } from '../../core/theme.service';
 
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { FooterComponent } from "../../footer/footer.component";
@@ -25,7 +26,7 @@ export class ClasificacionComponent {
 
   errorMessage: string = '';
 
-  constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public themeService: ThemeService) {}
 
   ngOnInit(): void {
     this.temporadas = [2021, 2022, 2023];
@@ -53,7 +54,6 @@ export class ClasificacionComponent {
     const headers = new HttpHeaders({
       'x-apisports-key': '56025bbd56166f8696e74b9786336369'
     });
-
 
     const url = `https://v3.football.api-sports.io/standings?league=${this.leagueId}&season=${this.season}`;
 
