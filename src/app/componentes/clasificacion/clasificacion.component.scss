@@ -1,0 +1,31 @@
+/* src/app/componentes/clasificacion/clasificacion.component.scss */
+
+/* Champions (1º-4º puesto) */
+tr.table-champs,
+tr.table-champs > td,
+tr.table-champs > th {
+  background-color: #0046AD !important;   /* Azul Champions */
+  color: #fff !important;
+}
+
+/* Europa League (5º-6º puesto) */
+tr.table-europa,
+tr.table-europa > td,
+tr.table-europa > th {
+  background-color: #FF8200 !important;   /* Naranja Europa League */
+  color: #fff !important;
+}
+/* Conference League (7º) */
+tr.table-conference,
+tr.table-conference > td,
+tr.table-conference > th {
+  background-color: #A8C540 !important;  /* Verde Conference */
+  color: #000 !important;               /* texto negro para contraste */
+}
+/* Descenso (últimos 3 puestos) */
+tr.table-relegation,
+tr.table-relegation > td,
+tr.table-relegation > th {
+  background-color: #D32F2F !important; /* Rojo oscuro de alerta */
+  color: #fff !important;               /* Texto blanco para contraste */
+}
