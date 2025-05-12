@@ -6,13 +6,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ThemeService } from '../../core/theme.service';
 
-import { NavbarComponent } from "../../navbar/navbar.component";
-import { FooterComponent } from "../../footer/footer.component";
-import { SidebarComponent } from "../../sidebar/sidebar.component";
+import { NavbarComponent } from "../../shared/navbar/navbar.component";
+import { FooterComponent } from "../../shared/footer/footer.component";
+import { SidebarFutbolComponent } from '../../shared/sidebar-futbol/sidebar-futbol.component';
 
 @Component({
   selector: 'app-clasificacion',
-  imports: [ CommonModule, NavbarComponent, FooterComponent, SidebarComponent, FormsModule, RouterModule],
+  imports: [ CommonModule, NavbarComponent, FooterComponent, SidebarFutbolComponent, FormsModule, RouterModule],
   templateUrl: './clasificacion.component.html',
   styleUrl: './clasificacion.component.scss'
 })

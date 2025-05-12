@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { NavbarComponent } from "../../navbar/navbar.component";
-import { FooterComponent } from "../../footer/footer.component";
-import { SidebarComponent } from "../../sidebar/sidebar.component";
-
+import { NavbarComponent } from "../../shared/navbar/navbar.component";
+import { FooterComponent } from "../../shared/footer/footer.component";
+import { SidebarFutbolComponent } from '../../shared/sidebar-futbol/sidebar-futbol.component';
 @Component({
   selector: 'app-equipos',
-  imports: [RouterLink, NavbarComponent, FooterComponent, SidebarComponent],
+  imports: [NavbarComponent, FooterComponent, SidebarFutbolComponent],
   templateUrl: './equipos.component.html',
   styleUrl: './equipos.component.scss'
 })

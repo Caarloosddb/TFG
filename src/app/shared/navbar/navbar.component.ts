@@ -2,8 +2,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { ThemeService } from '../core/theme.service';
-import { AuthService } from '../../app/services/auth.service';
+import { ThemeService } from '../../core/theme.service';
+import { AuthService } from '../../services/auth.service';
 import { User } from 'firebase/auth';
 import { RouterLink } from '@angular/router';
 

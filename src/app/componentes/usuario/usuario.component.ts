@@ -7,8 +7,8 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { NavbarComponent } from '../../navbar/navbar.component';
-import { FooterComponent } from '../../footer/footer.component';
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
 import { AuthService } from '../../services/auth.service';
 import { User } from 'firebase/auth';
 

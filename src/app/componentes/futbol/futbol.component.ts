@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
-import { NavbarComponent } from "../../navbar/navbar.component";
-import { FooterComponent } from "../../footer/footer.component";
+import { NavbarComponent } from "../../shared/navbar/navbar.component";
+import { FooterComponent } from "../../shared/footer/footer.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SidebarComponent } from "../../sidebar/sidebar.component";
+import { SidebarFutbolComponent } from '../../shared/sidebar-futbol/sidebar-futbol.component';
 import { ThemeService } from '../../core/theme.service';
 
 @Component({
   selector: 'app-futbol',
   standalone: true,
-  imports: [RouterModule, NavbarComponent, FooterComponent, CommonModule, FormsModule, SidebarComponent],
+  imports: [RouterModule, NavbarComponent, FooterComponent, CommonModule, FormsModule, SidebarFutbolComponent],
   templateUrl: './futbol.component.html',
   styleUrls: ['./futbol.component.scss']
 })
