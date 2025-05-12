@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
     this.anuncio();
   }
 
-  private startSlider(): void {
+  private anuncio(): void {
     setInterval(() => {
       this.image = (this.image + 1) % this.images.length;
       this.cdRef.detectChanges();
