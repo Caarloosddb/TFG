@@ -32,15 +32,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.newsService.getFutbolNews().subscribe(a => this.futbolNews = a);
-<<<<<<< HEAD
     this.newsService.getNbaNews().subscribe(a => this.nbaNews = a);
     this.newsService.getF1News().subscribe(a => this.f1News = a);
     this.anuncio();
-=======
-    this.newsService.getNbaNews()   .subscribe(a => this.nbaNews    = a);
-    this.newsService.getF1News()    .subscribe(a => this.f1News     = a);
-    this.startSlider();
->>>>>>> 58a8dd8aeb6b9929bd4e4bfa3a89c94f64372511
   }
 
   private startSlider(): void {
