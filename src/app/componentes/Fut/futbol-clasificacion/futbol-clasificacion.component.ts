@@ -4,20 +4,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ThemeService } from '../../core/theme.service';
+import { ThemeService } from '../../../core/theme.service';
 
-import { NavbarComponent } from "../../shared/navbar/navbar.component";
-import { FooterComponent } from "../../shared/footer/footer.component";
-import { SidebarFutbolComponent } from '../../shared/sidebar-futbol/sidebar-futbol.component';
+import { NavbarComponent } from '../../../shared/navbar/navbar.component';
+import { FooterComponent } from '../../../shared/footer/footer.component';
+import { SidebarFutbolComponent } from '../../../shared/sidebar-futbol/sidebar-futbol.component';
 
 @Component({
-  selector: 'app-clasificacion',
+  selector: 'app-futbol-clasificacion',
+  standalone: true,
   imports: [ CommonModule, NavbarComponent, FooterComponent, SidebarFutbolComponent, FormsModule, RouterModule],
-  templateUrl: './clasificacion.component.html',
-  styleUrl: './clasificacion.component.scss'
+  templateUrl: './futbol-clasificacion.component.html',
+  styleUrl: './futbol-clasificacion.component.scss'
 })
-export class ClasificacionComponent {
-  temporadas: number[] = [];
+export class FutbolClasificacionComponent {
+temporadas: number[] = [];
   selectedTemporada!: number;
   clasificacion: any[] = [];
 

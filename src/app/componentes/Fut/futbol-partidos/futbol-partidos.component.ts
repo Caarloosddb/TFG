@@ -2,22 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
-import { NavbarComponent } from "../../shared/navbar/navbar.component";
-import { FooterComponent } from "../../shared/footer/footer.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SidebarFutbolComponent } from '../../shared/sidebar-futbol/sidebar-futbol.component';
-import { ThemeService } from '../../core/theme.service';
-
+import { NavbarComponent } from '../../../shared/navbar/navbar.component';
+import { FooterComponent } from '../../../shared/footer/footer.component';
+import { SidebarFutbolComponent } from '../../../shared/sidebar-futbol/sidebar-futbol.component';
+import { ThemeService } from '../../../core/theme.service';
 @Component({
-  selector: 'app-futbol',
+  selector: 'app-futbol-partidos',
   standalone: true,
   imports: [RouterModule, NavbarComponent, FooterComponent, CommonModule, FormsModule, SidebarFutbolComponent],
-  templateUrl: './futbol.component.html',
-  styleUrls: ['./futbol.component.scss']
+  templateUrl: './futbol-partidos.component.html',
+  styleUrl: './futbol-partidos.component.scss'
 })
-export class FutbolComponent implements OnInit {
-  temporadas: number[] = [];
+export class FutbolPartidosComponent {
+temporadas: number[] = [];
   jornadas: number[] = [];
   partidos: any[] = [];
   rondas: any[] = [];

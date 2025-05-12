@@ -3,10 +3,12 @@ import { LoginComponent } from './componentes/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RegisterComponent } from './componentes/register/register.component';
 import { HomeComponent } from './componentes/home/home.component';
-import { FutbolComponent } from './componentes/futbol/futbol.component';
-import { EquiposComponent } from './componentes/equipos/equipos.component';
 import { UsuarioComponent } from './componentes/usuario/usuario.component';
-import { ClasificacionComponent } from './componentes/clasificacion/clasificacion.component';
+
+import { EquiposComponent } from './componentes/ejemplo/equipos.component';
+import { FutbolPartidosComponent } from './componentes/Fut/futbol-partidos/futbol-partidos.component';
+import { FutbolClasificacionComponent } from './componentes/Fut/futbol-clasificacion/futbol-clasificacion.component';
+
 
 
 export const routes: Routes = [
@@ -15,8 +17,8 @@ export const routes: Routes = [
     {path: 'equipos', component: EquiposComponent},
     {path: 'home', component: HomeComponent},
     {path: 'usuario', component: UsuarioComponent, canActivate: [AuthGuard]},
-    {path: 'futbol/:endpoint/:leagueId/:season/:round', component: FutbolComponent},
-    {path: 'clasificacion/:leagueId/:season', component: ClasificacionComponent},
+    {path: 'futbol/:endpoint/:leagueId/:season/:round', component: FutbolPartidosComponent},
+    {path: 'clasificacion/:leagueId/:season', component: FutbolClasificacionComponent},
 
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {path: '**', redirectTo: 'home'},
