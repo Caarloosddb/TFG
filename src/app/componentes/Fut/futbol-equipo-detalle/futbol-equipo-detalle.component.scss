@@ -1,0 +1,21 @@
+// Sombreado y bordes más suaves
+.card {
+  border-radius: .75rem;
+  &.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+  }
+}
+
+// Centrar tabs en pantallas grandes
+@media (min-width: 768px) {
+  .nav-pills {
+    justify-content: start !important;
+    margin-left: 2rem;
+  }
+}
+
+// Ajuste de badges
+.badge {
+  font-size: .9rem;
+  padding: .4em .6em;
+}
