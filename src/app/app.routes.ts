@@ -8,6 +8,7 @@ import { UsuarioComponent } from './componentes/usuario/usuario.component';
 import { EquiposComponent } from './componentes/ejemplo/equipos.component';
 import { FutbolPartidosComponent } from './componentes/Fut/futbol-partidos/futbol-partidos.component';
 import { FutbolClasificacionComponent } from './componentes/Fut/futbol-clasificacion/futbol-clasificacion.component';
+import { FutbolEquipoDetalleComponent } from './componentes/Fut/futbol-equipo-detalle/futbol-equipo-detalle.component';
 
 
 
@@ -19,6 +20,7 @@ export const routes: Routes = [
     {path: 'usuario', component: UsuarioComponent, canActivate: [AuthGuard]},
     {path: 'futbol/:endpoint/:leagueId/:season/:round', component: FutbolPartidosComponent},
     {path: 'clasificacion/:leagueId/:season', component: FutbolClasificacionComponent},
+    {path: 'equipo/:teamId', component: FutbolEquipoDetalleComponent},
 
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {path: '**', redirectTo: 'home'},

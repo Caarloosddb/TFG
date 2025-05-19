@@ -43,7 +43,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let equipo of clasificacion">
+              <tr *ngFor="let equipo of clasificacion"
+                  [routerLink]="['/equipo', equipo.team.id]"
+                  style="cursor: pointer;"
+              >
                 <td>
                   <span class="badge" [ngClass]="getBadgeClass(equipo.rank)">
                     {{ equipo.rank }}
@@ -62,8 +65,8 @@
                 <td>{{ equipo.all.win }}</td>
                 <td>{{ equipo.all.draw }}</td>
                 <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">{{ equipo.all.lose }}</td>
-                <td>{{ equipo.all.draw }}</td>
-                <td>{{ equipo.all.draw }}</td>
+                <td>{{ equipo.all.goalDiff }}</td>
+                <td>{{ equipo.all.form }}</td>
               </tr>
             </tbody>
           </table>
