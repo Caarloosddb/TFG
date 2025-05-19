@@ -1,4 +1,3 @@
-<!-- src/app/componentes/clasificacion/clasificacion.component.html -->
 <app-navbar></app-navbar>
 
 <div class="d-flex">
@@ -27,60 +26,58 @@
           </div>
         </div>
 
-  <!-- Tabla de clasificación -->
-          <div *ngIf="clasificacion.length" class="table-responsive">
-            <table class="table table-hover table-bordered mb-0 align-middle">
-              <thead class="table-light">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col" class="text-start">Equipo</th>
-                  <th scope="col">Puntos</th>
-                  <th scope="col">PJ</th>
-                  <th scope="col">PG</th>
-                  <th scope="col">PE</th>
-                  <th scope="col">PP</th>
-                  <th scope="col">DG</th>
-                  <th scope="col">Racha</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="let equipo of clasificacion"
-                  [ngClass]="{
-                    'table-champs': equipo.rank >= 1 && equipo.rank <= 4,
-                    'table-europa': equipo.rank >= 5 && equipo.rank <= 6,
-                    'table-conference': equipo.rank === 7,
-                    'table-relegation': equipo.rank > (clasificacion.length - 3)
-                  }"
-                >
-                  <td>
-                    <span class="badge bg-secondary">{{ equipo.rank }}</span>
-                  </td>
-                  <td class="text-start d-flex align-items-center gap-2">
-                    <img
-                      [src]="equipo.team.logo"
-                      [alt]="equipo.team.name"
-                      width="28" height="28"
-                    >
-                    <span>{{ equipo.team.name }}</span>
-                  </td>
-                  <td class="fw-bold">{{ equipo.points }}</td>
-                  <td>{{ equipo.all.games }}</td>
-                  <td>{{ equipo.all.win }}</td>
-                  <td>{{ equipo.all.draw }}</td>
-                  <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">{{ equipo.all.lose }}</td>
-                  <td>{{ equipo.all.draw }}</td>
-                  <td>{{ equipo.all.draw }}</td>
+        <!-- Tabla de clasificación -->
+        <div *ngIf="clasificacion.length" class="table-responsive">
+          <table class="table table-hover table-bordered mb-0 align-middle">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col" class="text-start">Equipo</th>
+                <th scope="col">Puntos</th>
+                <th scope="col">PJ</th>
+                <th scope="col">PG</th>
+                <th scope="col">PE</th>
+                <th scope="col">PP</th>
+                <th scope="col">DG</th>
+                <th scope="col">Racha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let equipo of clasificacion"
+                  [routerLink]="['/equipo', equipo.team.id]"
+                  style="cursor: pointer;"
+              >
+                <td>
+                  <span class="badge" [ngClass]="getBadgeClass(equipo.rank)">
+                    {{ equipo.rank }}
+                  </span>
+                </td>
+                <td class="text-start d-flex align-items-center gap-2">
+                  <img
+                    [src]="equipo.team.logo"
+                    [alt]="equipo.team.name"
+                    width="28" height="28"
+                  >
+                  <span>{{ equipo.team.name }}</span>
+                </td>
+                <td class="fw-bold">{{ equipo.points }}</td>
+                <td>{{ equipo.all.games }}</td>
+                <td>{{ equipo.all.win }}</td>
+                <td>{{ equipo.all.draw }}</td>
+                <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">{{ equipo.all.lose }}</td>
+                <td>{{ equipo.all.goalDiff }}</td>
+                <td>{{ equipo.all.form }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div *ngIf="!clasificacion.length && !errorMessage" class="text-center my-4">
-            <p class="text-muted">No hay datos para esta temporada.</p>
-          </div>
+        <div *ngIf="!clasificacion.length && !errorMessage" class="text-center my-4">
+          <p class="text-muted">No hay datos para esta temporada.</p>
         </div>
       </div>
+    </div>
+  </main>
+</div>
 
 <app-footer></app-footer>
