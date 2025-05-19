@@ -12,6 +12,7 @@ import { NbaPartidosComponent } from './componentes/NBA/nba-partidos/nba-partido
 import { NbaClasificacionComponent } from './componentes/NBA/nba-clasificacion/nba-clasificacion.component';
 import { F1CarrerasComponent } from './componentes/F1/f1-carreras/f1-carreras.component';
 import { F1ClasificacionComponent } from './componentes/F1/f1-clasificacion/f1-clasificacion.component';
+import { FutbolEquipoDetalleComponent } from './componentes/Fut/futbol-equipo-detalle/futbol-equipo-detalle.component';
 
 
 
