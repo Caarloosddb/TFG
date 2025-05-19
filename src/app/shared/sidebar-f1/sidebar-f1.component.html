@@ -1,1 +1,314 @@
-<p>sidebar-f1 works!</p>
+<aside
+  class="p-3"
+  style="width: 250px; min-height: 100vh;"
+  [ngClass]="{
+    'bg-light text-body': !themeService.isDark(),
+    'bg-dark text-white': themeService.isDark()
+  }"
+>
+  <h5
+    class="text-center border-bottom pb-2 mb-3"
+    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+  >
+    Fútbol
+  </h5>
+
+  <div class="accordion" id="sidebarAccordion">
+    <!-- España -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
+    >
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#ligaEsp"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>España
+        </button>
+      </h2>
+      <div
+        id="ligaEsp"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/140/2023/38']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >LaLiga</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/clasificacion/140/2023']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Clasificación LaLiga</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/143/2023/Final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Copa del Rey</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inglaterra -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
+    >
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#premier"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>Inglaterra
+        </button>
+      </h2>
+      <div
+        id="premier"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/39/2023/38']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Premier League</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/clasificacion/39/2023']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Clasificación Premier League</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/45/2023/final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >FA Cup</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/48/2023/final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Carabao Cup</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alemania -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
+    >
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#bundesliga"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>Alemania
+        </button>
+      </h2>
+      <div
+        id="bundesliga"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/78/2023/34']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Bundesliga</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/clasificacion/78/2023']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Clasificación Bundesliga</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/81/2023/final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >DFB Pokal</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Italia -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
+    >
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#serieA"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>Italia
+        </button>
+      </h2>
+      <div
+        id="serieA"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/135/2023/38']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Serie A</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/clasificacion/135/2023']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Clasificación Serie A</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/137/2023/final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Copa Italia</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Francia -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
+    >
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#ligue1"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>Francia
+        </button>
+      </h2>
+      <div
+        id="ligue1"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/61/2023/34']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Ligue 1</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/clasificacion/61/2023']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Clasificación Ligue 1</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/66/2023/final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Copa de Francia</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Competición Europea -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
+    >
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#europa"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>Competición Europea
+        </button>
+      </h2>
+      <div
+        id="europa"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/2/2023/Final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Champions League</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/3/2023/Final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Europa League</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/848/2023/Final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Conference League</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Internacional -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
+    >
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#internacional"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>Competición Internacional
+        </button>
+      </h2>
+      <div
+        id="internacional"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/1/2022/Final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Mundial 2022</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/4/2021/Final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Eurocopa</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/5/2022/Final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Nations League 2022</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/9/2021/Final']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Copa América 2021</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
