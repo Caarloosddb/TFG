@@ -62,7 +62,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let partido of partidos">
+            <tr *ngFor="let partido of partidos"
+              [routerLink]="['/partido', partido.fixture.id]"
+                style="cursor: pointer;"
+              >
               <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">{{ partido.fixture.date | date: 'dd/MM/yyyy' }}</td>
               <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="align-items-center">
                 <img 
