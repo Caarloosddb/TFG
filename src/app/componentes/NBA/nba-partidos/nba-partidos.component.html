@@ -1,9 +1,120 @@
+<!-- nba-partidos.component.html -->
 <app-navbar></app-navbar>
-  <div class="d-flex">
-    <app-sidebar-nba></app-sidebar-nba>
-        <div class="flex-grow-1 p-4">
-            <h1>Contenido Principal</h1>
-            <p>aqui va mucha mierda de NBA tu sabe</p>
+
+<div class="d-flex">
+  <app-sidebar-nba></app-sidebar-nba>
+
+  <main class="flex-fill p-4">
+    <div class="container">
+
+      <h2 class="mb-4">Partidos NBA</h2>
+
+      <!-- Error -->
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Cargando -->
+      <div *ngIf="isLoading && !errorMessage" class="text-center my-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Cargando...</span>
         </div>
+      </div>
+
+      <!-- Jornadas agrupadas -->
+      <ng-container *ngIf="!isLoading && groupedGames.length">
+        <div class="accordion" id="jornadasAccordion">
+          <div *ngFor="let group of groupedGames; let i = index" class="accordion-item mb-3">
+            <h2 class="accordion-header" id="heading{{ i }}">
+              <button
+                class="accordion-button collapsed bg-secondary-subtle"
+                type="button"
+                data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#collapse' + i"
+                [attr.aria-controls]="'collapse' + i"
+              >
+                Jornada: {{ group.date | date:'fullDate' }}
+                <span class="badge bg-primary ms-3">{{ group.games.length }}</span>
+              </button>
+            </h2>
+            <div
+              [id]="'collapse' + i"
+              class="accordion-collapse collapse"
+              [attr.aria-labelledby]="'heading' + i"
+              data-bs-parent="#jornadasAccordion"
+            >
+              <div class="accordion-body">
+
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                  <div *ngFor="let g of group.games" class="col">
+                    <div class="card h-100 shadow-sm border-0">
+                      <div class="card-body d-flex justify-content-between align-items-center">
+
+                        <!-- Equipo Local -->
+                        <div
+                          class="text-center flex-fill p-2 rounded"
+                          [ngClass]="{ 'bg-success-subtle': g.teams.home.winner }"
+                        >
+                          <img
+                            [src]="g.teams.home.logo"
+                            [alt]="g.teams.home.name"
+                            class="team-logo mb-2"
+                          >
+                          <h6 class="mb-1">{{ g.teams.home.name }}</h6>
+                          <span
+                            class="badge"
+                            [ngClass]="g.teams.home.winner ? 'bg-success' : 'bg-secondary'"
+                          >
+                            {{ g.scores.home.total }}
+                          </span>
+                        </div>
+
+                        <!-- Estado / Hora -->
+                        <div class="text-center px-3 flex-fill">
+                          <div class="fw-semibold">{{ g.status.long }}</div>
+                          <div class="text-muted">{{ g.date | date:'shortTime' }}</div>
+                        </div>
+
+                        <!-- Equipo Visitante -->
+                        <div
+                          class="text-center flex-fill p-2 rounded"
+                          [ngClass]="{ 'bg-success-subtle': g.teams.away.winner }"
+                        >
+                          <img
+                            [src]="g.teams.away.logo"
+                            [alt]="g.teams.away.name"
+                            class="team-logo mb-2"
+                          >
+                          <h6 class="mb-1">{{ g.teams.away.name }}</h6>
+                          <span
+                            class="badge"
+                            [ngClass]="g.teams.away.winner ? 'bg-success' : 'bg-secondary'"
+                          >
+                            {{ g.scores.away.total }}
+                          </span>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Sin partidos -->
+      <div
+        *ngIf="!isLoading && !groupedGames.length && !errorMessage"
+        class="text-center my-5"
+      >
+        No hay partidos para mostrar.
+      </div>
+
     </div>
- <app-footer></app-footer>
+  </main>
+</div>
+
+<app-footer></app-footer>

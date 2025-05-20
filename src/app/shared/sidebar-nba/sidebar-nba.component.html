@@ -1,3 +1,4 @@
+<!-- sidebar-nba.component.html -->
 <aside
   class="p-3"
   style="width: 250px; min-height: 100vh;"
@@ -25,27 +26,33 @@
           [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#ligaEsp"
+          data-bs-target="#nbaCollapse"
         >
           <i class="bi bi-caret-right-fill me-2"></i>NBA
         </button>
       </h2>
       <div
-        id="ligaEsp"
+        id="nbaCollapse"
         class="accordion-collapse collapse"
         data-bs-parent="#sidebarAccordion"
       >
         <div class="accordion-body px-3 py-1">
+          <!-- Partidos NBA -->
           <a
             class="nav-link"
-            [routerLink]="['/futbol/fixtures/140/2023/38']"
+            [routerLink]="['/nba', 'fixtures', 12, 2023, 1]"
             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-          >Partidos</a>
+          >
+            Partidos
+          </a>
+          <!-- Clasificación NBA -->
           <a
             class="nav-link"
-            [routerLink]="['/clasificacion/140/2023']"
+            [routerLink]="['/nba', 'standings', 12, 2024]"
             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-          >Clasificación NBA</a>
+          >
+            Clasificación
+          </a>
         </div>
       </div>
     </div>
@@ -61,27 +68,31 @@
           [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#premier"
+          data-bs-target="#euroligaCollapse"
         >
           <i class="bi bi-caret-right-fill me-2"></i>Euroliga
         </button>
       </h2>
       <div
-        id="premier"
+        id="euroligaCollapse"
         class="accordion-collapse collapse"
         data-bs-parent="#sidebarAccordion"
       >
         <div class="accordion-body px-3 py-1">
           <a
             class="nav-link"
-            [routerLink]="['/futbol/fixtures/39/2023/38']"
+            [routerLink]="['/futbol', 'fixtures', 39, 2023, 38]"
             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-          >Partidos Euroliga</a>
+          >
+            Partidos Euroliga
+          </a>
           <a
             class="nav-link"
-            [routerLink]="['/clasificacion/39/2023']"
+            [routerLink]="['/clasificacion', 39, 2023]"
             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-          >Clasificación Euroliga</a>
+          >
+            Clasificación Euroliga
+          </a>
         </div>
       </div>
     </div>
@@ -97,27 +108,31 @@
           [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#bundesliga"
+          data-bs-target="#acbCollapse"
         >
           <i class="bi bi-caret-right-fill me-2"></i>ACB
         </button>
       </h2>
       <div
-        id="bundesliga"
+        id="acbCollapse"
         class="accordion-collapse collapse"
         data-bs-parent="#sidebarAccordion"
       >
         <div class="accordion-body px-3 py-1">
           <a
             class="nav-link"
-            [routerLink]="['/futbol/fixtures/78/2023/34']"
+            [routerLink]="['/futbol', 'fixtures', 78, 2023, 34]"
             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-          >Partidos ACB</a>
+          >
+            Partidos ACB
+          </a>
           <a
             class="nav-link"
-            [routerLink]="['/clasificacion/78/2023']"
+            [routerLink]="['/clasificacion', 78, 2023]"
             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-          >Clasificación ACB</a>
+          >
+            Clasificación ACB
+          </a>
         </div>
       </div>
     </div>
