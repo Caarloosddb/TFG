@@ -16,10 +16,13 @@ import { FooterComponent } from '../../shared/footer/footer.component';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  // Noticias
   futbolNews: Article[] = [];
   nbaNews: Article[]    = [];
   f1News: Article[]     = [];
 
+  // Slider de anuncios
   hideAds = false;
   images = ['anuncio1.jpg', 'anuncio2.jpg', 'anuncio3.jpg'];
   image = 0;
@@ -31,12 +34,15 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Carga las noticias
     this.newsService.getFutbolNews().subscribe(a => this.futbolNews = a);
     this.newsService.getNbaNews().subscribe(a => this.nbaNews = a);
     this.newsService.getF1News().subscribe(a => this.f1News = a);
+    // Inicio del Slider
     this.anuncio();
   }
 
+  // Slider anuncio
   private anuncio(): void {
     setInterval(() => {
       this.image = (this.image + 1) % this.images.length;

@@ -67,6 +67,23 @@
           </button>
         </li>
 
+        <!-- Search form next to toggle -->
+        <li class="nav-item me-3">
+          <form class="d-flex" (ngSubmit)="onSearch()">
+            <input class="form-control form-control-sm me-2"
+                   type="search"
+                   placeholder="Buscar equipo..."
+                   aria-label="Buscar equipo"
+                   [(ngModel)]="searchTerm"
+                   name="searchTerm">
+            <button class="btn btn-outline-primary btn-sm"
+                    type="submit"
+                    [disabled]="!searchTerm.trim()">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
+        </li>
+
         <!-- Usuario logueado -->
         <ng-container *ngIf="user$ | async as user; else loginBtn">
           <li class="nav-item dropdown">

@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute }          from '@angular/router';
-import { Location }                from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
-import { CommonModule }        from '@angular/common';
-import { RouterModule }        from '@angular/router';
-import { HttpClientModule }    from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
-import { NavbarComponent }         from '../../../shared/navbar/navbar.component';
-import { SidebarFutbolComponent }  from '../../../shared/sidebar-futbol/sidebar-futbol.component';
-import { FooterComponent }         from '../../../shared/footer/footer.component';
+import { NavbarComponent } from '../../../shared/navbar/navbar.component';
+import { SidebarFutbolComponent } from '../../../shared/sidebar-futbol/sidebar-futbol.component';
+import { FooterComponent } from '../../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-futbol-equipo-detalle',
@@ -31,9 +31,9 @@ export class FutbolEquipoDetalleComponent implements OnInit {
   teamId!: number;
 
   equipo: any = null;
-  venue: any   = null;
-  stats: any   = null;
+  venue: any = null;
   players: any[] = [];
+  stats: any = null;
 
   error = '';
 
@@ -45,55 +45,34 @@ export class FutbolEquipoDetalleComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private location: Location
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    const params = this.route.snapshot.paramMap;
-    this.leagueId = Number(params.get('leagueId'));
-    this.season   = Number(params.get('season'));
-    this.teamId   = Number(params.get('teamId'));
+    const p = this.route.snapshot.paramMap;
+    this.leagueId = +p.get('leagueId')!;
+    this.season = +p.get('season')!;
+    this.teamId = +p.get('teamId')!;
 
     console.log('Params:', this.leagueId, this.season, this.teamId);
-
     this.fetchTeamInfo();
-    this.fetchStats();
     this.fetchPlayers();
+    this.fetchStats();
   }
 
   private fetchTeamInfo(): void {
     const url = `https://v3.football.api-sports.io/teams?id=${this.teamId}`;
-    console.log('Team URL →', url);
     this.http.get<any>(url, { headers: this.headers }).subscribe({
       next: data => {
-        console.log('Team data raw:', data);
-        const item = data.response?.[0];
-        if (!item) {
+        const resp = data.response?.[0]?.team;
+        if (resp) {
+          this.equipo = resp;           // datos del equipo
+          this.venue = resp.venue;    // aquí viene el estadio
+        } else {
           this.error = 'Equipo no encontrado.';
-          return;
         }
-        this.equipo = item.team;
-        this.venue  = item.venue;
       },
       error: err => {
-        console.error('Error loading team:', err);
         this.error = `Error al cargar datos del equipo (${err.status})`;
-      }
-    });
-  }
-
-  private fetchStats(): void {
-    const url = `https://v3.football.api-sports.io/teams/statistics?league=${this.leagueId}&season=${this.season}&team=${this.teamId}`;
-    console.log('Stats URL →', url);
-    this.http.get<any>(url, { headers: this.headers }).subscribe({
-      next: data => {
-        console.log('Stats data raw:', data);
-        const resp = data.response?.[0];
-        // Si viene anidado bajo .statistics, úsalo; si no, toma todo resp
-        this.stats = resp?.statistics ?? resp ?? null;
-        console.log('Parsed stats:', this.stats);
-      },
-      error: err => {
-        console.error('Error loading stats:', err);
       }
     });
   }
@@ -103,12 +82,21 @@ export class FutbolEquipoDetalleComponent implements OnInit {
     console.log('Players URL →', url);
     this.http.get<any>(url, { headers: this.headers }).subscribe({
       next: data => {
-        console.log('Players data raw:', data);
+        console.log('Players data:', data);
         this.players = data.response?.[0]?.players || [];
       },
-      error: err => {
-        console.error('Error loading players:', err);
-      }
+      error: err => console.error('Players error:', err)
+    });
+  }
+
+  private fetchStats(): void {
+    const url = `https://v3.football.api-sports.io/teams/statistics?league=${this.leagueId}&season=${this.season}&team=${this.teamId}`;
+    this.http.get<any>(url, { headers: this.headers }).subscribe({
+      next: data => {
+        const block = data.response?.[0]?.statistics;
+        this.stats = block || null;
+      },
+      error: err => console.error('Stats error', err)
     });
   }
 
