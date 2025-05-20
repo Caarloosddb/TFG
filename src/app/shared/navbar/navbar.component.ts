@@ -26,7 +26,7 @@ export class NavbarComponent {
   user$: Observable<User | null>;
 
   private headers = new HttpHeaders({
-    'x-apisports-key': '56025bbd56166f8696e74b9786336369'
+    'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
   });
 
   constructor(

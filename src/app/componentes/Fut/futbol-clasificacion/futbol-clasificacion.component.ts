@@ -78,7 +78,7 @@ export class FutbolClasificacionComponent implements OnInit {
 
   cargarClasificacion(): void {
     const headers = new HttpHeaders({
-      'x-apisports-key': '56025bbd56166f8696e74b9786336369'
+      'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
     });
 
     const url = `https://v3.football.api-sports.io/standings?league=${this.leagueId}&season=${this.season}`;

@@ -1,1 +1,80 @@
-<p>futbol-partido-detalle works!</p>
+<main class="flex-grow-1 p-4">
+  <!-- Encabezado del partido -->
+  <div class="text-center mb-4">
+    <h2>Real Madrid vs Barcelona</h2>
+    <h3 class="fw-bold">2-2</h3>
+    <p class="text-muted">
+      17/05/2024 - 21:00<br>
+      Estadio: Santiago Bernabue | Árbitro: Matheu Lahoz
+    </p>
+  </div>
+
+  <!-- Equipos -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="text-center">
+      <img [src]="" alt="Escudo local" width="60" height="60">
+      <h5>Real Madrid</h5>
+    </div>
+
+    <div class="fs-3 fw-bold">
+      2 - 2
+    </div>
+
+    <div class="text-center">
+      <img [src]="" alt="Escudo visitante" width="60" height="60">
+      <h5>barcelona</h5>
+    </div>
+  </div>
+
+  <!-- Tabs: Resumen, Alineaciones, Eventos -->
+  <ul class="nav nav-tabs mb-3" id="partidoTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="resumen-tab" data-bs-toggle="tab" data-bs-target="#resumen" type="button" role="tab">Resumen</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="alineaciones-tab" data-bs-toggle="tab" data-bs-target="#alineaciones" type="button" role="tab">Alineaciones</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="eventos-tab" data-bs-toggle="tab" data-bs-target="#eventos" type="button" role="tab">Eventos</button>
+    </li>
+  </ul>
+
+  <!-- Contenido de las pestañas -->
+  <div class="tab-content" id="partidoTabContent">
+    <!-- Resumen -->
+<!--     <div class="tab-pane fade show active" id="resumen" role="tabpanel">
+      <p><strong>Posesión:</strong> {{ partido.estadisticas.posesionLocal }}% - {{ partido.estadisticas.posesionVisitante }}%</p>
+      <p><strong>Tiros:</strong> {{ partido.estadisticas.tirosLocal }} - {{ partido.estadisticas.tirosVisitante }}</p>
+      <p><strong>Faltas:</strong> {{ partido.estadisticas.faltasLocal }} - {{ partido.estadisticas.faltasVisitante }}</p>
+    </div> -->
+
+    <!-- Alineaciones -->
+    <div class="tab-pane fade" id="alineaciones" role="tabpanel">
+      <div class="row">
+        <div class="col-md-6">
+          <h6>Real Madrid</h6>
+          <ul class="list-unstyled">
+            <li *ngFor="let jugador of partido.local.alineacion">{{ jugador.posicion }} - {{ jugador.nombre }}</li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h6>barcelona</h6>
+          <ul class="list-unstyled">
+            <li *ngFor="let jugador of partido.visitante.alineacion">{{ jugador.posicion }} - {{ jugador.nombre }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eventos -->
+    <div class="tab-pane fade" id="eventos" role="tabpanel">
+      <ul class="list-group">
+        <li *ngFor="let evento of partido.eventos" class="list-group-item">
+          <strong>{{ evento.minuto }}'</strong> - 
+          {{ evento.tipo }} - 
+          {{ evento.jugador }} ({{ evento.equipo }})
+        </li>
+      </ul>
+    </div>
+  </div>
+</main>
