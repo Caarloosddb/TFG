@@ -29,7 +29,7 @@ export const routes: Routes = [
 
     /* NBA */
     { path: 'nba/:endpoint/:leagueId/:season/:round', component: NbaPartidosComponent },
-    { path: 'nba/:endpoint/:leagueId/:season', component: NbaPartidosComponent },
+    { path: 'nba/:endpoint/:leagueId/:season', component: NbaClasificacionComponent },
 
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', redirectTo: 'home' }

@@ -1,1 +1,80 @@
-<p>nba-clasificacion works!</p>
+<!-- nba-clasificacion.component.html -->
+<app-navbar></app-navbar>
+
+<div class="d-flex">
+  <app-sidebar-nba></app-sidebar-nba>
+
+  <main class="flex-fill p-4">
+    <div class="container">
+
+      <h2 class="mb-4">Clasificación NBA – {{ seasonRaw }}-{{ +seasonRaw + 1 }}</h2>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="isLoading && !errorMessage" class="text-center my-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+
+      <ng-container *ngIf="!isLoading && !errorMessage">
+        <!-- Selector de conferencia -->
+        <ul class="nav nav-pills mb-4">
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              [ngClass]="{ active: selectedConf==='East' }"
+              (click)="setConference('East')">
+              Este
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              [ngClass]="{ active: selectedConf==='West' }"
+              (click)="setConference('West')">
+              Oeste
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tabla de clasificación -->
+        <div class="table-responsive">
+          <table class="table table-striped align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Pos</th>
+                <th>Equipo</th>
+                <th>W</th>
+                <th>L</th>
+                <th>%</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of (selectedConf==='East' ? eastStandings : westStandings)">
+                <td>{{ s.rank }}</td>
+                <td class="d-flex align-items-center">
+                  <img [src]="s.team.logo" alt="" class="me-2" style="width:32px;">
+                  {{ s.team.name }}
+                </td>
+                <td>{{ s.win }}</td>
+                <td>{{ s.loss }}</td>
+                <td>{{ (s.win / (s.win + s.loss) * 100) | number:'1.2-2' }}%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+
+      <div *ngIf="!isLoading && !errorMessage && !(eastStandings.length||westStandings.length)"
+           class="text-center my-5">
+        No hay datos de clasificación.
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<app-footer></app-footer>
