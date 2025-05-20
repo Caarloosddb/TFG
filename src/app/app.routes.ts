@@ -12,12 +12,14 @@ import { FutbolPartidoDetalleComponent } from './componentes/Fut/futbol-partido-
 
 import { NbaPartidosComponent } from './componentes/NBA/nba-partidos/nba-partidos.component';
 import { NbaClasificacionComponent } from './componentes/NBA/nba-clasificacion/nba-clasificacion.component';
+import { ProfileSetupComponent } from './componentes/profile-setup/profile-setup.component';
 
 
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
+    {path: 'profile-setup', component: ProfileSetupComponent}, 
     {path: 'home', component: HomeComponent},
     {path: 'usuario', component: UsuarioComponent, canActivate: [AuthGuard]},
 

@@ -11,7 +11,8 @@ import {
   User,
   setPersistence,
   updatePassword,
-  updateProfile
+  updateProfile,
+  UserCredential
 } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 
@@ -36,9 +37,9 @@ export class AuthService {
     );
   }
 
-  register(email: string, password: string): Observable<void> {
+  register(email: string, password: string): Observable<UserCredential> {
     return from(
-      createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(() => {})
+      createUserWithEmailAndPassword(this.firebaseAuth, email, password)
     );
   }
 
