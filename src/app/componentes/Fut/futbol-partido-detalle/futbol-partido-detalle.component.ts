@@ -22,6 +22,10 @@ export class FutbolPartidoDetalleComponent implements OnInit{
     matchId!: number;
 
     matchInfo: any;
+    statsInfo: any[] = [];
+    teamStats: any[] = [];
+    statistics: { type: string, teamA: any, teamB: any }[] = [];
+    lineups: any[] = [];
 
     errorMessage = '';
 
@@ -37,6 +41,8 @@ export class FutbolPartidoDetalleComponent implements OnInit{
 
     console.log('Params:', this.matchId);
     this.cargarPartido();
+    this.cargarEstadisticas();
+    this.cargarAlineacion();
     });
   }
 
@@ -58,6 +64,64 @@ export class FutbolPartidoDetalleComponent implements OnInit{
     }
   });
   }
+
+  cargarEstadisticas() {
+    const headers = new HttpHeaders({
+      'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
+    });
+    const url = `https://v3.football.api-sports.io/fixtures/statistics?fixture=${this.matchId}`;
+
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (data) => {
+        console.log("Estadísticas del partido:", data);
+        this.statsInfo = data.response || [];
+        this.teamStats = this.statsInfo;
+
+        const statsA = this.teamStats[0]?.statistics || [];
+        const statsB = this.teamStats[1]?.statistics || [];
+
+        this.statistics = statsA.map((item: any) => {
+          const matching = statsB.find((s: any) => s.type === item.type);
+          return {
+            type: item.type,
+            teamA: item.value !== null ? item.value : '-',
+            teamB: matching?.value !== null ? matching.value : '-'
+          };
+        });
+      },
+      error: (error) => {
+        console.error('Error en la API:', error);
+        this.errorMessage = "Error al cargar las estadísticas del partido";
+      }
+    });
+  }
+
+
+    cargarAlineacion() {
+    const headers = new HttpHeaders({
+      'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
+    });
+    const url = `https://v3.football.api-sports.io/fixtures/lineups?fixture=${this.matchId}`;
+
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (data) => {
+        console.log("Alineaciones del partido:", data);
+        this.lineups = data.response || [];
+      },
+      error: (error) => {
+        console.error('Error cargando alineaciones:', error);
+        this.errorMessage = 'Error al cargar las alineaciones';
+      }
+    });
+  }
+
+  getStatPercentage(valA: any, valB: any): number {
+  const numA = parseFloat(valA?.toString().replace('%', '')) || 0;
+  const numB = parseFloat(valB?.toString().replace('%', '')) || 0;
+  const total = numA + numB;
+  return total ? (numA / total) * 100 : 50;
+}
+
 
   goBack(): void {
     this.location.back();

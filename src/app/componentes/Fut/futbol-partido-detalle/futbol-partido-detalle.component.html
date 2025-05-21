@@ -6,86 +6,155 @@
 
 <main class="flex-grow-1 p-4">
     <ng-container *ngIf="matchInfo; else cargando">
-<div class="text-center mb-4">
-  <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
-    <img [src]="matchInfo.teams.home.logo" alt="Escudo local" width="60" height="60" class="team-logo">
+      <div class="text-center mb-4">
+        <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
+          <img [src]="matchInfo.teams.home.logo" alt="Escudo local" width="60" height="60" class="team-logo">
 
-    <h2 class="m-0">
-      {{ matchInfo.teams.home.name }} vs {{ matchInfo.teams.away.name }}
-    </h2>
+          <h2 class="m-0">
+            {{ matchInfo.teams.home.name }} vs {{ matchInfo.teams.away.name }}
+          </h2>
 
-    <img [src]="matchInfo.teams.away.logo" alt="Escudo visitante" width="60" height="60" class="team-logo">
+          <img [src]="matchInfo.teams.away.logo" alt="Escudo visitante" width="60" height="60" class="team-logo">
+        </div>
+
+        <h3 class="fw-bold">{{ matchInfo.goals.home }} - {{ matchInfo.goals.away }}</h3>
+
+        <p class="text-muted">
+          {{ matchInfo.fixture.date | date: 'dd/MM/yyyy - HH:mm' }}<br>
+          Estadio: {{ matchInfo.fixture.venue.name }} | Árbitro: {{ matchInfo.fixture.referee }}
+        </p>
+      </div>
+
+
+<!-- Tabs: Eventos, Estadisticas, Alineaciones -->
+<ul class="nav nav-tabs mb-3" id="partidoTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="eventos-tab" data-bs-toggle="tab" data-bs-target="#eventos" type="button" role="tab" aria-selected="true">Eventos</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="estadisticas-tab" data-bs-toggle="tab" data-bs-target="#estadisticas" type="button" role="tab" aria-selected="false">Estadisticas</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="alineaciones-tab" data-bs-toggle="tab" data-bs-target="#alineaciones" type="button" role="tab" aria-selected="false">Alineaciones</button>
+  </li>
+</ul>
+
+<!-- Contenido de los tabs -->
+<div class="tab-content" id="partidoTabContent">
+
+    <!-- Estadísticas -->
+      <div class="tab-pane fade" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
+        <div *ngIf="teamStats.length === 2" class="p-3">
+          <!-- Encabezado de equipos -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="text-center">
+              <img [src]="teamStats[0]?.team?.logo" alt="Equipo 1" style="height: 50px;">
+              <div class="fw-bold mt-2">{{ teamStats[0]?.team?.name }}</div>
+            </div>
+            <h5 class="text-center m-0">Estadísticas Comparativas</h5>
+            <div class="text-center">
+              <img [src]="teamStats[1]?.team?.logo" alt="Equipo 2" style="height: 50px;">
+              <div class="fw-bold mt-2">{{ teamStats[1]?.team?.name }}</div>
+            </div>
+          </div>
+
+          <!-- Tabla de estadísticas -->
+          <div *ngFor="let stat of statistics" class="mb-3">
+            <div class="text-center text-muted mt-1" style="font-size: 0.9rem;">{{ stat.type }}</div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="text-end" style="width: 15%;">{{ stat.teamA }}</div>
+              <div class="flex-grow-1 px-2">
+                <div class="d-flex align-items-center" style="height: 20px; background: #eee; border-radius: 10px; overflow: hidden;">
+                  <div 
+                    class="bg-success" 
+                    [style.width.%]="getStatPercentage(stat.teamA, stat.teamB)" 
+                    style="height: 100%;">
+                  </div>
+                  <div 
+                    class="bg-danger ms-auto" 
+                    [style.width.%]="getStatPercentage(stat.teamB, stat.teamA)" 
+                    style="height: 100%;">
+                  </div>
+                </div>
+              </div>
+              <div class="text-start" style="width: 15%;">{{ stat.teamB }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="teamStats.length !== 2">
+          <p class="text-center py-4">Cargando estadísticas...</p>
+        </div>
+      </div>
+
+
+
+    <!-- Alineaciones -->
+    <div class="tab-pane fade" id="alineaciones" role="tabpanel" aria-labelledby="alineaciones-tab">
+      <div *ngFor="let teamLineup of lineups" class="mb-5">
+        <h3>
+          <img [src]="teamLineup.team.logo" alt="{{ teamLineup.team.name }}" width="40" />
+          {{ teamLineup.team.name }} - Formación: {{ teamLineup.formation }}
+        </h3>
+
+        <!-- Campo con jugadores -->
+        <div class="campo">
+          <div *ngFor="let starter of teamLineup.startXI"
+              class="jugador"
+              [title]="starter.player.name + ' (#' + starter.player.number + ', ' + starter.player.pos + ')'"
+              >
+            {{ starter.player.number }}
+          </div>
+        </div>
+
+
+
+        <!-- Tabla con titulares -->
+        <h5>Titulares</h5>
+        <ul class="list-group list-group-flush w-auto">
+          <li *ngFor="let starter of teamLineup.startXI" class="list-group-item">
+            {{ starter.player.number }} - {{ starter.player.name }}
+          </li>
+        </ul>
+
+        <!-- Lista de suplentes -->
+        <h5>Suplentes</h5>
+        <ul class="list-group list-group-flush w-auto">
+          <li *ngFor="let sub of teamLineup.substitutes" class="list-group-item">
+            {{ sub.player.number }} - {{ sub.player.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+   <!-- Eventos -->
+  <div class="tab-pane fade show active" id="eventos" role="tabpanel" aria-labelledby="eventos-tab">
+    <ul class="list-group">
+      <li *ngFor="let evento of matchInfo.eventos" class="list-group-item">
+        <strong>{{ evento.minuto }}'</strong> - 
+        {{ evento.tipo }} - 
+        {{ evento.jugador }} ({{ evento.equipo }})
+      </li>
+    </ul>
   </div>
 
-  <h3 class="fw-bold">{{ matchInfo.goals.home }} - {{ matchInfo.goals.away }}</h3>
 
-  <p class="text-muted">
-    {{ matchInfo.fixture.date | date: 'dd/MM/yyyy - HH:mm' }}<br>
-    Estadio: {{ matchInfo.fixture.venue.name }} | Árbitro: {{ matchInfo.fixture.referee }}
-  </p>
 </div>
 
 
-  <!-- Tabs: Resumen, Alineaciones, Eventos -->
-  <ul class="nav nav-tabs mb-3" id="partidoTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="resumen-tab" data-bs-toggle="tab" data-bs-target="#resumen" type="button" role="tab">Resumen</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="alineaciones-tab" data-bs-toggle="tab" data-bs-target="#alineaciones" type="button" role="tab">Alineaciones</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="eventos-tab" data-bs-toggle="tab" data-bs-target="#eventos" type="button" role="tab">Eventos</button>
-    </li>
-  </ul>
 
-  <!-- Contenido de las pestañas -->
-  <div class="tab-content" id="partidoTabContent">
-    <!-- Resumen -->
-<!--     <div class="tab-pane fade show active" id="resumen" role="tabpanel">
-      <p><strong>Posesión:</strong> {{ partido.estadisticas.posesionLocal }}% - {{ partido.estadisticas.posesionVisitante }}%</p>
-      <p><strong>Tiros:</strong> {{ partido.estadisticas.tirosLocal }} - {{ partido.estadisticas.tirosVisitante }}</p>
-      <p><strong>Faltas:</strong> {{ partido.estadisticas.faltasLocal }} - {{ partido.estadisticas.faltasVisitante }}</p>
-    </div> -->
-
-    <!-- Alineaciones -->
-<!--     <div class="tab-pane fade" id="alineaciones" role="tabpanel">
-      <div class="row">
-        <div class="col-md-6">
-          <h6>Real Madrid</h6>
-          <ul class="list-unstyled">
-            <li *ngFor="let jugador of matchInfo.local.alineacion">{{ jugador.posicion }} - {{ jugador.nombre }}</li>
-          </ul>
-        </div>
-        <div class="col-md-6">
-          <h6>barcelona</h6>
-          <ul class="list-unstyled">
-            <li *ngFor="let jugador of matchInfo.visitante.alineacion">{{ jugador.posicion }} - {{ jugador.nombre }}</li>
-          </ul>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- Eventos -->
-<!--     <div class="tab-pane fade" id="eventos" role="tabpanel">
-      <ul class="list-group">
-        <li *ngFor="let evento of matchInfo.eventos" class="list-group-item">
-          <strong>{{ evento.minuto }}'</strong> - 
-          {{ evento.tipo }} - 
-          {{ evento.jugador }} ({{ evento.equipo }})
-        </li>
-      </ul>
-    </div> -->
-
-
-
-  </div>
     </ng-container>
 
       <ng-template #cargando>
         <p *ngIf="!errorMessage">Cargando datos del equipo…</p>
         <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
       </ng-template>
+
+      <ng-template #loadingOrError>
+        <p *ngIf="!errorMessage">Cargando alineaciones...</p>
+        <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </ng-template>
+
 </main>
 </div>
 <app-footer></app-footer>
