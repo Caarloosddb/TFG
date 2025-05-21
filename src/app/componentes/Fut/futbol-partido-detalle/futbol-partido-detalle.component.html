@@ -5,32 +5,26 @@
 
 
 <main class="flex-grow-1 p-4">
-  <!-- Encabezado del partido -->
-  <div class="text-center mb-4">
-    <h2>Real Madrid vs Barcelona</h2>
-    <h3 class="fw-bold">2-2</h3>
-    <p class="text-muted">
-      17/05/2024 - 21:00<br>
-      Estadio: Santiago Bernabue | Árbitro: Matheu Lahoz
-    </p>
+    <ng-container *ngIf="matchInfo; else cargando">
+<div class="text-center mb-4">
+  <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
+    <img [src]="matchInfo.teams.home.logo" alt="Escudo local" width="60" height="60" class="team-logo">
+
+    <h2 class="m-0">
+      {{ matchInfo.teams.home.name }} vs {{ matchInfo.teams.away.name }}
+    </h2>
+
+    <img [src]="matchInfo.teams.away.logo" alt="Escudo visitante" width="60" height="60" class="team-logo">
   </div>
 
-  <!-- Equipos -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div class="text-center">
-      <img [src]="" alt="Escudo local" width="60" height="60">
-      <h5>Real Madrid</h5>
-    </div>
+  <h3 class="fw-bold">{{ matchInfo.goals.home }} - {{ matchInfo.goals.away }}</h3>
 
-    <div class="fs-3 fw-bold">
-      2 - 2
-    </div>
+  <p class="text-muted">
+    {{ matchInfo.fixture.date | date: 'dd/MM/yyyy - HH:mm' }}<br>
+    Estadio: {{ matchInfo.fixture.venue.name }} | Árbitro: {{ matchInfo.fixture.referee }}
+  </p>
+</div>
 
-    <div class="text-center">
-      <img [src]="" alt="Escudo visitante" width="60" height="60">
-      <h5>barcelona</h5>
-    </div>
-  </div>
 
   <!-- Tabs: Resumen, Alineaciones, Eventos -->
   <ul class="nav nav-tabs mb-3" id="partidoTabs" role="tablist">
@@ -55,34 +49,43 @@
     </div> -->
 
     <!-- Alineaciones -->
-    <div class="tab-pane fade" id="alineaciones" role="tabpanel">
+<!--     <div class="tab-pane fade" id="alineaciones" role="tabpanel">
       <div class="row">
         <div class="col-md-6">
           <h6>Real Madrid</h6>
           <ul class="list-unstyled">
-            <li *ngFor="let jugador of partido.local.alineacion">{{ jugador.posicion }} - {{ jugador.nombre }}</li>
+            <li *ngFor="let jugador of matchInfo.local.alineacion">{{ jugador.posicion }} - {{ jugador.nombre }}</li>
           </ul>
         </div>
         <div class="col-md-6">
           <h6>barcelona</h6>
           <ul class="list-unstyled">
-            <li *ngFor="let jugador of partido.visitante.alineacion">{{ jugador.posicion }} - {{ jugador.nombre }}</li>
+            <li *ngFor="let jugador of matchInfo.visitante.alineacion">{{ jugador.posicion }} - {{ jugador.nombre }}</li>
           </ul>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Eventos -->
-    <div class="tab-pane fade" id="eventos" role="tabpanel">
+<!--     <div class="tab-pane fade" id="eventos" role="tabpanel">
       <ul class="list-group">
-        <li *ngFor="let evento of partido.eventos" class="list-group-item">
+        <li *ngFor="let evento of matchInfo.eventos" class="list-group-item">
           <strong>{{ evento.minuto }}'</strong> - 
           {{ evento.tipo }} - 
           {{ evento.jugador }} ({{ evento.equipo }})
         </li>
       </ul>
-    </div>
+    </div> -->
+
+
+
   </div>
+    </ng-container>
+
+      <ng-template #cargando>
+        <p *ngIf="!errorMessage">Cargando datos del equipo…</p>
+        <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </ng-template>
 </main>
 </div>
 <app-footer></app-footer>
