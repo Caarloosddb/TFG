@@ -5,7 +5,6 @@ import { Location } from '@angular/common';
 
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { SidebarFutbolComponent } from '../../../shared/sidebar-futbol/sidebar-futbol.component';
@@ -17,7 +16,6 @@ import { FooterComponent } from '../../../shared/footer/footer.component';
   imports: [
     CommonModule,
     RouterModule,
-    HttpClientModule,
     NavbarComponent,
     SidebarFutbolComponent,
     FooterComponent
@@ -30,12 +28,12 @@ export class FutbolEquipoDetalleComponent implements OnInit {
   season!: number;
   teamId!: number;
 
-  equipo: any = null;
-  venue: any = null;
-  players: any[] = [];
-  stats: any = null;
+  teamInfo: any;
+  venueInfo: any;
+  squad: any[] = [];
+  statistics: any;
 
-  error = '';
+  errorMessage = '';
 
   private headers = new HttpHeaders({
     'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
@@ -48,55 +46,71 @@ export class FutbolEquipoDetalleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const p = this.route.snapshot.paramMap;
-    this.leagueId = +p.get('leagueId')!;
-    this.season = +p.get('season')!;
-    this.teamId = +p.get('teamId')!;
+    this.route.params.subscribe(params => {
+      this.teamId = +params['teamId'];
+      this.leagueId = +params['leagueId'];
+      this.season = +params['season'];
 
     console.log('Params:', this.leagueId, this.season, this.teamId);
-    this.fetchTeamInfo();
-    this.fetchPlayers();
-    this.fetchStats();
+    this.cargarEquipo();
+    this.cargarPlantilla();
+    this.cargarEstadisticas();
+    });
   }
 
-  private fetchTeamInfo(): void {
-    const url = `https://v3.football.api-sports.io/teams?id=${this.teamId}`;
-    this.http.get<any>(url, { headers: this.headers }).subscribe({
-      next: data => {
-        const resp = data.response?.[0]?.team;
-        if (resp) {
-          this.equipo = resp;           // datos del equipo
-          this.venue = resp.venue;    // aquí viene el estadio
-        } else {
-          this.error = 'Equipo no encontrado.';
-        }
+cargarEquipo() {
+  const headers = new HttpHeaders({
+    'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
+  });
+  const url = `https://v3.football.api-sports.io/teams?id=${this.teamId}`;
+
+  this.http.get<any>(url, { headers }).subscribe({
+    next: (data) => {
+      console.log("Datos del equipo:", data);
+      const response = data?.response?.[0];
+      this.teamInfo = response?.team || null;
+      this.venueInfo = response?.venue || null;
+    },
+    error: (error) => {
+      console.error('Error en la API (equipo):', error);
+      this.errorMessage = "Error al cargar la información del equipo";
+    }
+  });
+}
+
+  cargarPlantilla() {
+    const headers = new HttpHeaders({
+      'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
+    });
+    const url = `https://v3.football.api-sports.io/players/squads?team=${this.teamId}`;
+
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (data) => {
+        console.log("Plantilla del equipo:", data);
+        this.squad = data?.response?.[0]?.players || [];
       },
-      error: err => {
-        this.error = `Error al cargar datos del equipo (${err.status})`;
+      error: (error) => {
+        console.error('Error en la API (plantilla):', error);
+        this.errorMessage = "Error al cargar la plantilla";
       }
     });
   }
 
-  private fetchPlayers(): void {
-    const url = `https://v3.football.api-sports.io/players/squads?team=${this.teamId}`;
-    console.log('Players URL →', url);
-    this.http.get<any>(url, { headers: this.headers }).subscribe({
-      next: data => {
-        console.log('Players data:', data);
-        this.players = data.response?.[0]?.players || [];
-      },
-      error: err => console.error('Players error:', err)
+  cargarEstadisticas() {
+    const headers = new HttpHeaders({
+      'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
     });
-  }
-
-  private fetchStats(): void {
     const url = `https://v3.football.api-sports.io/teams/statistics?league=${this.leagueId}&season=${this.season}&team=${this.teamId}`;
-    this.http.get<any>(url, { headers: this.headers }).subscribe({
-      next: data => {
-        const block = data.response?.[0]?.statistics;
-        this.stats = block || null;
+
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (data) => {
+        console.log("Estadísticas del equipo:", data);
+        this.statistics = data?.response || null;
       },
-      error: err => console.error('Stats error', err)
+      error: (error) => {
+        console.error('Error en la API (estadísticas):', error);
+        this.errorMessage = "Error al cargar las estadísticas";
+      }
     });
   }
 

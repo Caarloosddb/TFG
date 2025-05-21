@@ -26,7 +26,7 @@ export const routes: Routes = [
     /* Futbol */
     {path: 'futbol/:endpoint/:leagueId/:season/:round', component: FutbolPartidosComponent},
     {path: 'clasificacion/:leagueId/:season', component: FutbolClasificacionComponent},
-    {path: 'equipo/:teamId', component: FutbolEquipoDetalleComponent},
+    {path: 'equipo/:teamId/:leagueId/:season', component: FutbolEquipoDetalleComponent},
     {path: 'partido/:matchId', component: FutbolPartidoDetalleComponent},
 
 

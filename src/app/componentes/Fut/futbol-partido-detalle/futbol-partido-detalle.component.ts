@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { SidebarFutbolComponent } from '../../../shared/sidebar-futbol/sidebar-futbol.component';
-import { ThemeService } from '../../../core/theme.service';
 
 @Component({
   selector: 'app-futbol-partido-detalle',

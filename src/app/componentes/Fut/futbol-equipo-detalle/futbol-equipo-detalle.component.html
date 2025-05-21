@@ -1,142 +1,87 @@
-<!-- src/app/componentes/Fut/futbol-equipo-detalle/futbol-equipo-detalle.component.html -->
 <app-navbar></app-navbar>
 
 <div class="d-flex">
   <app-sidebar-futbol></app-sidebar-futbol>
 
   <main class="flex-grow-1 p-4">
-    <div class="container">
+    <div *ngIf="teamInfo && statistics; else loading">
+  <!-- Información del equipo -->
+  <div class="team-header">
+    <img [src]="teamInfo.logo" [alt]="teamInfo.name" class="team-logo" />
+    <h1>{{ teamInfo.name }} <small>({{ teamInfo.code }})</small></h1>
+  </div>
 
-      <button class="btn btn-sm btn-outline-secondary mb-3" (click)="goBack()">
-        ← Volver atrás
-      </button>
+  <!-- Estadio -->
+  <div class="venue-info" *ngIf="venueInfo">
+    <h2>Estadio: {{ venueInfo.name }}</h2>
+    <p>Ciudad: {{ venueInfo.city }} | Capacidad: {{ venueInfo.capacity | number }}</p>
+    <img [src]="venueInfo.image" alt="Estadio {{ venueInfo.name }}" class="venue-img" />
+  </div>
 
-      <ng-container *ngIf="equipo; else cargando">
-        <div class="card mb-4 shadow-sm">
-          <div class="card-header bg-primary text-white d-flex align-items-center gap-3">
-            <img [src]="equipo.logo" [alt]="equipo.name" width="50" height="50" class="rounded-circle">
-            <h2 class="mb-0">{{ equipo.name }}</h2>
-            <span *ngIf="equipo.code" class="badge bg-light text-dark">{{ equipo.code }}</span>
-          </div>
-          <div class="card-body row">
-            <div class="col-md-6">
-              <h5>Información General</h5>
-              <ul class="list-unstyled mb-0">
-                <li *ngIf="equipo.country"><strong>País:</strong> {{ equipo.country }}</li>
-                <li *ngIf="equipo.founded"><strong>Fundado:</strong> {{ equipo.founded }}</li>
-                <li *ngIf="equipo.national !== undefined">
-                  <strong>Nacional:</strong> {{ equipo.national ? 'Sí' : 'No' }}
-                </li>
-                <li *ngIf="equipo.venue"><strong>Estadio asignado:</strong> {{ venue?.name }}</li>
-              </ul>
-            </div>
-            <div class="col-md-6">
-              <h5>Estadio</h5>
-              <ng-container *ngIf="venue; else noVenue">
-                <p *ngIf="venue.address"><strong>Dirección:</strong> {{ venue.address }}</p>
-                <p *ngIf="venue.city"><strong>Ciudad:</strong> {{ venue.city }}</p>
-                <p *ngIf="venue.capacity">
-                  <strong>Capacidad:</strong> {{ venue.capacity | number }}
-                </p>
-                <p *ngIf="venue.surface"><strong>Superficie:</strong> {{ venue.surface }}</p>
-                <img *ngIf="venue.image" [src]="venue.image" alt="Imagen estadio"
-                     class="img-fluid rounded mt-2">
-              </ng-container>
-              <ng-template #noVenue>
-                <p class="text-muted mb-0">Información del estadio no disponible.</p>
-              </ng-template>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pestañas -->
-        <ul class="nav nav-tabs mb-3" id="teamTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="stats-tab" data-bs-toggle="tab"
-                    data-bs-target="#stats" type="button" role="tab"
-                    aria-controls="stats" aria-selected="false">
-              Estadísticas
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="players-tab" data-bs-toggle="tab"
-                    data-bs-target="#players" type="button" role="tab"
-                    aria-controls="players" aria-selected="false">
-              Plantilla
-            </button>
-          </li>
-        </ul>
-        <div class="tab-content" id="teamTabContent">
-          <!-- Info adicional -->
-          <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
-            <p *ngIf="equipo.description">{{ equipo.description }}</p>
-            <p *ngIf="equipo.website">
-              <strong>Web oficial:</strong>
-              <a [href]="equipo.website" target="_blank">{{ equipo.website }}</a>
-            </p>
-          </div>
-
-          <!-- Estadísticas -->
-          <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
-            <ng-container *ngIf="stats; else noStats">
-              <ul class="list-unstyled">
-                <li><strong>Jugados:</strong> {{ stats.fixtures.played.total }}</li>
-                <li><strong>Victorias:</strong> {{ stats.fixtures.wins.total }}</li>
-                <li><strong>Empates:</strong> {{ stats.fixtures.draws.total }}</li>
-                <li><strong>Derrotas:</strong> {{ stats.fixtures.loses.total }}</li>
-                <li><strong>Goles a favor:</strong> {{ stats.goals.for.total }}</li>
-                <li><strong>Goles en contra:</strong> {{ stats.goals.against.total }}</li>
-                <li><strong>Diferencia:</strong>
-                  {{ stats.goals.for.total - stats.goals.against.total }}
-                </li>
-              </ul>
-            </ng-container>
-            <ng-template #noStats>
-              <p class="text-muted">Estadísticas no disponibles.</p>
-            </ng-template>
-          </div>
-
-          <!-- Plantilla -->
-          <div class="tab-pane fade" id="players" role="tabpanel" aria-labelledby="players-tab">
-            <ng-container *ngIf="players?.length; else noPlayers">
-              <div class="table-responsive">
-                <table class="table table-sm align-middle mb-0">
-                  <thead class="table-light">
-                    <tr>
-                      <th>Foto</th>
-                      <th>Nombre</th>
-                      <th>Edad</th>
-                      <th>Posición</th>
-                      <th>Nacionalidad</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let p of players">
-                      <td>
-                        <img [src]="p.photo" width="32" height="32" class="rounded-circle">
-                      </td>
-                      <td>{{ p.name }}</td>
-                      <td>{{ p.age }}</td>
-                      <td>{{ p.position }}</td>
-                      <td>{{ p.nationality }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </ng-container>
-            <ng-template #noPlayers>
-              <p class="text-muted">Plantilla no disponible.</p>
-            </ng-template>
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-template #cargando>
-        <p *ngIf="!error">Cargando datos del equipo…</p>
-        <p class="text-danger" *ngIf="error">{{ error }}</p>
-      </ng-template>
-
+  <!-- Plantilla de jugadores -->
+  <div class="squad-section">
+    <h2>Plantilla</h2>
+    <div class="players-grid">
+      <div class="player-card" *ngFor="let player of squad">
+        <img [src]="player.photo" [alt]="player.name" class="player-photo" />
+        <h3>{{ player.name }}</h3>
+        <p>Posición: {{ player.position }}</p>
+        <p>Edad: {{ player.age }}</p>
+        <p>Número: {{ player.number || '-' }}</p>
+      </div>
     </div>
+  </div>
+
+  <!-- Estadísticas -->
+  <div class="statistics-section">
+    <h2>Estadísticas</h2>
+    <p><strong>Racha actual:</strong> {{ statistics.form }}</p>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <h3>Partidos Jugados</h3>
+        <p>Total: {{ statistics.fixtures.played.total }}</p>
+        <p>Casa: {{ statistics.fixtures.played.home }} | Fuera: {{ statistics.fixtures.played.away }}</p>
+      </div>
+      <div class="stat-box">
+        <h3>Victorias</h3>
+        <p>Total: {{ statistics.fixtures.wins.total }}</p>
+        <p>Casa: {{ statistics.fixtures.wins.home }} | Fuera: {{ statistics.fixtures.wins.away }}</p>
+      </div>
+      <div class="stat-box">
+        <h3>Empates</h3>
+        <p>Total: {{ statistics.fixtures.draws.total }}</p>
+      </div>
+      <div class="stat-box">
+        <h3>Derrotas</h3>
+        <p>Total: {{ statistics.fixtures.loses.total }}</p>
+      </div>
+      <div class="stat-box">
+        <h3>Goles a favor</h3>
+        <p>Total: {{ statistics.goals.for.total.total }}</p>
+        <p>Promedio: {{ statistics.goals.for.average.total }}</p>
+      </div>
+      <div class="stat-box">
+        <h3>Goles en contra</h3>
+        <p>Total: {{ statistics.goals.against.total.total }}</p>
+        <p>Promedio: {{ statistics.goals.against.average.total }}</p>
+      </div>
+      <div class="stat-box">
+        <h3>Porterías a cero</h3>
+        <p>{{ statistics.clean_sheet.total }}</p>
+      </div>
+      <div class="stat-box">
+        <h3>Partidos sin anotar</h3>
+        <p>{{ statistics.failed_to_score.total }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Cargando información del equipo...</p>
+</ng-template>
+
   </main>
 </div>
 

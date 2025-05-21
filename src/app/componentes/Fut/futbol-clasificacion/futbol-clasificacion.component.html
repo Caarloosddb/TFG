@@ -44,7 +44,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let equipo of clasificacion"
-                  [routerLink]="['/equipo', equipo.team.id]"
+                  [routerLink]="['/equipo', equipo.team.id, leagueId, selectedTemporada]"
                   style="cursor: pointer;"
               >
                 <td>
