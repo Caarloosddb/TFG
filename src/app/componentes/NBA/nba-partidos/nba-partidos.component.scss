@@ -1,0 +1,27 @@
+/* nba-partidos.component.scss */
+.team-logo {
+  width: 48px;
+  height: auto;
+}
+
+.accordion-button {
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.card {
+  border-radius: 0.75rem;
+}
+
+.badge {
+  font-size: 0.85rem;
+}
+
+@media (max-width: 576px) {
+  .card-body {
+    flex-direction: column !important;
+  }
+  .card-body .flex-fill {
+    margin-bottom: 0.5rem;
+  }
+}

@@ -1,9 +1,105 @@
 <app-navbar></app-navbar>
-  <div class="d-flex">
-    <app-sidebar-nba></app-sidebar-nba>
-        <div class="flex-grow-1 p-4">
-            <h1>Contenido Principal</h1>
-            <p>aqui va mucha mierda de NBA tu sabe</p>
+
+<div class="d-flex">
+  <app-sidebar-nba
+    [league]="selectedLeague.key"
+    [season]="seasonRaw">
+  </app-sidebar-nba>
+
+  <main class="flex-fill p-4">
+    <div class="container mt-5">
+
+      <!-- Pestañas de competición -->
+      <ul class="nav nav-tabs mb-4">
+        <li class="nav-item" *ngFor="let lg of leagues">
+          <a class="nav-link"
+             [class.active]="lg.key === selectedLeague.key"
+             (click)="selectLeague(lg)"
+             style="cursor: pointer">
+            {{ lg.name }}
+          </a>
+        </li>
+      </ul>
+
+      <!-- Selector de temporada -->
+      <div class="mb-4 d-flex align-items-center gap-2">
+        <label for="seasonSelect" class="form-label mb-0">Temporada:</label>
+        <select id="seasonSelect"
+                class="form-select form-select-sm w-auto"
+                [(ngModel)]="seasonRaw"
+                (change)="loadData()">
+          <option *ngFor="let ano of ['2021','2022','2023','2024']" [value]="ano">
+            {{ ano }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="isLoading" class="text-center py-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Cargando...</span>
         </div>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="errorMessage" class="alert alert-danger shadow-sm">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Tabla de partidos agrupados -->
+      <div *ngIf="!isLoading && groupedGames.length > 0" class="table-responsive shadow-sm rounded">
+        <table class="table table-striped table-hover align-middle mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>Fecha</th>
+              <th>Local</th>
+              <th class="text-center">Resultado</th>
+              <th>Visitante</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let group of groupedGames">
+              <tr class="table-secondary">
+                <td colspan="5" class="fw-bold">
+                  {{ group.date | date:'dd/MM/yyyy' }}
+                </td>
+              </tr>
+              <tr *ngFor="let game of group.games">
+                <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  {{ game.date | date:'HH:mm' }}
+                </td>
+                <td class="d-flex align-items-center gap-2"
+                    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  <img [src]="game.teams.home.logo" width="24" height="24">
+                  {{ game.teams.home.name }}
+                </td>
+                <td class="text-center fw-bold"
+                    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  {{ game.scores.home.total }} - {{ game.scores.away.total }}
+                </td>
+                <td class="d-flex align-items-center gap-2"
+                    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  <img [src]="game.teams.away.logo" width="24" height="24">
+                  {{ game.teams.away.name }}
+                </td>
+                <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  {{ game.status.long }}
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Sin partidos -->
+      <div *ngIf="!isLoading && !errorMessage && groupedGames.length === 0"
+           class="alert alert-info shadow-sm">
+        No hay partidos para esta temporada.
+      </div>
+
     </div>
- <app-footer></app-footer>
+  </main>
+</div>
+
+<app-footer></app-footer>

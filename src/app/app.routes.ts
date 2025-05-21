@@ -14,8 +14,6 @@ import { NbaPartidosComponent } from './componentes/NBA/nba-partidos/nba-partido
 import { NbaClasificacionComponent } from './componentes/NBA/nba-clasificacion/nba-clasificacion.component';
 import { ProfileSetupComponent } from './componentes/profile-setup/profile-setup.component';
 
-
-
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
@@ -29,12 +27,16 @@ export const routes: Routes = [
     {path: 'equipo/:teamId/:leagueId/:season', component: FutbolEquipoDetalleComponent},
     {path: 'partido/:matchId', component: FutbolPartidoDetalleComponent},
 
+    /* Fútbol */
+    { path: 'futbol/:endpoint/:leagueId/:season/:round', component: FutbolPartidosComponent },
+    { path: 'clasificacion/:leagueId/:season', component: FutbolClasificacionComponent },
+    { path: 'equipo/:teamId', component: FutbolEquipoDetalleComponent },
+    { path: 'partido/:matchId', component: FutbolPartidoDetalleComponent },
 
     /* NBA */
-    {path: 'nba', component: NbaPartidosComponent},
-    {path: 'nba-clasificacion', component: NbaClasificacionComponent},
+    { path: 'nba/:endpoint/:leagueId/:season/:round', component: NbaPartidosComponent },
+    { path: 'nba/:endpoint/:leagueId/:season', component: NbaClasificacionComponent },
 
-    {path: '', redirectTo: 'home', pathMatch: 'full'},
-    {path: '**', redirectTo: 'home'},
-    //canActivate: [AuthGuard]
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: '**', redirectTo: 'home' }
 ];
