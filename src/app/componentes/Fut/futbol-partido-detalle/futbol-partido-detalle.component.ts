@@ -26,6 +26,7 @@ export class FutbolPartidoDetalleComponent implements OnInit{
     teamStats: any[] = [];
     statistics: { type: string, teamA: any, teamB: any }[] = [];
     lineups: any[] = [];
+    matchEvents: any[] = [];
 
     errorMessage = '';
 
@@ -43,6 +44,7 @@ export class FutbolPartidoDetalleComponent implements OnInit{
     this.cargarPartido();
     this.cargarEstadisticas();
     this.cargarAlineacion();
+    this.cargarEventos();
     });
   }
 
@@ -97,7 +99,7 @@ export class FutbolPartidoDetalleComponent implements OnInit{
   }
 
 
-    cargarAlineacion() {
+  cargarAlineacion() {
     const headers = new HttpHeaders({
       'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
     });
@@ -111,6 +113,24 @@ export class FutbolPartidoDetalleComponent implements OnInit{
       error: (error) => {
         console.error('Error cargando alineaciones:', error);
         this.errorMessage = 'Error al cargar las alineaciones';
+      }
+    });
+  }
+
+    cargarEventos() {
+    const headers = new HttpHeaders({
+      'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
+    });
+    const url = `https://v3.football.api-sports.io/fixtures/events?fixture=${this.matchId}`;
+
+    this.http.get<any>(url, { headers }).subscribe({
+      next: (data) => {
+        console.log("Eventos del partido:", data);
+        this.matchEvents = data.response || [];
+      },
+      error: (error) => {
+        console.error('Error cargando eventos:', error);
+        this.errorMessage = 'Error al cargar los eventos';
       }
     });
   }

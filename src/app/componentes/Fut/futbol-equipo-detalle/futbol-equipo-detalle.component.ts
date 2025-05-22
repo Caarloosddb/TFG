@@ -35,10 +35,6 @@ export class FutbolEquipoDetalleComponent implements OnInit {
 
   errorMessage = '';
 
-  private headers = new HttpHeaders({
-    'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
-  });
-
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
