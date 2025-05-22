@@ -56,7 +56,7 @@ export class FutbolClasificacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.temporadas = [2021, 2022, 2023, 2024];
+    this.temporadas = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010];
 
     this.route.params.subscribe(params => {
       this.leagueId = +params['leagueId'];

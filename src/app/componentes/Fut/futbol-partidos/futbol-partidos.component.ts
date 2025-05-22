@@ -16,12 +16,11 @@ import { ThemeService } from '../../../core/theme.service';
   styleUrl: './futbol-partidos.component.scss'
 })
 export class FutbolPartidosComponent {
-temporadas: number[] = [];
+  temporadas: number[] = [];
   jornadas: number[] = [];
   partidos: any[] = [];
   rondas: any[] = [];
   rondasEuropa: any[] = [];
-
 
   endpoint: string = '';
   leagueId!: number;
@@ -29,11 +28,9 @@ temporadas: number[] = [];
   round!: number;
   knockout!: string;
 
-
   selectedTemporada!: number;
   selectedJornada!: number;
   selectedRonda!: string;
-
 
   errorMessage: string = '';
 

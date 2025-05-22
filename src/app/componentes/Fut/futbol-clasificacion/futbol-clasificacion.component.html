@@ -61,12 +61,12 @@
                   <span>{{ equipo.team.name }}</span>
                 </td>
                 <td class="fw-bold">{{ equipo.points }}</td>
-                <td>{{ equipo.all.games }}</td>
+                <td>{{ equipo.all.played }}</td>
                 <td>{{ equipo.all.win }}</td>
                 <td>{{ equipo.all.draw }}</td>
                 <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">{{ equipo.all.lose }}</td>
-                <td>{{ equipo.all.goalDiff }}</td>
-                <td>{{ equipo.all.form }}</td>
+                <td>{{ equipo.goalsDiff }}</td>
+                <td>{{ equipo.form }}</td>
               </tr>
             </tbody>
           </table>
