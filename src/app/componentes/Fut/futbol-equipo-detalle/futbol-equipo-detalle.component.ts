@@ -49,7 +49,7 @@ export class FutbolEquipoDetalleComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.teamId = +params['teamId'];
       this.leagueId = +params['leagueId'];
-      this.season = +params['season'];
+      this.season = +params['season'] || 2024;
 
     console.log('Params:', this.leagueId, this.season, this.teamId);
     this.cargarEquipo();
@@ -66,6 +66,7 @@ cargarEquipo() {
 
   this.http.get<any>(url, { headers }).subscribe({
     next: (data) => {
+      console.log('Requesting URL:', url);
       console.log("Datos del equipo:", data);
       const response = data?.response?.[0];
       this.teamInfo = response?.team || null;

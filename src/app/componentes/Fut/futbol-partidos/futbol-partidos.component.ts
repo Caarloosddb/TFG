@@ -20,6 +20,8 @@ temporadas: number[] = [];
   jornadas: number[] = [];
   partidos: any[] = [];
   rondas: any[] = [];
+  rondasEuropa: any[] = [];
+
 
   endpoint: string = '';
   leagueId!: number;
@@ -39,8 +41,13 @@ temporadas: number[] = [];
   constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public themeService: ThemeService) {}
 
   ngOnInit(): void {
-    this.temporadas = [2021, 2022, 2023];
+    this.temporadas = [2021, 2022, 2023, 2024];
     this.rondas = ['Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];
+    this.rondasEuropa = [
+      'League Stage - 1', 'League Stage - 2', 'League Stage - 3', 'League Stage - 4', 'League Stage - 5', 'League Stage - 6', 'League Stage - 7', 'League Stage - 8',
+       'Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'
+    ]
+    //Añadir if conference
 
     this.route.params.subscribe(params => {
       this.endpoint = params['endpoint'];
@@ -72,6 +79,12 @@ temporadas: number[] = [];
       this.round--;
       this.actualizarRuta();
       }
+    }else if(this.leagueId === 2 || this.leagueId === 3 || this.leagueId === 848) {
+      const i = this.rondasEuropa.indexOf(this.knockout);
+      if (i > 0) {
+        this.knockout = this.rondasEuropa[i - 1];
+        this.actualizarRuta();
+      }
     }else {
       const i = this.rondas.indexOf(this.knockout);
       if (i > 0) {
@@ -86,6 +99,12 @@ temporadas: number[] = [];
     if (this.round < this.jornadas.length) {
       this.round++;
       this.actualizarRuta();
+      }
+    }else if(this.leagueId === 2 || this.leagueId === 3 || this.leagueId === 848) {
+      const i = this.rondasEuropa.indexOf(this.knockout);
+      if (i < this.rondasEuropa.length - 1) {
+        this.knockout = this.rondasEuropa[i + 1];
+        this.actualizarRuta();
       }
     }else {
       const i = this.rondas.indexOf(this.knockout);

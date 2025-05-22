@@ -39,27 +39,56 @@ export class NavbarComponent {
     this.user$ = this.auth.user$;
   }
 
-  async onSearch(): Promise<void> {
-    const q = this.searchTerm.trim();
-    if (!q) return;
+onSearch(): void {
+  const query = this.searchTerm.trim();
+  if (!query) return;
 
-    try {
-      const url = `https://v3.football.api-sports.io/teams?search=${encodeURIComponent(q)}`;
-      const data: any = await this.http.get<any>(url, { headers: this.headers }).toPromise();
-      const resp = data.response;
-      if (resp?.length) {
-        const team = resp[0].team;
+  const teamUrl = `https://v3.football.api-sports.io/teams?search=${encodeURIComponent(query)}`;
+  const headers = this.headers;
+
+  this.http.get<any>(teamUrl, { headers }).subscribe({
+    next: (data) => {
+      const team = data?.response?.[0]?.team;
+      if (team?.id) {
         this.router.navigate(['/equipo', team.id]);
       } else {
-        alert('Equipo no encontrado');
+        // No encontró equipo, intentar buscar jugador en una liga general (como LaLiga)
+        this.buscarJugador(query);
       }
-    } catch (err) {
-      console.error('Error buscando equipo:', err);
+    },
+    error: (error) => {
+      console.error('Error buscando equipo:', error);
       alert('Error al buscar equipo');
-    } finally {
       this.searchTerm = '';
     }
-  }
+  });
+}
+
+private buscarJugador(nombre: string): void {
+  const leagueId = 140; // Ej: LaLiga
+  const season = 2024;
+  const url = `https://v3.football.api-sports.io/players?search=${encodeURIComponent(nombre)}&league=${leagueId}&season=${season}`;
+
+  this.http.get<any>(url, { headers: this.headers }).subscribe({
+    next: (data) => {
+      const jugador = data?.response?.[0]?.player;
+      if (jugador?.id) {
+        this.router.navigate(['/jugador', jugador.id]);
+      } else {
+        alert('No se encontró equipo ni jugador con ese nombre');
+      }
+    },
+    error: (error) => {
+      console.error('Error buscando jugador:', error);
+      alert('Error al buscar jugador');
+    },
+    complete: () => {
+      this.searchTerm = '';
+    }
+  });
+}
+
+
 
   logout(): void {
     this.auth.logout();

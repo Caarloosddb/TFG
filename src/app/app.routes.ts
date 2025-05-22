@@ -9,6 +9,7 @@ import { FutbolPartidosComponent } from './componentes/Fut/futbol-partidos/futbo
 import { FutbolClasificacionComponent } from './componentes/Fut/futbol-clasificacion/futbol-clasificacion.component';
 import { FutbolEquipoDetalleComponent } from './componentes/Fut/futbol-equipo-detalle/futbol-equipo-detalle.component';
 import { FutbolPartidoDetalleComponent } from './componentes/Fut/futbol-partido-detalle/futbol-partido-detalle.component';
+import { FutbolJugadorDetalleComponent } from './componentes/Fut/futbol-jugador-detalle/futbol-jugador-detalle.component';
 
 import { NbaPartidosComponent } from './componentes/NBA/nba-partidos/nba-partidos.component';
 import { NbaClasificacionComponent } from './componentes/NBA/nba-clasificacion/nba-clasificacion.component';
@@ -26,6 +27,7 @@ export const routes: Routes = [
     {path: 'clasificacion/:leagueId/:season', component: FutbolClasificacionComponent},
     {path: 'equipo/:teamId/:leagueId/:season', component: FutbolEquipoDetalleComponent},
     {path: 'partido/:matchId', component: FutbolPartidoDetalleComponent},
+    {path: 'jugador/:playerId', component: FutbolJugadorDetalleComponent},
 
     /* Fútbol */
     { path: 'futbol/:endpoint/:leagueId/:season/:round', component: FutbolPartidosComponent },
@@ -34,8 +36,8 @@ export const routes: Routes = [
     { path: 'partido/:matchId', component: FutbolPartidoDetalleComponent },
 
     /* NBA */
-    { path: 'nba/:endpoint/:leagueId/:season/:round', component: NbaPartidosComponent },
-    { path: 'nba/:endpoint/:leagueId/:season', component: NbaClasificacionComponent },
+    { path: 'nba-partidos/:leagueId/:season', component: NbaPartidosComponent },
+    { path: 'nba-clasificacion/:leagueId/:season', component: NbaClasificacionComponent },
 
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', redirectTo: 'home' }

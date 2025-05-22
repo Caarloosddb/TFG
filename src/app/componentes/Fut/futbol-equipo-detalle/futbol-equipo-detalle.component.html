@@ -13,7 +13,7 @@
       <ng-container *ngIf="teamInfo; else cargando">
         <div class="card mb-4 shadow-sm">
           <div class="card-header bg-primary text-white d-flex align-items-center gap-3">
-            <img [src]="teamInfo.logo" [alt]="teamInfo.name" width="50" height="50" class="rounded-circle">
+            <img [src]="teamInfo.logo" [alt]="teamInfo.name" width="50" height="50">
             <h2 class="mb-0">{{ teamInfo.name }}</h2>
             <span *ngIf="teamInfo.code" class="badge bg-light text-dark">{{ teamInfo.code }}</span>
           </div>

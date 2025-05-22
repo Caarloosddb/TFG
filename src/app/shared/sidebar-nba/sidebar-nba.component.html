@@ -1,61 +1,125 @@
-<nav class="nav flex-column p-3">
+<aside
+  class="p-3"
+  style="width: 250px; min-height: 100vh;"
+  [ngClass]="{
+    'bg-light text-body': !themeService.isDark(),
+    'bg-dark text-white': themeService.isDark()
+  }"
+>
+  <h5
+    class="text-center border-bottom pb-2 mb-3"
+    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+  >
+    Baloncesto
+  </h5>
 
-  <!-- ==== Botón Partidos ==== -->
-  <ng-container *ngIf="league === 'nba'">
-    <a
-      class="btn btn-outline-primary mb-3 w-100"
-      [routerLink]="['/nba','fixtures', 12, 2023, 1]"
+  <div class="accordion" id="sidebarAccordion">
+    <!-- NBA -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
     >
-      Partidos NBA
-    </a>
-  </ng-container>
-  <ng-container *ngIf="league === 'euroliga'">
-    <a
-      class="btn btn-outline-primary mb-3 w-100"
-      [routerLink]="['/euroliga','fixtures', season]"
-    >
-      Partidos Euroliga
-    </a>
-  </ng-container>
-  <ng-container *ngIf="league === 'acb'">
-    <a
-      class="btn btn-outline-primary mb-3 w-100"
-      [routerLink]="['/acb','fixtures', season]"
-    >
-      Partidos ACB
-    </a>
-  </ng-container>
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#ligaEsp"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>NBA
+        </button>
+      </h2>
+      <div
+        id="ligaEsp"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/nba-partidos/standard/2023']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >NBA partidos</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/nba-clasificacion/standard/2023']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >NBA clasificacion</a>
+        </div>
+      </div>
+    </div>
 
-  <!-- ==== Sección Clasificación ==== -->
-  <ng-container *ngIf="league === 'nba'">
-    <a
-      class="nav-link"
-      [routerLink]="['/nba','standings', 1, season]"
-      routerLinkActive="active"
-      [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+    <!-- Euroliga -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
     >
-      Clasificación NBA
-    </a>
-  </ng-container>
-  <ng-container *ngIf="league === 'euroliga'">
-    <a
-      class="nav-link"
-      [routerLink]="['/euroliga','standings', season]"
-      routerLinkActive="active"
-      [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-    >
-      Clasificación Euroliga
-    </a>
-  </ng-container>
-  <ng-container *ngIf="league === 'acb'">
-    <a
-      class="nav-link"
-      [routerLink]="['/acb','standings', season]"
-      routerLinkActive="active"
-      [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-    >
-      Clasificación ACB
-    </a>
-  </ng-container>
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#premier"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>Euroliga
+        </button>
+      </h2>
+      <div
+        id="premier"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/39/2024/38']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Euroliga partidos</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/clasificacion/39/2024']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Clasificación Euroliga</a>
+        </div>
+      </div>
+    </div>
 
-</nav>
+    <!-- ACB -->
+    <div
+      class="accordion-item border-0"
+      [ngClass]="themeService.isDark() ? 'bg-dark' : 'bg-light'"
+    >
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed px-2 py-1"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-body'"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#bundesliga"
+        >
+          <i class="bi bi-caret-right-fill me-2"></i>ACB
+        </button>
+      </h2>
+      <div
+        id="bundesliga"
+        class="accordion-collapse collapse"
+        data-bs-parent="#sidebarAccordion"
+      >
+        <div class="accordion-body px-3 py-1">
+          <a
+            class="nav-link"
+            [routerLink]="['/futbol/fixtures/78/2024/34']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >ACB partidos</a>
+          <a
+            class="nav-link"
+            [routerLink]="['/clasificacion/78/2024']"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+          >Clasificación ACB</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
