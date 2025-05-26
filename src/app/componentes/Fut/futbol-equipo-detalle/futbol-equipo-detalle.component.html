@@ -99,7 +99,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let squad of squad">
+                    <tr *ngFor="let squad of squad"
+                    [routerLink]="['/jugador', squad.id]"
+                  style="cursor: pointer;">
                       <td>
                         <img [src]="squad.photo" width="32" height="32" class="rounded-circle">
                       </td>

@@ -38,7 +38,7 @@ export class FutbolPartidosComponent {
   constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public themeService: ThemeService) {}
 
   ngOnInit(): void {
-    this.temporadas = [2021, 2022, 2023, 2024];
+    this.temporadas = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010];
     this.rondas = ['Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];
     this.rondasEuropa = [
       'League Stage - 1', 'League Stage - 2', 'League Stage - 3', 'League Stage - 4', 'League Stage - 5', 'League Stage - 6', 'League Stage - 7', 'League Stage - 8',
