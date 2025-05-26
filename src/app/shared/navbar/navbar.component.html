@@ -1,4 +1,3 @@
-<!-- src/app/componentes/navbar/navbar.component.html -->
 <nav 
   class="navbar navbar-expand-lg px-3 py-4"
   [ngClass]="{
@@ -7,71 +6,66 @@
   }"  
 >
   <div class="container-fluid">
-    <a 
-      class="navbar-brand d-flex align-items-center gap-2" 
-      routerLink="/home"
-    >
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/home">
       <img 
         src="Logo1-TFG.png" 
         alt="logo" 
         width="24" 
         height="24"
         class="d-inline-block"
-        style="transform: scale(2); transform-origin: center;"
-      >
-      <span class="fs-5 fw-bold align-middle" style="line-height: 1;" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+        style="transform: scale(2); transform-origin: center;">
+      <span class="fs-5 fw-bold align-middle" style="line-height: 1;"
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
         TopScore
       </span>
     </a>
-    <button 
-      class="navbar-toggler" 
-      type="button" 
-      data-bs-toggle="collapse" 
-      data-bs-target="#navbarNav"
-    >
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/competiciones" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Noticias</a>
+          <a class="nav-link" routerLink="/competiciones"
+             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Noticias</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/partidos-dia" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Fútbol</a>
+          <a class="nav-link" routerLink="/partidos-dia"
+             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Fútbol</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/nba-partidos/standard/2023" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Baloncesto</a>
+          <a class="nav-link" routerLink="/nba-partidos/standard/2023"
+             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Baloncesto</a>
         </li>
       </ul>
 
       <ul class="navbar-nav ms-auto align-items-center">
 
-        <!-- Toggle modo claro/oscuro -->
+        <!-- Botón modo claro/oscuro -->
         <li class="nav-item me-2">
           <button 
             class="btn btn-outline-secondary"
             (click)="themeService.toggleTheme()"
             [attr.aria-pressed]="themeService.isDark()"
             title="Alternar modo claro/oscuro"
-            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-          >
-            <i 
-              class="bi" 
-              [ngClass]="themeService.isDark() ? 'bi-sun-fill' : 'bi-moon-fill'"
-            ></i>
+            [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+            <i class="bi" [ngClass]="themeService.isDark() ? 'bi-sun-fill' : 'bi-moon-fill'"></i>
           </button>
         </li>
 
-        <!-- Search form next to toggle -->
+        <!-- Buscador -->
         <li class="nav-item me-3">
           <form class="d-flex" (ngSubmit)="onSearch()">
             <input class="form-control form-control-sm me-2"
                    type="search"
-                   placeholder="Buscar equipo..."
+                   placeholder="Buscar..."
                    aria-label="Buscar equipo"
                    [(ngModel)]="searchTerm"
-                   name="searchTerm">
+                   name="searchTerm"
+                   [ngClass]="themeService.isDark() 
+                     ? 'bg-dark text-white border-secondary placeholder-white' 
+                     : 'bg-white text-body border-secondary'">
             <button class="btn btn-outline-primary btn-sm"
                     type="submit"
                     [disabled]="!searchTerm.trim()">
@@ -80,46 +74,43 @@
           </form>
         </li>
 
-        <!-- Usuario logueado -->
+        <!-- Usuario -->
         <ng-container *ngIf="user$ | async as user; else loginBtn">
           <li class="nav-item dropdown">
-            <a 
-              class="nav-link dropdown-toggle" 
-              href="#" 
-              id="userDropdown" 
-              role="button" 
-              data-bs-toggle="dropdown" 
-              aria-expanded="false"
-              [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
-            >
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown"
+               role="button" data-bs-toggle="dropdown" aria-expanded="false"
+               [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
               {{ user.displayName || user.email }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
               <li>
-                <a class="dropdown-item" routerLink="/usuario" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Mi Perfil</a>
+                <a class="dropdown-item" routerLink="/usuario"
+                   [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Mi Perfil</a>
               </li>
               <li>
-                <button class="dropdown-item" (click)="logout()" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Cerrar sesión</button>
+                <button class="dropdown-item" (click)="logout()"
+                        [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Cerrar sesión</button>
               </li>
             </ul>
           </li>
         </ng-container>
 
-        <!-- Botón de login si no hay usuario -->
+        <!-- Si no hay usuario -->
         <ng-template #loginBtn>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/login" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Iniciar Sesión</a>
+            <a class="nav-link" routerLink="/login"
+               [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Iniciar Sesión</a>
           </li>
         </ng-template>
 
         <!-- Ajustes -->
         <li class="nav-item">
-          <a class="nav-link" routerLink="/ajustes" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+          <a class="nav-link" routerLink="/ajustes"
+             [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
             <i class="bi bi-gear-fill"></i>
           </a>
         </li>
       </ul>
-
     </div>
   </div>
 </nav>

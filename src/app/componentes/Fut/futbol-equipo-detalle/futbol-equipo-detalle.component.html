@@ -3,7 +3,7 @@
 <div class="d-flex min-vh-100 bg-app">
   <app-sidebar-futbol></app-sidebar-futbol>
 
-  <main class="flex-grow-1 py-4 px-3 px-lg-5 bg-app">
+  <main class="flex-fill py-4 px-3 px-lg-5 bg-app">
     <div class="container-fluid">
 
       <!-- Botón volver -->
@@ -13,20 +13,20 @@
 
       <ng-container *ngIf="teamInfo; else cargando">
 
-        <!-- Tarjeta principal del equipo -->
+        <!-- Tarjeta de equipo -->
         <div class="card shadow-sm rounded-4 overflow-hidden mb-4"
-             [ngClass]="themeService.isDark() ? 'bg-dark text-white border-secondary' : 'bg-white text-dark'">
+             [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
           <div class="card-header d-flex align-items-center gap-3 bg-primary text-white">
-            <img [src]="teamInfo.logo" [alt]="teamInfo.name" width="50" height="50" class="rounded-circle bg-white p-1">
+            <img [src]="teamInfo.logo" [alt]="teamInfo.name" width="50" height="50" class="bg-white p-1">
             <h3 class="mb-0">{{ teamInfo.name }}</h3>
             <span *ngIf="teamInfo.code" class="badge bg-light text-dark">{{ teamInfo.code }}</span>
           </div>
 
-          <div class="card-body row g-4">
+          <div class="card-body row">
             <!-- Información general -->
-            <div class="col-md-6">
-              <h5 class="fw-semibold mb-3">Información General</h5>
-              <ul class="list-unstyled">
+            <div class="col-md-6 mb-3 mb-md-0">
+              <h5 class="fw-semibold">Información General</h5>
+              <ul class="list-unstyled mb-0">
                 <li *ngIf="teamInfo.country"><strong>País:</strong> {{ teamInfo.country }}</li>
                 <li *ngIf="teamInfo.founded"><strong>Fundado:</strong> {{ teamInfo.founded }}</li>
                 <li *ngIf="teamInfo.venue"><strong>Estadio:</strong> {{ venueInfo?.name }}</li>
@@ -35,16 +35,16 @@
 
             <!-- Estadio -->
             <div class="col-md-6">
-              <h5 class="fw-semibold mb-3">Estadio</h5>
+              <h5 class="fw-semibold">Estadio</h5>
               <ng-container *ngIf="venueInfo; else noVenue">
-                <ul class="list-unstyled">
+                <ul class="list-unstyled mb-2">
                   <li *ngIf="venueInfo.address"><strong>Dirección:</strong> {{ venueInfo.address }}</li>
                   <li *ngIf="venueInfo.city"><strong>Ciudad:</strong> {{ venueInfo.city }}</li>
                   <li *ngIf="venueInfo.capacity"><strong>Capacidad:</strong> {{ venueInfo.capacity | number }}</li>
                   <li *ngIf="venueInfo.surface"><strong>Superficie:</strong> {{ venueInfo.surface }}</li>
                 </ul>
                 <img *ngIf="venueInfo.image" [src]="venueInfo.image" alt="Estadio"
-                     class="img-fluid rounded shadow-sm mt-2">
+                     class="img-fluid rounded shadow-sm">
               </ng-container>
               <ng-template #noVenue>
                 <p class="text-muted mb-0">Información del estadio no disponible.</p>
@@ -53,7 +53,7 @@
           </div>
         </div>
 
-        <!-- Tabs navegación -->
+        <!-- Tabs -->
         <ul class="nav nav-tabs mb-4" id="teamTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="stats-tab" data-bs-toggle="tab"
@@ -77,14 +77,14 @@
             <ng-container *ngIf="statistics; else noStats">
               <ul class="list-group list-group-flush rounded shadow-sm mb-4"
                   [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
-                <li class="list-group-item"><strong>Partidos Jugados:</strong> {{ statistics.fixtures.played.total }}</li>
+                <li class="list-group-item"><strong>Jugados:</strong> {{ statistics.fixtures.played.total }}</li>
                 <li class="list-group-item"><strong>Victorias:</strong> {{ statistics.fixtures.wins.total }}</li>
                 <li class="list-group-item"><strong>Empates:</strong> {{ statistics.fixtures.draws.total }}</li>
                 <li class="list-group-item"><strong>Derrotas:</strong> {{ statistics.fixtures.loses.total }}</li>
                 <li class="list-group-item"><strong>Goles a favor:</strong> {{ statistics.goals.for.total.total }}</li>
                 <li class="list-group-item"><strong>Goles en contra:</strong> {{ statistics.goals.against.total.total }}</li>
                 <li class="list-group-item">
-                  <strong>Diferencia de Goles:</strong>
+                  <strong>Diferencia:</strong>
                   {{ statistics.goals.for.total.total - statistics.goals.against.total.total }}
                 </li>
               </ul>
@@ -100,7 +100,7 @@
               <div class="table-responsive shadow-sm rounded overflow-hidden">
                 <table class="table table-sm table-hover align-middle mb-0"
                        [ngClass]="themeService.isDark() ? 'table-dark' : 'table-light'">
-                  <thead class="small text-uppercase">
+                  <thead>
                     <tr>
                       <th>Foto</th>
                       <th>Nombre</th>
@@ -110,16 +110,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let squad of squad"
-                    [routerLink]="['/jugador', squad.id]"
-                  style="cursor: pointer;">
-                      <td>
-                        <img [src]="squad.photo" width="32" height="32" class="rounded-circle">
-                      </td>
-                      <td>{{ squad.name }}</td>
-                      <td>{{ squad.number }}</td>
-                      <td>{{ squad.age }}</td>
-                      <td>{{ squad.position }}</td>
+                    <tr *ngFor="let jugador of squad">
+                      <td><img [src]="jugador.photo" width="32" height="32" class="rounded-circle" /></td>
+                      <td class="fw-semibold">{{ jugador.name }}</td>
+                      <td>{{ jugador.number }}</td>
+                      <td>{{ jugador.age }}</td>
+                      <td>{{ jugador.position }}</td>
                     </tr>
                   </tbody>
                 </table>

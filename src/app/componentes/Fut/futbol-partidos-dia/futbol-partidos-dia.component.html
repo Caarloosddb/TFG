@@ -26,8 +26,7 @@
           class="form-control form-control-sm rounded-pill px-3"
           style="width: fit-content; min-width: 160px;"
           [(ngModel)]="fechaSeleccionada"
-          (change)="onFechaCambio()"
-        />
+          (change)="onFechaCambio()" />
       </div>
 
       <!-- Error -->
@@ -65,9 +64,7 @@
                 <img 
                   [src]="partido.teams.home.logo" 
                   alt="{{ partido.teams.home.name }}" 
-                  width="28" height="28"
-                  class="rounded-circle"
-                >
+                  width="28" height="28" class="mb-0" />
                 <span class="fw-semibold">{{ partido.teams.home.name }}</span>
               </td>
 
@@ -86,9 +83,7 @@
                 <img 
                   [src]="partido.teams.away.logo" 
                   alt="{{ partido.teams.away.name }}" 
-                  width="28" height="28"
-                  class="rounded-circle"
-                >
+                  width="28" height="28" class="mb-0" />
                 <span class="fw-semibold">{{ partido.teams.away.name }}</span>
               </td>
             </tr>

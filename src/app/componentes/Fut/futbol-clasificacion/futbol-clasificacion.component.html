@@ -3,18 +3,17 @@
 <div class="d-flex min-vh-100 bg-app">
   <app-sidebar-futbol></app-sidebar-futbol>
 
-  <main class="flex-grow-1 py-4 px-3 px-lg-5 bg-app">
+  <main class="flex-fill py-4 px-3 px-lg-5 bg-app">
     <div class="container-fluid">
 
       <!-- Tarjeta de Clasificación -->
       <div 
         class="card rounded-4 shadow-sm border-0 overflow-hidden"
-        [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'"
-      >
+        [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
 
         <!-- Cabecera -->
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3 border-bottom-0"
-             [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-dark'">
+             [ngClass]="themeService.isDark() ? 'bg-dark text-white border-dark' : 'bg-light text-dark border-light'">
           <h5 class="mb-0 fw-bold">Clasificación de la liga</h5>
 
           <!-- Selector de temporada -->
@@ -25,11 +24,8 @@
               class="form-select form-select-sm rounded-pill px-3"
               style="min-width: 90px;"
               [(ngModel)]="selectedTemporada" 
-              (change)="onFiltroCambio()"
-            >
-              <option *ngFor="let ano of temporadas" [value]="ano">
-                {{ ano }}
-              </option>
+              (change)="onFiltroCambio()">
+              <option *ngFor="let ano of temporadas" [value]="ano">{{ ano }}</option>
             </select>
           </div>
         </div>
@@ -57,6 +53,7 @@
                   [routerLink]="['/equipo', equipo.team.id, leagueId, selectedTemporada]"
                   class="hoverable"
                   style="cursor: pointer;">
+                  
                 <td>
                   <span class="badge rounded-pill fw-semibold px-2 py-1"
                         [ngClass]="getBadgeClass(equipo.rank)">
@@ -68,12 +65,9 @@
                   <img 
                     [src]="equipo.team.logo" 
                     [alt]="equipo.team.name" 
-                    width="28" height="28" 
-                    class="rounded-circle"
+                    width="32" height="32"
                   >
-                  <span class="fw-semibold text-nowrap">
-                    {{ equipo.team.name }}
-                  </span>
+                  <span class="fw-semibold text-nowrap">{{ equipo.team.name }}</span>
                 </td>
 
                 <td class="text-center fw-bold">{{ equipo.points }}</td>
@@ -90,7 +84,7 @@
 
         <!-- Sin datos -->
         <div *ngIf="!clasificacion.length && !errorMessage" class="text-center my-4">
-          <p class="text-muted" [ngClass]="{ 'text-white-50': themeService.isDark() }">
+          <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
             No hay datos disponibles para esta temporada.
           </p>
         </div>

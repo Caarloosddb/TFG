@@ -12,4 +12,7 @@
     transform: scale(1.05);
   }
 
-  
+  .placeholder-white::placeholder {
+  color: #ffffff !important;
+  opacity: 0.65;
+}
