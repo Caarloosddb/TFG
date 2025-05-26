@@ -1,87 +1,106 @@
 <app-navbar></app-navbar>
 
-<div class="d-flex">
+<div class="d-flex min-vh-100 bg-app">
   <app-sidebar-futbol></app-sidebar-futbol>
 
   <!-- Contenido principal -->
-  <main class="flex-fill p-4">
-    <div class="container mt-5">
+  <main class="flex-fill py-4 px-3 px-lg-5 bg-app">
+    <div class="container-fluid">
 
-      <!-- Encabezado simple -->
+      <!-- Encabezado -->
       <div class="mb-4">
-        <h2 class="text-primary fw-bold">Partidos de Hoy</h2>
-        <p class="text-muted mb-0">{{ partidos.length }} partido(s) programado(s)</p>
+        <h2 class="text-primary fw-bold mb-1">Partidos de Hoy</h2>
+        <p class="mb-0" [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          {{ partidos.length }} partido(s) programado(s)
+        </p>
       </div>
 
-      <!-- Mensaje de error -->
+      <!-- Selector de fecha -->
+      <div class="mb-4 d-flex align-items-center flex-wrap gap-3">
+        <label for="fechaInput" class="form-label fw-semibold mb-0">
+          Selecciona una fecha:
+        </label>
+        <input 
+          id="fechaInput"
+          type="date"
+          class="form-control form-control-sm rounded-pill px-3"
+          style="width: fit-content; min-width: 160px;"
+          [(ngModel)]="fechaSeleccionada"
+          (change)="onFechaCambio()"
+        />
+      </div>
+
+      <!-- Error -->
       <div *ngIf="errorMessage" class="alert alert-danger shadow-sm">
         {{ errorMessage }}
       </div>
 
-      <!-- Selector de fecha -->
-        <div class="mb-3 d-flex align-items-center gap-2">
-            <label for="fechaInput" class="form-label fw-bold mb-0">Selecciona una fecha:</label>
-                <input 
-                    id="fechaInput"
-                    type="date"
-                    class="form-control form-control-sm w-auto"
-                    [(ngModel)]="fechaSeleccionada"
-                    (change)="onFechaCambio()"
-            />
-        </div>
-
-
       <!-- Tabla de partidos -->
-      <div *ngIf="partidos.length > 0" class="table-responsive shadow-sm rounded">
-        <table class="table table-striped table-hover align-middle mb-0">
-          <thead class="table-dark">
+      <div *ngIf="partidos.length > 0" class="table-responsive shadow-sm rounded-4 overflow-hidden">
+        <table class="table align-middle mb-0"
+               [ngClass]="themeService.isDark() ? 'table-dark table-striped' : 'table-light'">
+          <thead>
             <tr>
               <th scope="col">Hora</th>
-              <th scope="col">Local</th>
+              <th scope="col" class="text-start">Local</th>
               <th scope="col" class="text-center">Resultado</th>
-              <th scope="col">Visitante</th>
+              <th scope="col" class="text-start">Visitante</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let partido of partidos"
                 [routerLink]="['/partido', partido.fixture.id]"
+                class="hoverable"
                 style="cursor: pointer;">
               
-              <!-- Mostrar hora local -->
-              <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                {{ partido.fixture.date | date: 'shortTime' }}
+              <!-- Hora -->
+              <td class="text-nowrap" 
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                {{ partido.fixture.date | date: 'HH:mm' }}
               </td>
 
-              <!-- Equipo local -->
-              <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="d-flex align-items-center gap-2">
+              <!-- Local -->
+              <td class="d-flex align-items-center gap-2 text-nowrap"
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
                 <img 
                   [src]="partido.teams.home.logo" 
                   alt="{{ partido.teams.home.name }}" 
-                  width="24" height="24"
+                  width="28" height="28"
+                  class="rounded-circle"
                 >
-                {{ partido.teams.home.name }}
+                <span class="fw-semibold">{{ partido.teams.home.name }}</span>
               </td>
 
               <!-- Resultado -->
-              <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-center fw-bold">
+              <td class="text-center fw-bold"
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
                 <ng-container *ngIf="partido.goals.home !== null && partido.goals.away !== null; else pendiente">
                   {{ partido.goals.home }} - {{ partido.goals.away }}
                 </ng-container>
-                <ng-template #pendiente> - </ng-template>
+                <ng-template #pendiente>–</ng-template>
               </td>
 
-              <!-- Equipo visitante -->
-              <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="d-flex align-items-center gap-2">
+              <!-- Visitante -->
+              <td class="d-flex align-items-center gap-2 text-nowrap"
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
                 <img 
                   [src]="partido.teams.away.logo" 
                   alt="{{ partido.teams.away.name }}" 
-                  width="24" height="24"
+                  width="28" height="28"
+                  class="rounded-circle"
                 >
-                {{ partido.teams.away.name }}
+                <span class="fw-semibold">{{ partido.teams.away.name }}</span>
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Sin partidos -->
+      <div *ngIf="!partidos.length && !errorMessage" class="text-center my-5">
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          No hay partidos programados para esta fecha.
+        </p>
       </div>
 
     </div>

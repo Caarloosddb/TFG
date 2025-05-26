@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { SidebarFutbolComponent } from '../../../shared/sidebar-futbol/sidebar-futbol.component';
 import { FooterComponent } from '../../../shared/footer/footer.component';
+import { ThemeService } from '../../../core/theme.service';
 @Component({
   selector: 'app-futbol-jugador-detalle',
   standalone: true,
@@ -34,7 +35,8 @@ export class FutbolJugadorDetalleComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private location: Location
+    private location: Location,
+    public themeService: ThemeService
   ) {}
 
   ngOnInit(): void {

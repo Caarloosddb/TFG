@@ -1,84 +1,100 @@
 <app-navbar></app-navbar>
 
-<div class="d-flex">
+<div class="d-flex min-vh-100 bg-app">
   <app-sidebar-futbol></app-sidebar-futbol>
 
-  <main class="flex-grow-1 p-4">
+  <main class="flex-grow-1 p-4 bg-app">
+    <ng-container *ngIf="player; else cargando">
+      
+      <!-- Info del Jugador -->
+      <div class="d-flex align-items-center gap-4 mb-4">
+        <img [src]="player.photo" alt="Foto de {{ player.name }}" class="rounded-circle border" width="100" height="100">
+        <div>
+          <h2 class="fw-bold mb-1" [ngClass]="{ 'text-white': themeService.isDark() }">{{ player.name }}</h2>
+          <p class="mb-1 text-muted" [ngClass]="{ 'text-white-50': themeService.isDark() }">
+            Edad: {{ player.age }} años | Nacido: {{ player.birth.date }}
+          </p>
+          <p class="mb-1" [ngClass]="{ 'text-white-50': themeService.isDark() }">
+            Nacionalidad: {{ player.nationality }} ({{ player.birth.place }})
+          </p>
+          <p class="mb-1" [ngClass]="{ 'text-white-50': themeService.isDark() }">
+            Altura: {{ player.height }} | Peso: {{ player.weight }}
+          </p>
+        </div>
+      </div>
 
- <!-- Info del Jugador -->
-<div class="d-flex align-items-center gap-4 mb-4" *ngIf="player">
-  <img [src]="player.photo" alt="Foto de {{ player.name }}" class="rounded-circle" width="100" height="100" />
-  <div>
-    <h2>{{ player.name }}</h2>
-    <p class="mb-1">Edad: {{ player.age }} años || {{ player.birth.date }}</p>
-    <p class="mb-1">Nacionalidad: {{ player.nationality }} ({{player.birth.place}})</p>
-    <p class="mb-1">Altura: {{ player.height }}, Peso: {{ player.weight }}</p>
-  </div>
-</div>
+      <!-- Estadísticas por Competición -->
+      <div *ngFor="let stats of stats" class="card shadow-sm rounded-4 mb-4"
+           [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
+        <div class="card-body">
+          
+          <!-- Encabezado Liga + Equipo -->
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+            <div class="d-flex align-items-center gap-2">
+              <img [src]="stats.league.logo" alt="Logo Liga" width="36" height="36">
+              <h5 class="mb-0 fw-semibold">{{ stats.league.name }} <small class="text-muted">({{ stats.league.country }})</small></h5>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <img [src]="stats.team.logo" alt="Logo Equipo" width="30" height="30">
+              <span class="fw-medium">{{ stats.team.name }}</span>
+            </div>
+          </div>
 
-<!-- Estadísticas por competición -->
-<div *ngFor="let stats of stats" class="card mb-3 shadow-sm">
-  <div class="card-body">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <div class="d-flex align-items-center gap-2">
-        <img [src]="stats.league.logo" alt="Logo Liga" width="40" height="40" />
-        <h5 class="mb-0">{{ stats.league.name }} ({{ stats.league.country }})</h5>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <img [src]="stats.team.logo" alt="Logo Equipo" width="30" height="30" />
-        <span class="fw-semibold">{{ stats.team.name }}</span>
-      </div>
-    </div>
+          <!-- Primer bloque de estadísticas -->
+          <div class="row text-center">
+            <div class="col-6 col-md-3 mb-3">
+              <p class="fw-bold text-uppercase small mb-1">Partidos</p>
+              <p>{{ stats.games.appearences }} ({{ stats.games.minutes }} min)</p>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <p class="fw-bold text-uppercase small mb-1">Goles / Asist.</p>
+              <p>{{ stats.goals.total }} / {{ stats.goals.assists || 0 }}</p>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <p class="fw-bold text-uppercase small mb-1">Tiros a puerta</p>
+              <p>{{ stats.shots.on || 0 }} / {{ stats.shots.total || 0 }}</p>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <p class="fw-bold text-uppercase small mb-1">Pases / Claves</p>
+              <p>{{ stats.passes.total || 0 }} / {{ stats.passes.key || 0 }}</p>
+            </div>
+          </div>
 
-    <div class="row text-center">
-      <div class="col-6 col-md-3">
-        <p class="fw-bold mb-1">Partidos</p>
-        <p>{{ stats.games.appearences }} ({{ stats.games.minutes }} min)</p>
-      </div>
-      <div class="col-6 col-md-3">
-        <p class="fw-bold mb-1">Goles / Asistencias</p>
-        <p>{{ stats.goals.total }} / {{ stats.goals.assists || 0 }}</p>
-      </div>
-      <div class="col-6 col-md-3">
-        <p class="fw-bold mb-1">Tiros a puerta</p>
-        <p>{{ stats.shots.on || 0 }} / {{ stats.shots.total || 0 }}</p>
-      </div>
-      <div class="col-6 col-md-3">
-        <p class="fw-bold mb-1">Pases / Claves</p>
-        <p>{{ stats.passes.total || 0 }} / {{ stats.passes.key || 0 }}</p>
-      </div>
-    </div>
+          <!-- Segundo bloque de estadísticas -->
+          <div class="row text-center">
+            <div class="col-6 col-md-3 mb-3">
+              <p class="fw-bold text-uppercase small mb-1">Duelos Ganados</p>
+              <p>{{ stats.duels.won || 0 }} / {{ stats.duels.total || 0 }}</p>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <p class="fw-bold text-uppercase small mb-1">Dribbles</p>
+              <p>{{ stats.dribbles.success || 0 }} / {{ stats.dribbles.attempts || 0 }}</p>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <p class="fw-bold text-uppercase small mb-1">Faltas</p>
+              <p>{{ stats.fouls.drawn || 0 }} / {{ stats.fouls.committed || 0 }}</p>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <p class="fw-bold text-uppercase small mb-1">Tarjetas</p>
+              <p>🟨 {{ stats.cards.yellow || 0 }} | 🔴 {{ stats.cards.red || 0 }}</p>
+            </div>
+          </div>
 
-    <div class="row text-center mt-3">
-      <div class="col-6 col-md-3">
-        <p class="fw-bold mb-1">Duelos Ganados</p>
-        <p>{{ stats.duels.won || 0 }} / {{ stats.duels.total || 0 }}</p>
+        </div>
       </div>
-      <div class="col-6 col-md-3">
-        <p class="fw-bold mb-1">Dribbles Exitosos</p>
-        <p>{{ stats.dribbles.success || 0 }} / {{ stats.dribbles.attempts || 0 }}</p>
-      </div>
-      <div class="col-6 col-md-3">
-        <p class="fw-bold mb-1">Faltas (Prov / Cometidas)</p>
-        <p>{{ stats.fouls.drawn || 0 }} / {{ stats.fouls.committed || 0 }}</p>
-      </div>
-      <div class="col-6 col-md-3">
-        <p class="fw-bold mb-1">Tarjetas</p>
-        <p>🟨 {{ stats.cards.yellow }} | 🔴 {{ stats.cards.red }}</p>
-      </div>
-    </div>
-  </div>
-</div>
 
-
-    
-
+    </ng-container>
 
     <ng-template #cargando>
-      <p *ngIf="!errorMessage">Cargando datos del jugador</p>
-      <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <div class="text-center mt-5">
+        <div *ngIf="!errorMessage" class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="text-danger mt-3" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
     </ng-template>
 
   </main>
 </div>
+
 <app-footer></app-footer>

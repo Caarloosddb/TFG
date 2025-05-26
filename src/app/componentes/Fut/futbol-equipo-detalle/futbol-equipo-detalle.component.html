@@ -1,42 +1,50 @@
 <app-navbar></app-navbar>
 
-<div class="d-flex">
+<div class="d-flex min-vh-100 bg-app">
   <app-sidebar-futbol></app-sidebar-futbol>
 
-  <main class="flex-grow-1 p-4">
-    <div class="container">
+  <main class="flex-grow-1 py-4 px-3 px-lg-5 bg-app">
+    <div class="container-fluid">
 
-      <button class="btn btn-sm btn-outline-secondary mb-3" (click)="goBack()">
-        ← Volver atrás
+      <!-- Botón volver -->
+      <button class="btn btn-outline-secondary rounded-pill mb-4 px-3 d-inline-flex align-items-center gap-2" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Volver
       </button>
 
       <ng-container *ngIf="teamInfo; else cargando">
-        <div class="card mb-4 shadow-sm">
-          <div class="card-header bg-primary text-white d-flex align-items-center gap-3">
-            <img [src]="teamInfo.logo" [alt]="teamInfo.name" width="50" height="50">
-            <h2 class="mb-0">{{ teamInfo.name }}</h2>
+
+        <!-- Tarjeta principal del equipo -->
+        <div class="card shadow-sm rounded-4 overflow-hidden mb-4"
+             [ngClass]="themeService.isDark() ? 'bg-dark text-white border-secondary' : 'bg-white text-dark'">
+          <div class="card-header d-flex align-items-center gap-3 bg-primary text-white">
+            <img [src]="teamInfo.logo" [alt]="teamInfo.name" width="50" height="50" class="rounded-circle bg-white p-1">
+            <h3 class="mb-0">{{ teamInfo.name }}</h3>
             <span *ngIf="teamInfo.code" class="badge bg-light text-dark">{{ teamInfo.code }}</span>
           </div>
-          <div class="card-body row">
+
+          <div class="card-body row g-4">
+            <!-- Información general -->
             <div class="col-md-6">
-              <h5>Información General</h5>
-              <ul class="list-unstyled mb-0">
+              <h5 class="fw-semibold mb-3">Información General</h5>
+              <ul class="list-unstyled">
                 <li *ngIf="teamInfo.country"><strong>País:</strong> {{ teamInfo.country }}</li>
                 <li *ngIf="teamInfo.founded"><strong>Fundado:</strong> {{ teamInfo.founded }}</li>
-                <li *ngIf="teamInfo.venue"><strong>Estadio asignado:</strong> {{ venueInfo?.name }}</li>
+                <li *ngIf="teamInfo.venue"><strong>Estadio:</strong> {{ venueInfo?.name }}</li>
               </ul>
             </div>
+
+            <!-- Estadio -->
             <div class="col-md-6">
-              <h5>Estadio</h5>
+              <h5 class="fw-semibold mb-3">Estadio</h5>
               <ng-container *ngIf="venueInfo; else noVenue">
-                <p *ngIf="venueInfo.address"><strong>Dirección:</strong> {{ venueInfo.address }}</p>
-                <p *ngIf="venueInfo.city"><strong>Ciudad:</strong> {{ venueInfo.city }}</p>
-                <p *ngIf="venueInfo.capacity">
-                  <strong>Capacidad:</strong> {{ venueInfo.capacity | number }}
-                </p>
-                <p *ngIf="venueInfo.surface"><strong>Superficie:</strong> {{ venueInfo.surface }}</p>
-                <img *ngIf="venueInfo.image" [src]="venueInfo.image" alt="venueInfo estadio"
-                     class="img-fluid rounded mt-2">
+                <ul class="list-unstyled">
+                  <li *ngIf="venueInfo.address"><strong>Dirección:</strong> {{ venueInfo.address }}</li>
+                  <li *ngIf="venueInfo.city"><strong>Ciudad:</strong> {{ venueInfo.city }}</li>
+                  <li *ngIf="venueInfo.capacity"><strong>Capacidad:</strong> {{ venueInfo.capacity | number }}</li>
+                  <li *ngIf="venueInfo.surface"><strong>Superficie:</strong> {{ venueInfo.surface }}</li>
+                </ul>
+                <img *ngIf="venueInfo.image" [src]="venueInfo.image" alt="Estadio"
+                     class="img-fluid rounded shadow-sm mt-2">
               </ng-container>
               <ng-template #noVenue>
                 <p class="text-muted mb-0">Información del estadio no disponible.</p>
@@ -45,12 +53,12 @@
           </div>
         </div>
 
-        <!-- Pestañas -->
-        <ul class="nav nav-tabs mb-3" id="teamTab" role="tablist">
+        <!-- Tabs navegación -->
+        <ul class="nav nav-tabs mb-4" id="teamTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="stats-tab" data-bs-toggle="tab"
+            <button class="nav-link active" id="stats-tab" data-bs-toggle="tab"
                     data-bs-target="#stats" type="button" role="tab"
-                    aria-controls="stats" aria-selected="false">
+                    aria-controls="stats" aria-selected="true">
               Estadísticas
             </button>
           </li>
@@ -62,19 +70,21 @@
             </button>
           </li>
         </ul>
-        <div class="tab-content" id="teamTabContent">
 
+        <div class="tab-content" id="teamTabContent">
           <!-- Estadísticas -->
-          <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+          <div class="tab-pane fade show active" id="stats" role="tabpanel" aria-labelledby="stats-tab">
             <ng-container *ngIf="statistics; else noStats">
-              <ul class="list-unstyled">
-                <li><strong>Jugados:</strong> {{ statistics.fixtures.played.total }}</li>
-                <li><strong>Victorias:</strong> {{ statistics.fixtures.wins.total }}</li>
-                <li><strong>Empates:</strong> {{ statistics.fixtures.draws.total }}</li>
-                <li><strong>Derrotas:</strong> {{ statistics.fixtures.loses.total }}</li>
-                <li><strong>Goles a favor:</strong> {{ statistics.goals.for.total.total }}</li>
-                <li><strong>Goles en contra:</strong> {{ statistics.goals.against.total.total }}</li>
-                <li><strong>Diferencia:</strong>
+              <ul class="list-group list-group-flush rounded shadow-sm mb-4"
+                  [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
+                <li class="list-group-item"><strong>Partidos Jugados:</strong> {{ statistics.fixtures.played.total }}</li>
+                <li class="list-group-item"><strong>Victorias:</strong> {{ statistics.fixtures.wins.total }}</li>
+                <li class="list-group-item"><strong>Empates:</strong> {{ statistics.fixtures.draws.total }}</li>
+                <li class="list-group-item"><strong>Derrotas:</strong> {{ statistics.fixtures.loses.total }}</li>
+                <li class="list-group-item"><strong>Goles a favor:</strong> {{ statistics.goals.for.total.total }}</li>
+                <li class="list-group-item"><strong>Goles en contra:</strong> {{ statistics.goals.against.total.total }}</li>
+                <li class="list-group-item">
+                  <strong>Diferencia de Goles:</strong>
                   {{ statistics.goals.for.total.total - statistics.goals.against.total.total }}
                 </li>
               </ul>
@@ -87,9 +97,10 @@
           <!-- Plantilla -->
           <div class="tab-pane fade" id="players" role="tabpanel" aria-labelledby="players-tab">
             <ng-container *ngIf="squad?.length; else noPlayers">
-              <div class="table-responsive">
-                <table class="table table-sm align-middle mb-0">
-                  <thead class="table-light">
+              <div class="table-responsive shadow-sm rounded overflow-hidden">
+                <table class="table table-sm table-hover align-middle mb-0"
+                       [ngClass]="themeService.isDark() ? 'table-dark' : 'table-light'">
+                  <thead class="small text-uppercase">
                     <tr>
                       <th>Foto</th>
                       <th>Nombre</th>
@@ -99,14 +110,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let squad of squad">
-                      <td>
-                        <img [src]="squad.photo" width="32" height="32" class="rounded-circle">
-                      </td>
-                      <td>{{ squad.name }}</td>
-                      <td>{{ squad.number }}</td>
-                      <td>{{ squad.age }}</td>
-                      <td>{{ squad.position }}</td>
+                    <tr *ngFor="let jugador of squad">
+                      <td><img [src]="jugador.photo" width="32" height="32" class="rounded-circle"></td>
+                      <td class="fw-medium">{{ jugador.name }}</td>
+                      <td>{{ jugador.number }}</td>
+                      <td>{{ jugador.age }}</td>
+                      <td>{{ jugador.position }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -119,9 +128,14 @@
         </div>
       </ng-container>
 
+      <!-- Estado de carga o error -->
       <ng-template #cargando>
-        <p *ngIf="!errorMessage">Cargando datos del equipo…</p>
-        <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <div class="text-center mt-5">
+          <div *ngIf="!errorMessage" class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-danger mt-3" *ngIf="errorMessage">{{ errorMessage }}</p>
+        </div>
       </ng-template>
 
     </div>
