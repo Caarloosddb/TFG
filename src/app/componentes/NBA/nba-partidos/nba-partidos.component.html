@@ -1,25 +1,27 @@
 <app-navbar></app-navbar>
 
-<div class="d-flex">
+<div class="d-flex min-vh-100 bg-app">
   <app-sidebar-nba></app-sidebar-nba>
 
-  <main class="flex-fill p-4">
-    <div class="container mt-5">
+  <main class="flex-grow-1 py-4 px-3 px-lg-5 bg-app">
+    <div class="container-fluid">
 
       <!-- Selector de fecha -->
-      <div class="mb-4">
-        <label for="fecha" class="form-label">Selecciona una fecha:</label>
+      <div class="mb-4 d-flex align-items-center gap-3 flex-wrap">
+        <label for="fecha" class="form-label fw-semibold mb-0">Selecciona una fecha:</label>
         <input
-          type="date"
           id="fecha"
-          class="form-control w-auto"
+          type="date"
+          class="form-control form-control-sm rounded-pill px-3"
+          style="min-width: 160px; width: fit-content;"
           [(ngModel)]="fechaSeleccionada"
-          (change)="filtrarPorFecha()" />
+          (change)="filtrarPorFecha()"
+        />
       </div>
 
-      <!-- Loading -->
+      <!-- Cargando -->
       <div *ngIf="isLoading" class="text-center py-5">
-        <div class="spinner-border" role="status">
+        <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Cargando...</span>
         </div>
       </div>
@@ -29,41 +31,61 @@
         {{ errorMessage }}
       </div>
 
-      <!-- Partidos del día seleccionado -->
-      <div *ngIf="!isLoading && fechaSeleccionada && partidosFiltrados.length > 0" class="shadow-sm rounded">
-        <h5 class="mt-4 mb-3">{{ fechaSeleccionada | date:'fullDate' }}</h5>
+      <!-- Resultados del día -->
+      <div *ngIf="!isLoading && fechaSeleccionada && partidosFiltrados.length > 0"
+           class="shadow-sm rounded-4 overflow-hidden">
 
-        <div class="table-responsive mb-4">
-          <table class="table table-striped table-hover align-middle mb-0">
-            <thead class="table-dark">
+        <h5 class="mt-4 mb-3 fw-bold text-primary">
+          {{ fechaSeleccionada | date:'fullDate' }}
+        </h5>
+
+        <div class="table-responsive">
+          <table class="table align-middle mb-0"
+                 [ngClass]="themeService.isDark() ? 'table-dark table-striped' : 'table-light'">
+            <thead class="small text-uppercase"
+                   [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
               <tr>
                 <th>Hora</th>
-                <th>Local</th>
+                <th class="text-start">Local</th>
                 <th class="text-center">Resultado</th>
-                <th>Visitante</th>
-                <th>Estado</th>
+                <th class="text-start">Visitante</th>
+                <th class="text-center">Estado</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let game of partidosFiltrados">
-                <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                <!-- Hora -->
+                <td class="text-nowrap" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
                   {{ game?.date?.start | date:'HH:mm' }}
                 </td>
-                <td class="d-flex align-items-center gap-2"
+
+                <!-- Equipo local -->
+                <td class="d-flex align-items-center gap-2 text-nowrap"
                     [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                  <img [src]="game?.teams?.home?.logo" width="24" height="24">
-                  {{ game?.teams?.home?.name }}
+                  <img [src]="game?.teams?.home?.logo" width="24" height="24" alt="Logo local">
+                  <span class="fw-semibold">{{ game?.teams?.home?.name }}</span>
                 </td>
+
+                <!-- Resultado -->
                 <td class="text-center fw-bold"
                     [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                  {{ game?.scores?.home?.points }} - {{ game?.scores?.visitors?.points }}
+                  {{ game?.scores?.home?.points ?? '-' }} - {{ game?.scores?.visitors?.points ?? '-' }}
                 </td>
-                <td class="d-flex align-items-center gap-2"
+
+                <!-- Equipo visitante -->
+                <td class="d-flex align-items-center gap-2 text-nowrap"
                     [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                  <img [src]="game?.teams?.visitors?.logo" width="24" height="24">
-                  {{ game?.teams?.visitors?.name }}
+                  <img [src]="game?.teams?.visitors?.logo" width="24" height="24" alt="Logo visitante">
+                  <span class="fw-semibold">{{ game?.teams?.visitors?.name }}</span>
                 </td>
-                <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+
+                <!-- Estado -->
+                <td class="text-center text-nowrap fw-medium"
+                    [ngClass]="{
+                      'text-success': game.status.long === 'Finalizado',
+                      'text-warning': game.status.long === 'En juego',
+                      'text-muted': game.status.long !== 'Finalizado' && game.status.long !== 'En juego'
+                    }">
                   {{ game?.status?.long }}
                 </td>
               </tr>
@@ -72,16 +94,16 @@
         </div>
       </div>
 
-      <!-- Sin partidos en la fecha seleccionada -->
+      <!-- No hay partidos en la fecha seleccionada -->
       <div *ngIf="!isLoading && fechaSeleccionada && partidosFiltrados.length === 0"
-           class="alert alert-warning shadow-sm">
+           class="alert alert-warning shadow-sm mt-4">
         No hay partidos para la fecha seleccionada.
       </div>
 
-      <!-- Sin partidos en general -->
+      <!-- No hay partidos en la temporada -->
       <div *ngIf="!isLoading && !errorMessage && partidos.length === 0"
-           class="alert alert-info shadow-sm">
-        No hay partidos para esta temporada.
+           class="alert alert-info shadow-sm mt-4">
+        No hay partidos disponibles en esta temporada.
       </div>
 
     </div>

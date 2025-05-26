@@ -1,105 +1,98 @@
 <app-navbar></app-navbar>
 
-<div class="d-flex">
+<div class="d-flex min-vh-100 bg-app">
   <app-sidebar-nba></app-sidebar-nba>
 
-  <main class="flex-grow-1 p-4">
-    <div class="container">
+  <main class="flex-fill py-4 px-3 px-lg-5 bg-app">
+    <div class="container-fluid">
 
-          <div class="d-flex align-items-center gap-2">
-            <label for="anoSelect" class="form-label mb-0 fw-semibold">Temporada:</label>
-            <select
-              id="anoSelect"
-              class="form-select form-select-sm w-auto"
-              [(ngModel)]="selectedTemporada"
-              (change)="onFiltroCambio()"
-            >
-              <option *ngFor="let ano of temporadas" [value]="ano">
-                {{ ano }}
-              </option>
-            </select>
+      <!-- Selector de temporada -->
+      <div class="mb-4 d-flex align-items-center gap-2 flex-wrap">
+        <label for="anoSelect" class="form-label mb-0 fw-semibold">
+          Temporada:
+        </label>
+        <select id="anoSelect" class="form-select form-select-sm rounded-pill"
+          style="width: auto; max-width: 90px;" [(ngModel)]="selectedTemporada" (change)="onFiltroCambio()">
+          <option *ngFor="let ano of temporadas" [value]="ano">
+            {{ ano }}
+          </option>
+        </select>
+      </div>
+
+      <!-- COMPONENTE DE CLASIFICACIÓN -->
+      <ng-container
+        *ngFor="let conf of [{nombre: 'Este', data: clasificacionEste}, {nombre: 'Oeste', data: clasificacionOeste}]">
+
+        <div class="card rounded-4 shadow-sm border-0 mb-5"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
+
+          <!-- Cabecera -->
+          <div class="card-header border-bottom-0"
+            [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-light text-dark'">
+            <h5 class="mb-0 fw-bold">
+              Clasificación NBA - Conferencia {{ conf.nombre }} ({{ selectedTemporada }})
+            </h5>
           </div>
 
-      <!-- Card de clasificación Este -->
-      <div class="card shadow-sm mb-4">
-        <div class="card-header">
-          <h4 class="mb-0">Clasificación NBA Conferencia Este - {{ selectedTemporada }}</h4>
+          <!-- Tabla -->
+          <div *ngIf="conf.data.length" class="table-responsive">
+            <table class="table align-middle mb-0"
+              [ngClass]="themeService.isDark() ? 'table-dark table-striped' : 'table-light'">
+              <thead class="small text-uppercase" [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+                <tr>
+                  <th>#</th>
+                  <th class="text-start">Equipo</th>
+                  <th>División</th>
+                  <th>V</th>
+                  <th>D</th>
+                  <th class="text-center">% Victorias</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let equipo of conf.data; let i = index" [ngClass]="{
+                      'table-success': i < 6,
+                      'table-warning': i >= 6 && i < 10,
+                      'table-secondary': i >= 10
+                    }" style="cursor: default;">
+                  <td>
+                    <span class="badge px-2 py-1 fw-semibold" [ngClass]="{
+                            'bg-success': i < 6,
+                            'bg-warning text-dark': i >= 6 && i < 10,
+                            'bg-secondary': i >= 10
+                          }">
+                      {{ i + 1 }}
+                    </span>
+                  </td>
+                  <td class="text-start d-flex align-items-center gap-2">
+                    <img [src]="equipo.team.logo" [alt]="equipo.team.name" width="28" height="28">
+                    <span class="fw-semibold text-nowrap">{{ equipo.team.name }}</span>
+                  </td>
+                  <td>{{ equipo.division.name }}</td>
+                  <td>{{ equipo.win.total }}</td>
+                  <td>{{ equipo.loss.total }}</td>
+                  <td class="text-center">
+                    <span class="badge rounded-pill bg-primary-subtle text-dark px-2 py-1">
+                      {{ equipo.win.percentage }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Sin datos -->
+          <div *ngIf="!conf.data.length && !errorMessage" class="text-center my-4">
+            <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+              No hay datos disponibles para la conferencia {{ conf.nombre }}.
+            </p>
+          </div>
         </div>
 
-        <div *ngIf="clasificacionEste.length" class="table-responsive">
-          <table class="table table-hover table-bordered mb-0 align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>#</th>
-                <th class="text-start">Equipo</th>
-                <th>División</th>
-                <th>Victorias</th>
-                <th>Derrotas</th>
-                <th>% Victorias</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let equipo of clasificacionEste; let i = index">
-                <td><span class="badge bg-secondary">{{ i + 1 }}</span></td>
-                <td class="text-start d-flex align-items-center gap-2">
-                  <img [src]="equipo.team.logo" [alt]="equipo.team.name" width="28" height="28" />
-                  <span>{{ equipo.team.name }}</span>
-                </td>
-                <td>{{ equipo.division.name }}</td>
-                <td>{{ equipo.win.total }}</td>
-                <td>{{ equipo.loss.total }}</td>
-                <td>{{ equipo.win.percentage }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      </ng-container>
 
-        <div *ngIf="!clasificacionEste.length && !errorMessage" class="text-center my-4">
-          <p class="text-muted">No hay datos disponibles para la conferencia Este.</p>
-        </div>
-      </div>
-
-      <!-- Card de clasificación Oeste -->
-      <div class="card shadow-sm mb-4">
-        <div class="card-header">
-          <h4 class="mb-0">Clasificación NBA Conferencia Oeste - {{ selectedTemporada }}</h4>
-        </div>
-
-        <div *ngIf="clasificacionOeste.length" class="table-responsive">
-          <table class="table table-hover table-bordered mb-0 align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>#</th>
-                <th class="text-start">Equipo</th>
-                <th>División</th>
-                <th>Victorias</th>
-                <th>Derrotas</th>
-                <th>% Victorias</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let equipo of clasificacionOeste; let i = index">
-                <td><span class="badge bg-secondary">{{ i + 1 }}</span></td>
-                <td class="text-start d-flex align-items-center gap-2">
-                  <img [src]="equipo.team.logo" [alt]="equipo.team.name" width="28" height="28" />
-                  <span>{{ equipo.team.name }}</span>
-                </td>
-                <td>{{ equipo.division.name }}</td>
-                <td>{{ equipo.win.total }}</td>
-                <td>{{ equipo.loss.total }}</td>
-                <td>{{ equipo.win.percentage }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div *ngIf="!clasificacionOeste.length && !errorMessage" class="text-center my-4">
-          <p class="text-muted">No hay datos disponibles para la conferencia Oeste.</p>
-        </div>
-      </div>
-
-      <!-- Mensaje de error general -->
-      <div *ngIf="errorMessage" class="alert alert-danger text-center my-4">
+      <!-- Error general -->
+      <div *ngIf="errorMessage" class="alert alert-danger text-center my-4"
+        [ngClass]="themeService.isDark() ? 'text-white' : ''">
         {{ errorMessage }}
       </div>
 
