@@ -1,0 +1,79 @@
+<div class="container py-5">
+  <!-- Cabecera -->
+  <div class="text-center mb-5">
+    <img src="Logo1-TFG.png" alt="TopScore" style="max-width: 120px;" />
+    <h1
+      class="display-5 fw-bold mt-3"
+      [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+    >
+      Aviso Legal
+    </h1>
+    <p
+      class="lead"
+      [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'"
+    >
+      Condiciones de uso y datos del responsable
+    </p>
+  </div>
+
+  <div class="row">
+
+    <!-- Contenido principal -->
+    <article class="col-md-9">
+      <section id="editor" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          1. Información del Editor
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          <strong>TopScore</strong><br />
+          CIF: B-12345678<br />
+          Domicilio social: Calle Falsa, 123, 28080 Madrid<br />
+          Email: <a href="mailto:info&#64;topscore.com">info&#64;topscore.com</a>
+        </p>
+      </section>
+
+      <section id="propiedad" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          2. Propiedad Intelectual
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          Todos los elementos (textos, logos, diseños, código) están protegidos por la
+          legislación de propiedad intelectual. No se permite su uso sin autorización previa.
+        </p>
+      </section>
+
+      <section id="responsabilidad" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          3. Responsabilidad
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          TopScore. No se responsabiliza de errores u omisiones en la información ni de
+          los daños derivados de su uso. Se hace todo lo posible por mantener los contenidos
+          actualizados.
+        </p>
+      </section>
+
+      <section id="legislacion">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          4. Legislación Aplicable
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          Este Aviso Legal se rige por la legislación española. Para litigios se someten
+          expresamente los tribunales de Madrid.
+        </p>
+      </section>
+    </article>
+  </div>
+</div>

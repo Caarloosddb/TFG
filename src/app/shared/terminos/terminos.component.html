@@ -1,0 +1,88 @@
+<div class="container py-5">
+  <!-- Cabecera -->
+  <div class="text-center mb-5">
+    <img src="Logo1-TFG.png" alt="TopScore" style="max-width: 120px;" />
+    <h1
+      class="display-5 fw-bold mt-3"
+      [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+    >
+      Términos y Condiciones
+    </h1>
+    <p
+      class="lead"
+      [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'"
+    >
+      Reglas de uso y obligaciones del usuario
+    </p>
+  </div>
+
+  <div class="row">
+    <article class="col-md-9">
+      <section id="aceptacion" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          1. Aceptación de los Términos
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          Al acceder y usar este sitio acepta estas condiciones en su totalidad. Si no está de
+          acuerdo, debe abandonar inmediatamente la plataforma.
+        </p>
+      </section>
+
+      <section id="uso" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          2. Condiciones de Uso
+        </h2>
+        <ul [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          <li>Prohibido publicar contenido ilegal o que infrinja derechos.</li>
+          <li>No autorizado el acceso a áreas restringidas.</li>
+          <li>El usuario se responsabiliza de la veracidad de los datos aportados.</li>
+        </ul>
+      </section>
+
+      <section id="propiedad" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          3. Propiedad Intelectual
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          Todos los contenidos son titularidad de TopScore o terceros con autorización.
+          Queda prohibida su reproducción sin permiso.
+        </p>
+      </section>
+
+      <section id="modificaciones" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          4. Modificaciones
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          TopScore se reserva el derecho de actualizar estos términos en cualquier
+          momento. La versión vigente estará publicada en esta URL.
+        </p>
+      </section>
+
+      <section id="jurisdiccion">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          5. Legislación y Jurisdicción
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          Estos términos se rigen por la legislación española y cualquier disputa se somete
+          a los tribunales de Madrid.
+        </p>
+      </section>
+    </article>
+  </div>
+</div>
