@@ -4,11 +4,11 @@
   <app-sidebar-nba></app-sidebar-nba>
 
   <main class="flex-fill p-4">
-    <div class="container mt-5">
+    <div class="container mt-4">
 
       <!-- Selector de temporada -->
       <div class="mb-4 d-flex align-items-center gap-2">
-        <label for="seasonSelect" class="form-label mb-0">Temporada:</label>
+        <label for="seasonSelect" class="form-label mb-0 fw-semibold">Temporada:</label>
         <select id="seasonSelect"
                 class="form-select form-select-sm w-auto"
                 [(ngModel)]="selectedTemporada"
@@ -24,44 +24,51 @@
         {{ errorMessage }}
       </div>
 
-<!-- Tabla de clasificación -->
-<div *ngIf="(clasificacion?.length || 0) > 0" class="table-responsive shadow-sm rounded">
-  <table class="table table-striped table-hover align-middle mb-0">
-    <thead class="table-dark">
-      <tr>
-        <th>Posición</th>
-        <th>Equipo</th>
-        <th>Partidos Jugados</th>
-        <th>Ganados</th>
-        <th>Perdidos</th>
-        <th>Puntos</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let team of clasificacion[0]">
-        <tr>
-          <td [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-            {{ team.position }}
-          </td>
-          <td class="d-flex align-items-center gap-2"
-              [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-            <img [src]="team.team.logo" width="24" height="24" alt="Logo {{ team.team.name }}">
-            {{ team.team.name }}
-          </td>
-          <td>{{ team.games.played }}</td>
-          <td>{{ team.games.win.total }}</td>
-          <td>{{ team.games.lose.total }}</td>
-          <td>{{ team.points.for }}</td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-</div>
-
+      <!-- Tabla de clasificación -->
+      <div *ngIf="(clasificacion?.length || 0) > 0" class="table-responsive shadow-sm rounded-4 overflow-hidden">
+        <table class="table align-middle mb-0"
+               [ngClass]="themeService.isDark() ? 'table-dark' : 'table-light'"
+               style="font-size: 0.92rem;">
+          <thead>
+            <tr class="text-uppercase small"
+                [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+              <th class="text-center" style="width: 30px;">#</th>
+              <th class="text-start" style="min-width: 200px;">Equipo</th>
+              <th class="text-center" style="width: 60px;">PJ</th>
+              <th class="text-center" style="width: 60px;">G</th>
+              <th class="text-center" style="width: 60px;">P</th>
+              <th class="text-center" style="width: 70px;">PTOS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let team of clasificacion[0]; let i = index"
+                [ngClass]="{
+                  'bg-success-subtle': i < 6,
+                  'bg-warning-subtle': i >= 6 && i < 10,
+                  'bg-secondary-subtle': i >= 10
+                }">
+              <td class="text-center fw-semibold">{{ team.position }}</td>
+              <td class="text-start">
+                <div class="d-flex align-items-center gap-2">
+                  <img 
+                    [src]="team.team.logo"
+                    [alt]="team.team.name"
+                    width="24" height="24">
+                  <span class="fw-semibold text-nowrap">{{ team.team.name }}</span>
+                </div>
+              </td>
+              <td class="text-center">{{ team.games.played }}</td>
+              <td class="text-center">{{ team.games.win.total }}</td>
+              <td class="text-center">{{ team.games.lose.total }}</td>
+              <td class="text-center fw-bold">{{ team.points.for }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Sin datos -->
       <div *ngIf="!errorMessage && clasificacion?.length === 0"
-           class="alert alert-info shadow-sm">
+           class="alert alert-info shadow-sm mt-4">
         No hay clasificación disponible para esta temporada.
       </div>
 
