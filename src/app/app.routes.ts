@@ -18,6 +18,9 @@ import { NbaPartidosComponent } from './componentes/NBA/nba-partidos/nba-partido
 import { NbaClasificacionComponent } from './componentes/NBA/nba-clasificacion/nba-clasificacion.component';
 import { BaloncestoPartidosComponent } from './componentes/Basket/baloncesto-partidos/baloncesto-partidos.component';
 import { BaloncestoClasificacionComponent } from './componentes/Basket/baloncesto-clasificacion/baloncesto-clasificacion.component';
+import { AvisoLegalComponent } from './shared/aviso-legal/aviso-legal.component';
+import { PrivacidadComponent } from './shared/privacidad/privacidad.component';
+import { TerminosComponent } from './shared/terminos/terminos.component';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -47,6 +50,11 @@ export const routes: Routes = [
     /* Baloncesto */
     {path: 'baloncesto-partidos/:leagueId/:season', component: BaloncestoPartidosComponent},
     {path: 'baloncesto-clasificacion/:leagueId/:season', component: BaloncestoClasificacionComponent},
+
+    /* Enlaces footer */
+    { path: 'aviso-legal',     component: AvisoLegalComponent },
+    { path: 'privacidad',      component: PrivacidadComponent },
+    { path: 'terminos',        component: TerminosComponent },
 
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', redirectTo: 'home' }

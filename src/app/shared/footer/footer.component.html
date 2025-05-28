@@ -63,25 +63,17 @@
       <div class="col-md-3 mb-3">
         <h5 [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Enlaces Rápidos</h5>
         <ul class="list-unstyled">
-          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-decoration-none" href="#">Partidos</a></li>
-          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-decoration-none" href="#">Equipos</a></li>
-          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-decoration-none" href="#">Resultados</a></li>
-        </ul>
-      </div>
-      <div class="col-md-3 mb-3">
-        <h5 [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Nosotros</h5>
-        <ul class="list-unstyled">
-          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-decoration-none" href="#">Empresa</a></li>
-          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-decoration-none" href="#">Contacto</a></li>
-          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-decoration-none" href="#">Carreras</a></li>
+          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="nav-link" routerLink="/home">Noticias</a></li>
+          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="nav-link" routerLink="/partidos-dia">Fútbol</a></li>
+          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="nav-link" routerLink="/nba-partidos/standard/2023">Baloncesto</a></li>
         </ul>
       </div>
       <div class="col-md-3 mb-3">
         <h5 [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">Legal</h5>
         <ul class="list-unstyled">
-          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-decoration-none" href="#">Aviso Legal</a></li>
-          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-decoration-none" href="#">Privacidad</a></li>
-          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="text-decoration-none" href="#">Términos y Condiciones</a></li>
+          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="nav-link" routerLink="/aviso-legal">Aviso Legal</a></li>
+          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="nav-link" routerLink="/privacidad">Privacidad</a></li>
+          <li><a [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'" class="nav-link" routerLink="/terminos">Términos y Condiciones</a></li>
         </ul>
       </div>
     </div>

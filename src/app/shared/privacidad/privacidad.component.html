@@ -1,0 +1,89 @@
+<div class="container py-5">
+  <!-- Cabecera -->
+  <div class="text-center mb-5">
+    <img src="Logo1-TFG.png" alt="TopScore" style="max-width: 120px;" />
+    <h1
+      class="display-5 fw-bold mt-3"
+      [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+    >
+      Política de Privacidad
+    </h1>
+    <p
+      class="lead"
+      [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'"
+    >
+      Cómo recogemos y tratamos tus datos personales
+    </p>
+  </div>
+
+  <div class="row">
+    <article class="col-md-9">
+      <section id="responsable" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          1. Responsable del Tratamiento
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          <strong>TopScore</strong><br />
+          CIF: B-12345678<br />
+          Email: <a href="mailto:privacidad&#64;topscore.com">privacidad&#64;topscore.com</a>
+        </p>
+      </section>
+
+      <section id="finalidad" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          2. Finalidad y Base Legal
+        </h2>
+        <ul [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          <li>Gestión y funcionamiento del sitio web.</li>
+          <li>Envío de comunicaciones informativas y comerciales.</li>
+          <li>Cumplimiento de obligaciones legales.</li>
+        </ul>
+      </section>
+
+      <section id="categorias" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          3. Categorías de Datos
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          Datos de contacto (nombre, email) y técnicos (IP, cookies). No cedemos datos a
+          terceros sin consentimiento o mandato legal.
+        </p>
+      </section>
+
+      <section id="derechos" class="mb-5">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          4. Derechos del Usuario
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          Acceso, rectificación, supresión, limitación, oposición y portabilidad. Para ejercerlos
+          escribe a <a href="mailto:privacidad&#64;topscore.com">privacidad&#64;topscore.com</a>.
+        </p>
+      </section>
+
+      <section id="cookies">
+        <h2
+          class="h4 border-start border-3 ps-3"
+          [ngClass]="themeService.isDark() ? 'border-primary text-white' : 'border-primary text-body'"
+        >
+          5. Uso de Cookies
+        </h2>
+        <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          Utilizamos cookies propias y de terceros para optimizar el sitio y analizar estadísticas.
+          Puedes desactivarlas desde tu navegador.
+        </p>
+      </section>
+    </article>
+  </div>
+</div>

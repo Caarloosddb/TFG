@@ -57,7 +57,7 @@
 
       <!-- Resultados del día -->
       <div *ngIf="!isLoading && fechaSeleccionada && partidosFiltrados.length > 0"
-           class="shadow-sm rounded-4 overflow-hidden">
+        class="shadow-sm rounded-4 overflow-hidden">
 
         <h5 class="mt-4 mb-3 fw-bold text-primary">
           {{ fechaSeleccionada | date:'fullDate' }}
@@ -65,9 +65,8 @@
 
         <div class="table-responsive">
           <table class="table align-middle mb-0"
-                 [ngClass]="themeService.isDark() ? 'table-dark table-striped' : 'table-light'">
-            <thead class="small text-uppercase"
-                   [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+            [ngClass]="themeService.isDark() ? 'table-dark table-striped' : 'table-light'">
+            <thead class="small text-uppercase" [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
               <tr>
                 <th>Hora</th>
                 <th class="text-start">Local</th>
@@ -85,32 +84,32 @@
 
                 <!-- Equipo local -->
                 <td class="d-flex align-items-center gap-2 text-nowrap"
-                    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
                   <img [src]="game?.teams?.home?.logo" width="24" height="24" alt="Logo local">
                   <span class="fw-semibold">{{ game?.teams?.home?.name }}</span>
                 </td>
 
                 <!-- Resultado -->
-                <td class="text-center fw-bold"
-                    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                <td class="text-center fw-bold" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
                   {{ game?.scores?.home?.points ?? '-' }} - {{ game?.scores?.visitors?.points ?? '-' }}
                 </td>
 
                 <!-- Equipo visitante -->
                 <td class="d-flex align-items-center gap-2 text-nowrap"
-                    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
                   <img [src]="game?.teams?.visitors?.logo" width="24" height="24" alt="Logo visitante">
                   <span class="fw-semibold">{{ game?.teams?.visitors?.name }}</span>
                 </td>
 
                 <!-- Estado -->
-                <td class="text-center text-nowrap fw-medium"
-                    [ngClass]="{
-                      'text-success': game.status.long === 'Finalizado',
-                      'text-warning': game.status.long === 'En juego',
-                      'text-muted': game.status.long !== 'Finalizado' && game.status.long !== 'En juego'
-                    }">
-                  {{ game?.status?.long }}
+                <td class="text-center text-nowrap fw-medium" [ngClass]="
+                  game.status.long === 'Finalizado' || game.status.long === 'Finished'
+                  ? ( themeService.isDark() ? 'text-white' : 'text-body' )
+                  : ( game.status.long === 'En juego' || game.status.long === 'In Progress'
+                  ? 'text-warning'
+                  : 'text-success' )
+                ">
+                  {{ game.status.long }}
                 </td>
               </tr>
             </tbody>
@@ -120,13 +119,12 @@
 
       <!-- No hay partidos en la fecha seleccionada -->
       <div *ngIf="!isLoading && fechaSeleccionada && partidosFiltrados.length === 0"
-           class="alert alert-warning shadow-sm mt-4">
+        class="alert alert-warning shadow-sm mt-4">
         No hay partidos para la fecha seleccionada.
       </div>
 
       <!-- No hay partidos en la temporada -->
-      <div *ngIf="!isLoading && !errorMessage && partidos.length === 0"
-           class="alert alert-info shadow-sm mt-4">
+      <div *ngIf="!isLoading && !errorMessage && partidos.length === 0" class="alert alert-info shadow-sm mt-4">
         No hay partidos disponibles en esta temporada.
       </div>
 
