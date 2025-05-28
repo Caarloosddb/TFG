@@ -1,31 +1,30 @@
-<body style="background-color: #ffffff; color: white; background-image: url('bola.png'); background-repeat: repeat; background-size: 75px 75px;">
-  <div
-    class="container d-flex justify-content-center align-items-center text-white"
-    style="background-color: #2d2d2d; min-height: 100vh; padding: 2rem;"
-  >
-    <div class="w-100" style="max-width: 700px;">
-      <div
-        class="bg-secondary p-4 rounded-4 shadow"
-        style="border: 6px solid #0fabe5; /* Borde azul */ border-radius: 1.5rem;"
-      >
-        <div class="d-flex justify-content-center mb-3">
-          <img
-            src="Logo1-TFG.png"
-            alt="logo"
-            width="44"
-            height="44"
-            style="transform: scale(2.5); transform-origin: center;"
-          />
-        </div>
-        <h2 class="text-center fw-bold mb-4">Iniciar Sesión</h2>
+<main
+  class="login-container"
+  [ngClass]="themeService.isDark() ? 'dark' : 'light'"
+>
+  <div class="login-wrapper">
+    <!-- PANEL DE BIENVENIDA (solo md+) -->
+    <aside class="login-banner d-none d-md-flex">
+      <div class="banner-content">
+        <img src="/Logo1-TFG.png" alt="Logo" class="banner-logo" />
+        <h1 class="banner-title">¡Bienvenido!</h1>
+        <p class="banner-text">Accede a tu cuenta y disfruta de la experiencia</p>
+      </div>
+    </aside>
+
+    <!-- FORMULARIO -->
+    <section class="login-form-container">
+      <div class="login-card">
+        <img src="/Logo1-TFG.png" alt="Logo" class="logo mb-4" />
+        <h2 class="text-center mb-4">Iniciar Sesión</h2>
+
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
             <input
               type="email"
               formControlName="email"
-              class="form-control text-white border-0 rounded-3 placeholder-light"
+              class="form-control"
               placeholder="Correo electrónico"
-              style="background-color: #2d2d2d;"
               required
             />
           </div>
@@ -33,38 +32,27 @@
             <input
               type="password"
               formControlName="password"
-              class="form-control text-white border-0 rounded-3 placeholder-light"
+              class="form-control"
               placeholder="Contraseña"
-              style="background-color: #2d2d2d;"
               required
             />
           </div>
-          <button
-            type="submit"
-            class="btn w-100 fw-semibold text-white"
-            style="background-color: #0fabe5;"
-          >
+          <button type="submit" class="btn btn-primary w-100 mb-3">
             Ingresar
           </button>
           <button
-            (click)="loginWithGoogle()"
             type="button"
-            class="btn btn-outline-light w-100 mt-3 fw-semibold"
+            (click)="loginWithGoogle()"
+            class="btn btn-outline-primary w-100 mb-3"
           >
             Iniciar con Google
           </button>
-          <p class="mt-3 text-center">
+          <p class="text-center mb-0">
             ¿No tienes cuenta?
-            <a
-              routerLink="/register"
-              class="fw-semibold"
-              style="color: #0fabe5; text-decoration: none;"
-            >
-              Regístrate
-            </a>
+            <a routerLink="/register">Regístrate</a>
           </p>
         </form>
       </div>
-    </div>
+    </section>
   </div>
-</body>
+</main>
