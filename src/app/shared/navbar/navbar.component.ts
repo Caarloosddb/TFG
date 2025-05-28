@@ -56,7 +56,6 @@ onSearch(): void {
       if (team?.id) {
         this.router.navigate(['/equipo', team.id]);
       } else {
-        // No encontró equipo, intentar buscar jugador en una liga general (como LaLiga)
         this.buscarJugador(query);
       }
     },

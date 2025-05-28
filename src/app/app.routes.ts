@@ -6,7 +6,6 @@ import { HomeComponent } from './componentes/home/home.component';
 import { UsuarioComponent } from './componentes/usuario/usuario.component';
 import { ProfileSetupComponent } from './componentes/profile-setup/profile-setup.component';
 
-
 import { FutbolPartidosComponent } from './componentes/Fut/futbol-partidos/futbol-partidos.component';
 import { FutbolClasificacionComponent } from './componentes/Fut/futbol-clasificacion/futbol-clasificacion.component';
 import { FutbolEquipoDetalleComponent } from './componentes/Fut/futbol-equipo-detalle/futbol-equipo-detalle.component';
@@ -52,9 +51,9 @@ export const routes: Routes = [
     {path: 'baloncesto-clasificacion/:leagueId/:season', component: BaloncestoClasificacionComponent},
 
     /* Enlaces footer */
-    { path: 'aviso-legal',     component: AvisoLegalComponent },
-    { path: 'privacidad',      component: PrivacidadComponent },
-    { path: 'terminos',        component: TerminosComponent },
+    { path: 'aviso-legal', component: AvisoLegalComponent },
+    { path: 'privacidad', component: PrivacidadComponent },
+    { path: 'terminos', component: TerminosComponent },
 
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', redirectTo: 'home' }

@@ -1,5 +1,4 @@
 :root {
-    /* Light theme */
     --bs-body-bg:     #ffffff;
     --bs-body-color:  #212529;
     --bs-card-bg:     #ffffff;
@@ -9,7 +8,6 @@
   }
   
   .dark-theme {
-    /* Dark theme overrides */
     --bs-body-bg:     #121212;
     --bs-body-color:  #e1e1e1;
     --bs-card-bg:     #1e1e1e;
@@ -19,8 +17,8 @@
   }
 
   body {
-    background-color: var(--bs-body-bg) !important;
-    color:            var(--bs-body-color) !important;
+    background-color: var(--bs-body-bg);
+    color:            var(--bs-body-color);
   }
   
   .card {
