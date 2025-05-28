@@ -42,7 +42,14 @@
             class="btn btn-primary w-100 mb-3"
             [disabled]="registerForm.invalid"
           >
-            Registrar
+            Registrarse
+          </button>
+          <button
+            type="button"
+            (click)="loginWithGoogle()"
+            class="btn btn-outline-primary w-100 mb-3"
+          >
+            Registrarse con Google
           </button>
           <p class="text-center mb-0">
             ¿Ya tienes cuenta?
