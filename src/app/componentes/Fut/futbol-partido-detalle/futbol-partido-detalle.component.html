@@ -57,7 +57,11 @@
         <div class="tab-pane fade show active" id="eventos" role="tabpanel" aria-labelledby="eventos-tab">
           <ul class="list-group">
             <li *ngFor="let evento of matchEvents" class="list-group-item d-flex justify-content-between align-items-center">
-              <span><strong>{{ evento.time.elapsed }}'</strong> - {{ evento.detail }}</span>
+              <span>
+                <strong>{{ evento.time.elapsed }}'</strong> -
+                <img [src]="getEventImage(evento)" alt="evento" width="24" height="24" class="me-1">
+                <span class="ms-1">{{ evento.detail }}</span>
+              </span>
               <span class="fw-medium">{{ evento.player.name }} ({{ evento.team.name }})</span>
             </li>
           </ul>

@@ -144,6 +144,31 @@ export class FutbolPartidoDetalleComponent implements OnInit{
   return total ? (numA / total) * 100 : 50;
 }
 
+getEventImage(event: any): string {
+  if (event.type === 'Goal') {
+    if(event.detail === 'Missed Penalty')
+      return '/fail.png';
+    else
+    return '/goal.png';
+  }
+  if (event.type === 'Var') {
+    return '/var.png';
+  }
+  if (event.type === 'Card') {
+    if (event.detail === 'Yellow Card') return '/yellow-card.png';
+    if (event.detail === 'Red Card') return '/red-card.png';
+    if (event.detail === 'Second Yellow card') return '/red-card.png';
+  }
+
+  if (event.type === 'subst') {
+    return '/sub.png';
+  }
+
+  return 'fas fa-info-circle text-muted';
+}
+
+
+
 
   goBack(): void {
     this.location.back();

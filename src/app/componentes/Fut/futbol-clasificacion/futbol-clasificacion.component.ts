@@ -34,20 +34,6 @@ export class FutbolClasificacionComponent implements OnInit {
 
   errorMessage: string = '';
 
-  // Configuración de ligas y sus respectivas posiciones para Champions, Europa, Conference y descenso
-  private rankConfigs: { [leagueId: number]: RankConfig } = {
-    // LaLiga (API-Sports id = 140)
-    140: { championsEnd: 5, europaEnd: 7, conferenceEnd: 8, relegationCount: 3 },
-    // Premier League (id = 39)
-    39:  { championsEnd: 4, europaEnd: 5, conferenceEnd: 6, relegationCount: 3 },
-    // Serie A (id = 135)
-    135: { championsEnd: 4, europaEnd: 5, conferenceEnd: 6, relegationCount: 3 },
-    // Bundesliga (id = 78)
-    78:  { championsEnd: 4, europaEnd: 5, conferenceEnd: 6, relegationCount: 3 },
-    // Ligue 1 (id = 61)
-    61:  { championsEnd: 3, europaEnd: 4, conferenceEnd: 5, relegationCount: 4 },
-  };
-
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -103,23 +89,27 @@ export class FutbolClasificacionComponent implements OnInit {
     });
   }
 
-  /**
-   * Devuelve la clase CSS para el badge de la posición según la configuración de la liga.
-   */
-  getBadgeClass(rank: number): string {
-    const cfg = this.rankConfigs[this.leagueId] || { championsEnd: 0, europaEnd: 0, conferenceEnd: 0, relegationCount: 3 };
-    const total = this.clasificacion.length;
-
-    if (rank <= cfg.championsEnd) {
+getBadgeClass(description: string): string {
+  switch (description) {
+    case 'Champions League':
       return 'bg-champions';
-    } else if (rank <= cfg.europaEnd) {
+    case 'Promotion - Champions League (Group Stage: )':
+      return 'bg-champions';
+    case 'UEFA Europa League':
       return 'bg-europa';
-    } else if (rank <= cfg.conferenceEnd) {
+    case 'Promotion - Europa League (Group Stage: )':
+      return 'bg-europa';
+    case 'Conference League Qualification':
       return 'bg-conference';
-    } else if (rank > total - cfg.relegationCount) {
+    case 'Promotion - Europa Conference League (Qualification: )':
+      return 'bg-conference';
+    case 'Relegation':
       return 'bg-relegation';
-    } else {
+    case 'Relegation - LaLiga2':
+      return 'bg-relegation';
+    default:
       return 'bg-secondary';
-    }
   }
+}
+
 }
