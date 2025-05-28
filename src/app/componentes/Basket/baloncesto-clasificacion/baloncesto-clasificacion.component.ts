@@ -26,9 +26,9 @@ import { FooterComponent } from '../../../shared/footer/footer.component';
 })
 export class BaloncestoClasificacionComponent implements OnInit{
 
-  temporadasEl: string[] = ['2023', '2022', '2021'];
-  temporadasACB: string[] = ['2023-2024', '2022-2023', '2021-2022'];
-  temporadas: string[] = [];
+  temporadasEl: any[] = ['2023', '2022', '2021'];
+  temporadasACB: any[] = ['2023-2024', '2022-2023', '2021-2022'];
+  temporadas: any[] = [];
 
   selectedTemporada!: string;
 
@@ -49,12 +49,12 @@ export class BaloncestoClasificacionComponent implements OnInit{
 
   ngOnInit(): void {
       this.route.params.subscribe(params => {
-      this.leagueId = params['leagueId'];
+      this.leagueId = +params['leagueId'];
       this.season = params['season'];
 
       if(this.leagueId === 117){
         this.temporadas = this.temporadasACB
-      }else{
+      }else {
         this.temporadas = this.temporadasEl
       }
 

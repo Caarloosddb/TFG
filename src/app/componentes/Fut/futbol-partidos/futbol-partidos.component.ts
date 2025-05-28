@@ -15,7 +15,7 @@ import { ThemeService } from '../../../core/theme.service';
   templateUrl: './futbol-partidos.component.html',
   styleUrl: './futbol-partidos.component.scss'
 })
-export class FutbolPartidosComponent {
+export class FutbolPartidosComponent implements OnInit{
   temporadas: number[] = [];
   jornadas: number[] = [];
   partidos: any[] = [];

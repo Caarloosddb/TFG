@@ -31,10 +31,12 @@ export class NbaPartidosComponent implements OnInit {
   partidos: any[] = [];
   isLoading: boolean = false;
 
-  // 🔄 CAMBIO: nuevo objeto para agrupar partidos por fecha
+  minFecha!: string;
+  maxFecha!: string;
+
   partidosPorFecha: { [fecha: string]: any[] } = {};
-  fechaSeleccionada: string = ''; // 🔄 Fecha en formato 'YYYY-MM-DD'
-  partidosFiltrados: any[] = []; // 🔄 Lista de partidos del día seleccionado
+  fechaSeleccionada: string = '';
+  partidosFiltrados: any[] = [];
 
   leagueId!: string;
   season!: number;
@@ -55,6 +57,20 @@ export class NbaPartidosComponent implements OnInit {
       this.leagueId = params['leagueId'];
       this.season = +params['season'];
 
+      if(this.season === 2023){
+        this.minFecha = '2023-10-24';
+        this.maxFecha = '2024-06-18';
+      }else if(this.season === 2022){
+        this.minFecha = '2022-10-18';
+        this.maxFecha = '2023-06-13';
+      }else if(this.season === 2021){
+        this.minFecha = '2021-10-19';
+        this.maxFecha = '2022-06-17';
+      }
+
+      this.fechaSeleccionada = this.maxFecha
+      this.selectedTemporada = this.season;
+      
       this.cargarPartidosNBA();
     });
   }
@@ -86,9 +102,8 @@ export class NbaPartidosComponent implements OnInit {
         if (data?.response?.length) {
           this.partidos = data.response;
 
-          // 🔄 CAMBIO: agrupar partidos por fecha (YYYY-MM-DD)
           this.partidosPorFecha = this.partidos.reduce((acc: any, partido: any) => {
-            const fecha = partido.date.start.slice(0, 10); // Ej: "2023-12-04"
+            const fecha = partido.date.start.slice(0, 10);
             if (!acc[fecha]) {
               acc[fecha] = [];
             }
@@ -100,21 +115,20 @@ export class NbaPartidosComponent implements OnInit {
         } else {
           this.errorMessage = 'No hay partidos disponibles';
           this.partidos = [];
-          this.partidosPorFecha = {}; // 🔄 CAMBIO: limpiar agrupación si no hay partidos
+          this.partidosPorFecha = {};
         }
-        this.filtrarPorFecha(); // 🔄 Actualizar el filtro si ya se había seleccionado una fecha
+        this.filtrarPorFecha();
       },
       error: (error) => {
         console.error('Error en la API:', error);
         this.isLoading = false;
         this.errorMessage = 'Error al cargar los partidos';
         this.partidos = [];
-        this.partidosPorFecha = {}; // 🔄 CAMBIO: limpiar agrupación en caso de error
+        this.partidosPorFecha = {};
       }
     });
   }
 
-  // 🔄 CAMBIO: método para ordenar fechas al mostrar en el HTML
   sortByKey = (a: any, b: any): number => {
     return a.key.localeCompare(b.key);
   };
