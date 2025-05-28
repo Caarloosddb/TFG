@@ -1,55 +1,98 @@
-<div class="container d-flex justify-content-center align-items-center bg-dark min-vh-100 p-4 text-white">
-  <div class="w-100" style="max-width: 500px;">
-    <div class="bg-secondary p-4 rounded-4 shadow border-4 border-info">
-      <h2 class="text-center fw-bold mb-4">Completa tu perfil</h2>
-
-      <form [formGroup]="profileForm" (ngSubmit)="onCompleteProfile()">
-        <div class="mb-3">
-          <label for="nationality" class="form-label text-white">Nacionalidad</label>
-          <input id="nationality"
-                 type="text"
-                 formControlName="nationality"
-                 class="form-control bg-dark text-white border-0 rounded-3"
-                 [class.is-invalid]="profileForm.get('nationality')?.invalid && profileForm.get('nationality')?.touched" />
-          <div class="invalid-feedback">
-            Debes indicar tu nacionalidad.
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label for="favoriteTeam" class="form-label text-white">Equipo favorito</label>
-          <input id="favoriteTeam"
-                 type="text"
-                 formControlName="favoriteTeam"
-                 class="form-control bg-dark text-white border-0 rounded-3"
-                 [class.is-invalid]="profileForm.get('favoriteTeam')?.invalid && profileForm.get('favoriteTeam')?.touched" />
-          <div class="invalid-feedback">
-            Debes indicar tu equipo favorito.
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label for="favoritePlayer" class="form-label text-white">Jugador favorito</label>
-          <input id="favoritePlayer"
-                 type="text"
-                 formControlName="favoritePlayer"
-                 class="form-control bg-dark text-white border-0 rounded-3"
-                 [class.is-invalid]="profileForm.get('favoritePlayer')?.invalid && profileForm.get('favoritePlayer')?.touched" />
-          <div class="invalid-feedback">
-            Debes indicar tu jugador favorito.
-          </div>
-        </div>
-
-        <button type="submit"
-                class="btn btn-info w-100 fw-semibold text-white"
-                [disabled]="profileForm.invalid">
-          Finalizar
-        </button>
-      </form>
-
-      <div *ngIf="error" class="alert alert-danger mt-3">
-        {{ error }}
+<main
+  class="profile-container"
+  [ngClass]="themeService.isDark() ? 'dark' : 'light'"
+>
+  <div class="profile-wrapper">
+    <!-- PANEL DE BIENVENIDA (solo md+) -->
+    <aside class="profile-banner d-none d-md-flex">
+      <div class="banner-content">
+        <img src="/Logo1-TFG.png" alt="Logo" class="banner-logo" />
+        <h1 class="banner-title">¡Vamos!</h1>
+        <p class="banner-text">Completa tu perfil y personaliza tu experiencia</p>
       </div>
-    </div>
+    </aside>
+
+    <!-- FORMULARIO -->
+    <section class="profile-form-container">
+      <div class="profile-card">
+        <img src="/Logo1-TFG.png" alt="Logo" class="logo mb-4" />
+        <h2 class="text-center mb-4">Completa tu perfil</h2>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onCompleteProfile()">
+          <div class="mb-3">
+            <label for="nationality" class="form-label">Nacionalidad</label>
+            <input
+              id="nationality"
+              type="text"
+              formControlName="nationality"
+              class="form-control"
+              placeholder="Ej. España"
+              [class.is-invalid]="
+                profileForm.get('nationality')?.invalid &&
+                profileForm.get('nationality')?.touched
+              "
+              required
+            />
+            <div class="invalid-feedback">
+              Debes indicar tu nacionalidad.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="favoriteTeam" class="form-label"
+              >Equipo favorito</label
+            >
+            <input
+              id="favoriteTeam"
+              type="text"
+              formControlName="favoriteTeam"
+              class="form-control"
+              placeholder="Ej. FC Barcelona"
+              [class.is-invalid]="
+                profileForm.get('favoriteTeam')?.invalid &&
+                profileForm.get('favoriteTeam')?.touched
+              "
+              required
+            />
+            <div class="invalid-feedback">
+              Debes indicar tu equipo favorito.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="favoritePlayer" class="form-label"
+              >Jugador favorito</label
+            >
+            <input
+              id="favoritePlayer"
+              type="text"
+              formControlName="favoritePlayer"
+              class="form-control"
+              placeholder="Ej. Lionel Messi"
+              [class.is-invalid]="
+                profileForm.get('favoritePlayer')?.invalid &&
+                profileForm.get('favoritePlayer')?.touched
+              "
+              required
+            />
+            <div class="invalid-feedback">
+              Debes indicar tu jugador favorito.
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary w-100 mb-3"
+            [disabled]="profileForm.invalid"
+          >
+            Finalizar
+          </button>
+        </form>
+
+        <div *ngIf="error" class="alert alert-danger mt-3">
+          {{ error }}
+        </div>
+      </div>
+    </section>
   </div>
-</div>
+</main>

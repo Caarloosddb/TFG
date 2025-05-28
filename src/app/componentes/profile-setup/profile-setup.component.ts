@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router }                  from '@angular/router';
 import { FirestoreService }        from '../../services/firestore.service';
 import { Auth }                    from '@angular/fire/auth';
+import { ThemeService } from '../../core/theme.service';
 
 @Component({
   selector: 'app-profile-setup',
@@ -22,7 +23,8 @@ export class ProfileSetupComponent implements OnInit {
     private fb: FormBuilder,
     private firestoreService: FirestoreService,
     private auth: Auth,
-    private router: Router
+    private router: Router,
+    public themeService: ThemeService
   ) {
     this.profileForm = this.fb.group({
       nationality:     ['', Validators.required],
