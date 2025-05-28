@@ -7,48 +7,73 @@
     <div class="container-fluid">
 
       <!-- Botón volver -->
-      <button class="btn btn-outline-secondary rounded-pill mb-4 px-3 d-inline-flex align-items-center gap-2" (click)="goBack()">
+      <button class="btn btn-outline-secondary rounded-pill mb-4 px-3 d-inline-flex align-items-center gap-2"
+        (click)="goBack()">
         <i class="bi bi-arrow-left"></i> Volver
       </button>
 
       <ng-container *ngIf="teamInfo; else cargando">
 
         <!-- Tarjeta de equipo -->
-        <div class="card shadow-sm rounded-4 overflow-hidden mb-4"
-             [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
-          <div class="card-header d-flex align-items-center gap-3 bg-primary text-white">
-            <img [src]="teamInfo.logo" [alt]="teamInfo.name" width="50" height="50" class="bg-white p-1">
-            <h3 class="mb-0">{{ teamInfo.name }}</h3>
-            <span *ngIf="teamInfo.code" class="badge bg-light text-dark">{{ teamInfo.code }}</span>
+        <div class="card shadow rounded-lg overflow-hidden mb-5"
+          [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
+          <!-- Cabecera -->
+          <div class="card-header bg-primary text-white d-flex align-items-center p-3"
+            [ngClass]="themeService.isDark() ? 'bg-secondary text-white' : 'bg-primary text-white'">
+            <img [src]="teamInfo.logo" [alt]="teamInfo.name" width="60" height="60"
+              class="rounded-circle bg-white p-1 me-3" />
+            <div class="flex-grow-1">
+              <h4 class="mb-1">{{ teamInfo.name }}</h4>
+              <small *ngIf="teamInfo.code" class="badge bg-light text-dark">{{ teamInfo.code }}</small>
+            </div>
           </div>
 
-          <div class="card-body row">
-            <!-- Información general -->
-            <div class="col-md-6 mb-3 mb-md-0">
-              <h5 class="fw-semibold">Información General</h5>
-              <ul class="list-unstyled mb-0">
-                <li *ngIf="teamInfo.country"><strong>País:</strong> {{ teamInfo.country }}</li>
-                <li *ngIf="teamInfo.founded"><strong>Fundado:</strong> {{ teamInfo.founded }}</li>
-                <li *ngIf="teamInfo.venue"><strong>Estadio:</strong> {{ venueInfo?.name }}</li>
-              </ul>
-            </div>
+          <!-- Cuerpo -->
+          <div class="card-body p-4">
+            <div class="row g-4">
+              <!-- Información General -->
+              <div class="col-md-6">
+                <h5 class="fw-semibold mb-2">
+                  <i class="bi bi-info-circle me-2"></i>Información General
+                </h5>
+                <dl class="row mb-0">
+                  <dt class="col-4">País</dt>
+                  <dd class="col-8">{{ teamInfo.country }}</dd>
 
-            <!-- Estadio -->
-            <div class="col-md-6">
-              <h5 class="fw-semibold">Estadio</h5>
-              <ng-container *ngIf="venueInfo; else noVenue">
-                <ul class="list-unstyled mb-2">
-                  <li *ngIf="venueInfo.address"><strong>Dirección:</strong> {{ venueInfo.address }}</li>
-                  <li *ngIf="venueInfo.city"><strong>Ciudad:</strong> {{ venueInfo.city }}</li>
-                  <li *ngIf="venueInfo.capacity"><strong>Capacidad:</strong> {{ venueInfo.capacity | number }}</li>
-                  <li *ngIf="venueInfo.surface"><strong>Superficie:</strong> {{ venueInfo.surface }}</li>
-                </ul>
-                <img *ngIf="venueInfo.image" [src]="venueInfo.image" alt="Estadio"
-                     class="img-fluid rounded shadow-sm">
-              </ng-container>
-              <ng-template #noVenue>
-                <p class="text-muted mb-0">Información del estadio no disponible.</p>
-              </ng-template>
+                  <dt class="col-4">Fundado</dt>
+                  <dd class="col-8">{{ teamInfo.founded }}</dd>
+
+                  <dt class="col-4">Estadio</dt>
+                  <dd class="col-8">{{ venueInfo?.name }}</dd>
+                </dl>
+              </div>
+
+              <!-- Estadio -->
+              <div class="col-md-6 text-center">
+                <h5 class="fw-semibold mb-2">
+                  <i class="bi bi-building me-2"></i>Estadio
+                </h5>
+                <ng-container *ngIf="venueInfo; else noVenue">
+                  <dl class="row mb-3">
+                    <dt class="col-4">Dirección</dt>
+                    <dd class="col-8">{{ venueInfo.address }}</dd>
+
+                    <dt class="col-4">Ciudad</dt>
+                    <dd class="col-8">{{ venueInfo.city }}</dd>
+
+                    <dt class="col-4">Capacidad</dt>
+                    <dd class="col-8">{{ venueInfo.capacity | number }}</dd>
+
+                    <dt class="col-4">Superficie</dt>
+                    <dd class="col-8">{{ venueInfo.surface }}</dd>
+                  </dl>
+                  <img *ngIf="venueInfo.image" [src]="venueInfo.image" alt="Estadio {{ venueInfo.name }}"
+                    class="img-fluid rounded shadow-sm" style="max-height: 200px; object-fit: cover;" />
+                </ng-container>
+                <ng-template #noVenue>
+                  <p class="text-muted mb-0">Información del estadio no disponible.</p>
+                </ng-template>
+              </div>
             </div>
           </div>
         </div>
@@ -56,16 +81,14 @@
         <!-- Tabs -->
         <ul class="nav nav-tabs mb-4" id="teamTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="stats-tab" data-bs-toggle="tab"
-                    data-bs-target="#stats" type="button" role="tab"
-                    aria-controls="stats" aria-selected="true">
+            <button class="nav-link active" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button"
+              role="tab" aria-controls="stats" aria-selected="true">
               Estadísticas
             </button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="players-tab" data-bs-toggle="tab"
-                    data-bs-target="#players" type="button" role="tab"
-                    aria-controls="players" aria-selected="false">
+            <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button"
+              role="tab" aria-controls="players" aria-selected="false">
               Plantilla
             </button>
           </li>
@@ -76,13 +99,14 @@
           <div class="tab-pane fade show active" id="stats" role="tabpanel" aria-labelledby="stats-tab">
             <ng-container *ngIf="statistics; else noStats">
               <ul class="list-group list-group-flush rounded shadow-sm mb-4"
-                  [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
+                [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
                 <li class="list-group-item"><strong>Jugados:</strong> {{ statistics.fixtures.played.total }}</li>
                 <li class="list-group-item"><strong>Victorias:</strong> {{ statistics.fixtures.wins.total }}</li>
                 <li class="list-group-item"><strong>Empates:</strong> {{ statistics.fixtures.draws.total }}</li>
                 <li class="list-group-item"><strong>Derrotas:</strong> {{ statistics.fixtures.loses.total }}</li>
                 <li class="list-group-item"><strong>Goles a favor:</strong> {{ statistics.goals.for.total.total }}</li>
-                <li class="list-group-item"><strong>Goles en contra:</strong> {{ statistics.goals.against.total.total }}</li>
+                <li class="list-group-item"><strong>Goles en contra:</strong> {{ statistics.goals.against.total.total }}
+                </li>
                 <li class="list-group-item">
                   <strong>Diferencia:</strong>
                   {{ statistics.goals.for.total.total - statistics.goals.against.total.total }}
@@ -99,7 +123,7 @@
             <ng-container *ngIf="squad?.length; else noPlayers">
               <div class="table-responsive shadow-sm rounded overflow-hidden">
                 <table class="table table-sm table-hover align-middle mb-0"
-                       [ngClass]="themeService.isDark() ? 'table-dark' : 'table-light'">
+                  [ngClass]="themeService.isDark() ? 'table-dark' : 'table-light'">
                   <thead>
                     <tr>
                       <th>Foto</th>
