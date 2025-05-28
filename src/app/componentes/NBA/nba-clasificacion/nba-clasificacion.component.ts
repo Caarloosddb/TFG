@@ -29,7 +29,7 @@ export class NbaClasificacionComponent implements OnInit {
   selectedTemporada!: number;
 
 
- clasificacion: any[] = [];
+  clasificacion: any[] = [];
 
   clasificacionEste: any[] = [];
   clasificacionOeste: any[] = [];

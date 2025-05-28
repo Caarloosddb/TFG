@@ -13,8 +13,8 @@
                 class="form-select form-select-sm w-auto"
                 [(ngModel)]="selectedTemporada"
                 (change)="onFiltroCambio()">
-          <option *ngFor="let temp of temporadasEl" [value]="temp">
-            {{ temp }}
+          <option *ngFor="let temporada of temporadas">
+            {{ temporada }}
           </option>
         </select>
       </div>

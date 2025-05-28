@@ -15,9 +15,33 @@
           class="form-control form-control-sm rounded-pill px-3"
           style="min-width: 160px; width: fit-content;"
           [(ngModel)]="fechaSeleccionada"
+          [min]="minFecha"
+          [max]="maxFecha"
           (change)="filtrarPorFecha()"
         />
       </div>
+
+      <div class="col-auto d-flex align-items-center gap-2">
+          <label 
+            for="anoSelect" 
+            class="form-label mb-0 fw-medium"
+            [ngClass]="{ 'text-white': themeService.isDark() }">
+            Temporada:
+          </label>
+          <select 
+            id="anoSelect" 
+            class="form-select form-select-sm rounded-pill px-3"
+            style="min-width: 80px;"
+            [(ngModel)]="selectedTemporada" 
+            (change)="onFiltroCambio()">
+            <option 
+              *ngFor="let ano of temporadas" 
+              [value]="ano"
+              [ngClass]="{ 'text-white': themeService.isDark() }">
+              {{ ano }}
+            </option>
+          </select>
+        </div>
 
       <!-- Cargando -->
       <div *ngIf="isLoading" class="text-center py-5">

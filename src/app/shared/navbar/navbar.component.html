@@ -54,15 +54,17 @@
           </button>
         </li>
 
-        <!-- Buscador -->
-        <li class="nav-item me-3">
+        <!-- Buscador con autocompletado -->
+        <li class="nav-item me-3 position-relative">
           <form class="d-flex" (ngSubmit)="onSearch()">
             <input class="form-control form-control-sm me-2"
                    type="search"
-                   placeholder="Buscar..."
-                   aria-label="Buscar equipo"
+                   placeholder="Buscar equipo o jugador..."
+                   aria-label="Buscar"
                    [(ngModel)]="searchTerm"
                    name="searchTerm"
+                   (input)="onSearchChange()"
+                   autocomplete="off"
                    [ngClass]="themeService.isDark() 
                      ? 'bg-dark text-white border-secondary placeholder-white' 
                      : 'bg-white text-body border-secondary'">
@@ -72,6 +74,19 @@
               <i class="bi bi-search"></i>
             </button>
           </form>
+
+          <!-- Lista de sugerencias -->
+          <ul *ngIf="suggestions.length > 0"
+              class="list-group position-absolute w-100 mt-1 z-3"
+              style="max-height: 200px; overflow-y: auto;">
+            <li *ngFor="let item of suggestions"
+                class="list-group-item list-group-item-action d-flex align-items-center gap-2"
+                (click)="onSuggestionClick(item)"
+                [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-body'">
+              <img *ngIf="item.logo" [src]="item.logo" alt="logo" width="20" height="20" />
+              <span>{{ item.name }}</span>
+            </li>
+          </ul>
         </li>
 
         <!-- Usuario -->

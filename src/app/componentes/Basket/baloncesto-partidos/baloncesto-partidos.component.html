@@ -1,1 +1,68 @@
-<p>baloncesto-partidos works!</p>
+<app-navbar></app-navbar>
+
+<div class="d-flex min-vh-100 bg-app">
+  <app-sidebar-nba></app-sidebar-nba>
+
+  <main class="flex-grow-1 py-4 px-3 px-lg-5 bg-app">
+    <div class="container-fluid">
+
+
+      <!-- Error -->
+      <div *ngIf="errorMessage" class="alert alert-danger shadow-sm">
+        {{ errorMessage }}
+      </div>
+
+        <div class="table-responsive">
+          <table class="table align-middle mb-0"
+                 [ngClass]="themeService.isDark() ? 'table-dark table-striped' : 'table-light'">
+            <thead class="small text-uppercase"
+                   [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+              <tr>
+                <th>Hora</th>
+                <th class="text-start">Local</th>
+                <th class="text-center">Resultado</th>
+                <th class="text-start">Visitante</th>
+                <th class="text-center">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let game of partidos">
+                <!-- Hora -->
+                <td class="text-nowrap" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  {{ game?.date | date:'HH:mm' }}
+                </td>
+
+                <!-- Equipo local -->
+                <td class="d-flex align-items-center gap-2 text-nowrap"
+                    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  <img [src]="game?.teams?.home?.logo" width="24" height="24" alt="Logo local">
+                  <span class="fw-semibold">{{ game?.teams?.home?.name }}</span>
+                </td>
+
+                <!-- Resultado -->
+                <td class="text-center fw-bold"
+                    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  {{ game?.scores?.home?.total ?? '-' }} - {{ game?.scores?.away?.total ?? '-' }}
+                </td>
+
+                <!-- Equipo visitante -->
+                <td class="d-flex align-items-center gap-2 text-nowrap"
+                    [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  <img [src]="game?.teams?.away?.logo" width="24" height="24" alt="Logo visitante">
+                  <span class="fw-semibold">{{ game?.teams?.away?.name }}</span>
+                </td>
+
+                <!-- Estado -->
+                <td class="text-center text-nowrap fw-medium">
+                  {{ game?.status?.short }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+  </main>
+</div>
+
+<app-footer></app-footer>

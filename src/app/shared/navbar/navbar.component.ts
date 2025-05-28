@@ -21,7 +21,11 @@ import { AuthService }  from '../../services/auth.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+
   searchTerm: string = '';
+
+  suggestions: { id: number, name: string, logo?: string, type: 'team' | 'player' }[] = [];
+
   // Declaramos user$ usando el auth que inyectamos
   user$: Observable<User | null>;
 
@@ -64,7 +68,7 @@ onSearch(): void {
   });
 }
 
-private buscarJugador(nombre: string): void {
+buscarJugador(nombre: string): void {
   const leagueId = 140; // Ej: LaLiga
   const season = 2024;
   const url = `https://v3.football.api-sports.io/players?search=${encodeURIComponent(nombre)}&league=${leagueId}&season=${season}`;
@@ -88,6 +92,54 @@ private buscarJugador(nombre: string): void {
   });
 }
 
+onSearchChange(): void {
+  const query = this.searchTerm.trim();
+  if (query.length < 2) {
+    this.suggestions = [];
+    return;
+  }
+
+  const teamUrl = `https://v3.football.api-sports.io/teams?search=${encodeURIComponent(query)}`;
+  const playerUrl = `https://v3.football.api-sports.io/players?search=${encodeURIComponent(query)}&league=140&season=2024`;
+
+  // Ejecutar ambas peticiones en paralelo
+  Promise.all([
+    this.http.get<any>(teamUrl, { headers: this.headers }).toPromise(),
+    this.http.get<any>(playerUrl, { headers: this.headers }).toPromise()
+  ])
+  .then(([teamsRes, playersRes]) => {
+    const teamSuggestions = (teamsRes.response || []).map((item: any) => ({
+      id: item.team.id,
+      name: item.team.name,
+      logo: item.team.logo,
+      type: 'team'
+    }));
+
+    const playerSuggestions = (playersRes.response || []).slice(0, 5).map((item: any) => ({
+      id: item.player.id,
+      name: item.player.name,
+      logo: item.player.photo,
+      type: 'player'
+    }));
+
+    this.suggestions = [...teamSuggestions, ...playerSuggestions];
+  })
+  .catch((error) => {
+    console.error('Error buscando sugerencias:', error);
+    this.suggestions = [];
+  });
+}
+
+onSuggestionClick(item: { id: number, type: 'team' | 'player' }) {
+  this.suggestions = [];
+  this.searchTerm = '';
+
+  if (item.type === 'team') {
+    this.router.navigate(['/equipo', item.id]);
+  } else {
+    this.router.navigate(['/jugador', item.id]);
+  }
+}
 
 
   logout(): void {
