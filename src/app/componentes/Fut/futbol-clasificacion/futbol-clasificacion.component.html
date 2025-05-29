@@ -4,7 +4,7 @@
   <app-sidebar-futbol></app-sidebar-futbol>
 
   <main class="flex-fill py-4 px-3 px-lg-5 bg-app">
-    <div class="container-fluid">
+    <div class="container-mt-4">
 
       <!-- Tarjeta de Clasificación -->
       <div 
@@ -84,7 +84,7 @@
                         class="text-white text-center rounded"
                         [ngClass]="{
                           'bg-success': racha === 'W',
-                          'bg-secondary': racha === 'D',
+                          'bg-warning': racha === 'D',
                           'bg-danger': racha === 'L'
                         }"
                         style="width: 24px; height: 24px; line-height: 24px; font-weight: bold;">

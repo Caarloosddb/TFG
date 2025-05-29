@@ -11,11 +11,18 @@ import { ThemeService } from '../../../core/theme.service';
 @Component({
   selector: 'app-futbol-partidos',
   standalone: true,
-  imports: [RouterModule, NavbarComponent, FooterComponent, CommonModule, FormsModule, SidebarFutbolComponent],
+  imports: [
+    RouterModule,
+    NavbarComponent,
+    FooterComponent,
+    CommonModule,
+    FormsModule,
+    SidebarFutbolComponent,
+  ],
   templateUrl: './futbol-partidos.component.html',
-  styleUrl: './futbol-partidos.component.scss'
+  styleUrl: './futbol-partidos.component.scss',
 })
-export class FutbolPartidosComponent implements OnInit{
+export class FutbolPartidosComponent implements OnInit {
   temporadas: number[] = [];
   jornadas: number[] = [];
   partidos: any[] = [];
@@ -34,29 +41,52 @@ export class FutbolPartidosComponent implements OnInit{
 
   errorMessage: string = '';
 
-
-  constructor(private http: HttpClient, private route: ActivatedRoute,  private router: Router, public themeService: ThemeService) {}
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router,
+    public themeService: ThemeService
+  ) {}
 
   ngOnInit(): void {
-    this.temporadas = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010];
+    this.temporadas = [
+      2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013,
+      2012, 2011, 2010,
+    ];
     this.rondas = ['Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];
     this.rondasEuropa = [
-      'League Stage - 1', 'League Stage - 2', 'League Stage - 3', 'League Stage - 4', 'League Stage - 5', 'League Stage - 6', 'League Stage - 7', 'League Stage - 8',
-       'Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'
-    ]
+      'League Stage - 1',
+      'League Stage - 2',
+      'League Stage - 3',
+      'League Stage - 4',
+      'League Stage - 5',
+      'League Stage - 6',
+      'League Stage - 7',
+      'League Stage - 8',
+      'Round of 16',
+      'Quarter-finals',
+      'Semi-finals',
+      'Final',
+    ];
     //Añadir if conference
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.endpoint = params['endpoint'];
       this.leagueId = +params['leagueId'];
       this.season = +params['season'];
-      if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
+      if (
+        this.leagueId === 140 ||
+        this.leagueId === 39 ||
+        this.leagueId === 135 ||
+        this.leagueId === 78 ||
+        this.leagueId === 61
+      ) {
         this.round = +params['round'];
       } else {
         this.knockout = params['round'];
       }
 
-      this.selectedRonda = this.knockout
+      this.selectedRonda = this.knockout;
 
       this.selectedTemporada = this.season;
 
@@ -71,18 +101,28 @@ export class FutbolPartidosComponent implements OnInit{
   }
 
   irJornadaAnterior() {
-    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
-    if (this.round > 1) {
-      this.round--;
-      this.actualizarRuta();
+    if (
+      this.leagueId === 140 ||
+      this.leagueId === 39 ||
+      this.leagueId === 135 ||
+      this.leagueId === 78 ||
+      this.leagueId === 61
+    ) {
+      if (this.round > 1) {
+        this.round--;
+        this.actualizarRuta();
       }
-    }else if(this.leagueId === 2 || this.leagueId === 3 || this.leagueId === 848) {
+    } else if (
+      this.leagueId === 2 ||
+      this.leagueId === 3 ||
+      this.leagueId === 848
+    ) {
       const i = this.rondasEuropa.indexOf(this.knockout);
       if (i > 0) {
         this.knockout = this.rondasEuropa[i - 1];
         this.actualizarRuta();
       }
-    }else {
+    } else {
       const i = this.rondas.indexOf(this.knockout);
       if (i > 0) {
         this.knockout = this.rondas[i - 1];
@@ -90,20 +130,30 @@ export class FutbolPartidosComponent implements OnInit{
       }
     }
   }
-  
+
   irJornadaSiguiente() {
-    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
-    if (this.round < this.jornadas.length) {
-      this.round++;
-      this.actualizarRuta();
+    if (
+      this.leagueId === 140 ||
+      this.leagueId === 39 ||
+      this.leagueId === 135 ||
+      this.leagueId === 78 ||
+      this.leagueId === 61
+    ) {
+      if (this.round < this.jornadas.length) {
+        this.round++;
+        this.actualizarRuta();
       }
-    }else if(this.leagueId === 2 || this.leagueId === 3 || this.leagueId === 848) {
+    } else if (
+      this.leagueId === 2 ||
+      this.leagueId === 3 ||
+      this.leagueId === 848
+    ) {
       const i = this.rondasEuropa.indexOf(this.knockout);
       if (i < this.rondasEuropa.length - 1) {
         this.knockout = this.rondasEuropa[i + 1];
         this.actualizarRuta();
       }
-    }else {
+    } else {
       const i = this.rondas.indexOf(this.knockout);
       if (i < this.rondas.length - 1) {
         this.knockout = this.rondas[i + 1];
@@ -111,30 +161,54 @@ export class FutbolPartidosComponent implements OnInit{
       }
     }
   }
-  
+
   onFiltroCambio() {
     this.season = this.selectedTemporada;
     this.actualizarRuta();
   }
 
   actualizarRuta() {
-    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
-      this.router.navigate(['/futbol', this.endpoint, this.leagueId, this.season, this.round]);
+    if (
+      this.leagueId === 140 ||
+      this.leagueId === 39 ||
+      this.leagueId === 135 ||
+      this.leagueId === 78 ||
+      this.leagueId === 61
+    ) {
+      this.router.navigate([
+        '/futbol',
+        this.endpoint,
+        this.leagueId,
+        this.season,
+        this.round,
+      ]);
     } else {
-      this.router.navigate(['/futbol', this.endpoint, this.leagueId, this.season, this.knockout]);
+      this.router.navigate([
+        '/futbol',
+        this.endpoint,
+        this.leagueId,
+        this.season,
+        this.knockout,
+      ]);
     }
   }
 
   cargarPartidos() {
     const headers = new HttpHeaders({
-      'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
+      'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159',
     });
 
-    let url = ''
+    let url = '';
 
     const roundText = encodeURIComponent(`Regular Season - ${this.round}`);
 
-    if (this.leagueId === 140 || this.leagueId === 39 || this.leagueId === 135 ||this.leagueId === 78 || this.leagueId === 61) {
+    if (
+      this.leagueId === 140 ||
+      this.leagueId === 39 ||
+      this.leagueId === 135 ||
+      this.leagueId === 78 ||
+      this.leagueId === 61
+    ) {
       url = `https://v3.football.api-sports.io/${this.endpoint}?league=${this.leagueId}&season=${this.season}&round=${roundText}`;
     } else {
       url = `https://v3.football.api-sports.io/${this.endpoint}?league=${this.leagueId}&season=${this.season}&round=${this.knockout}`;
@@ -144,27 +218,27 @@ export class FutbolPartidosComponent implements OnInit{
 
     this.http.get<any>(url, { headers }).subscribe({
       next: (data) => {
-        console.log("Datos recibidos:", data);
+        console.log('Datos recibidos:', data);
 
         if (data?.response?.length) {
           this.partidos = data.response;
           this.errorMessage = '';
         } else {
-          this.errorMessage = "No hay partidos disponibles";
+          this.errorMessage = 'No hay partidos disponibles';
         }
       },
       error: (error) => {
         console.error('Error en la API:', error);
-        this.errorMessage = "Error al cargar los datos";
+        this.errorMessage = 'Error al cargar los datos';
         this.partidos = [];
-      }
+      },
     });
   }
 
   get textoJornada(): string {
     const ligasConRound = [140, 39, 135, 78, 61];
-    return ligasConRound.includes(this.leagueId) ? `Jornada ${this.round}` : this.knockout;
+    return ligasConRound.includes(this.leagueId)
+      ? `Jornada ${this.round}`
+      : this.knockout;
   }
-  
 }
-

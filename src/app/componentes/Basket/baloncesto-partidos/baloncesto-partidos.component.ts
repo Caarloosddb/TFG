@@ -28,13 +28,11 @@ export class BaloncestoPartidosComponent implements OnInit {
   temporadas: any[] = [];
 
   partidos: any[] = [];
-  rondas: any[] = [];
 
   leagueId!: number;
   season!: any;
-  round!: number;
 
-  selectedTemporada!: number;
+  selectedTemporada!: string;
   selectedRonda!: string;
 
   errorMessage: string = '';
@@ -49,7 +47,7 @@ export class BaloncestoPartidosComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.leagueId = +params['leagueId'];
-      this.season = +params['season'];
+      this.season = params['season'];
 
       if(this.leagueId === 117){
         this.temporadas = this.temporadasACB

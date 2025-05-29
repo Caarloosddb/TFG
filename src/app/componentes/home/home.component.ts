@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NewsService, Article } from '../../services/news.service';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
+import { ThemeService } from '../../core/theme.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,7 @@ import { FooterComponent } from '../../shared/footer/footer.component';
   imports: [
     CommonModule,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
@@ -30,7 +31,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private newsService: NewsService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    public themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
