@@ -59,13 +59,15 @@
               </td>
 
               <!-- Local -->
-              <td class="d-flex align-items-center gap-2 text-nowrap"
+              <td class="text-start align-middle"
                   [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  <div class="d-flex align-items-center gap-2">
                 <img 
                   [src]="partido.teams.home.logo" 
                   alt="{{ partido.teams.home.name }}" 
                   width="28" height="28" class="mb-0" />
                 <span class="fw-semibold">{{ partido.teams.home.name }}</span>
+                </div>
               </td>
 
               <!-- Resultado -->
@@ -78,13 +80,16 @@
               </td>
 
               <!-- Visitante -->
-              <td class="d-flex align-items-center gap-2 text-nowrap"
+              <!-- Local -->
+              <td class="text-start align-middle"
                   [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
+                  <div class="d-flex align-items-center gap-2">
                 <img 
                   [src]="partido.teams.away.logo" 
                   alt="{{ partido.teams.away.name }}" 
                   width="28" height="28" class="mb-0" />
                 <span class="fw-semibold">{{ partido.teams.away.name }}</span>
+                </div>
               </td>
             </tr>
           </tbody>
