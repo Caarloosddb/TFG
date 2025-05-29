@@ -79,7 +79,7 @@
                 </div>
               </div>
               <h5 class="mb-0 text-nowrap" [ngClass]="{ 'text-white': themeService.isDark() }">
-                Estadísticas Comparativas
+                Estadísticas del Partido
               </h5>
               <div>
                 <img [src]="teamStats[1]?.team?.logo" alt="Equipo 2" height="50">
@@ -105,7 +105,7 @@
                 </div>
                 <div class="text-start ps-2" style="width: 15%" [ngClass]="{ 'text-white': themeService.isDark() }">{{ stat.teamB }}</div>
               </div>
-            </div>
+            </div> 
           </div>
 
           <div *ngIf="teamStats.length !== 2">
@@ -126,10 +126,55 @@
 
             <!-- Campo de jugadores -->
             <div class="campo mb-3">
-              <div *ngFor="let starter of teamLineup.startXI" class="jugador"
-                   [title]="starter.player.name + ' (#' + starter.player.number + ', ' + starter.player.pos + ')'">
-                {{ starter.player.number }}
+              <!-- Portero -->
+              <div class="fila-posicion">
+                <div *ngFor="let player of getGoalkeeper(teamLineup.startXI)"
+                    class="jugador-circulo"
+                    [ngStyle]="{
+                      'background-color': teamLineup.team.colors.goalkeeper.primary,
+                      'color': teamLineup.team.colors.goalkeeper.number,
+                      'border-color': teamLineup.team.colors.goalkeeper.border
+                    }">
+                  {{ player.player.number }}
+                </div>
               </div>
+              <!-- Defensas -->
+              <div class="fila-posicion">
+                <div *ngFor="let player of getDefender(teamLineup.startXI)"
+                    class="jugador-circulo"
+                    [ngStyle]="{
+                      'background-color': teamLineup.team.colors.player.primary,
+                      'color': teamLineup.team.colors.player.number,
+                      'border-color': teamLineup.team.colors.player.border
+                    }">
+                  {{ player.player.number }}
+                </div>
+              </div>
+              <!-- Mediocentros -->
+              <div class="fila-posicion">
+                <div *ngFor="let player of getMifielder(teamLineup.startXI)"
+                    class="jugador-circulo"
+                    [ngStyle]="{
+                      'background-color': teamLineup.team.colors.player.primary,
+                      'color': teamLineup.team.colors.player.number,
+                      'border-color': teamLineup.team.colors.player.border
+                    }">
+                  {{ player.player.number }}
+                </div>
+              </div>
+              <!-- Delanteros -->
+              <div class="fila-posicion">
+                <div *ngFor="let player of getForward(teamLineup.startXI)"
+                    class="jugador-circulo"
+                    [ngStyle]="{
+                      'background-color': teamLineup.team.colors.player.primary,
+                      'color': teamLineup.team.colors.player.number,
+                      'border-color': teamLineup.team.colors.player.border
+                    }">
+                  {{ player.player.number }}
+                </div>
+              </div>
+
             </div>
 
             <!-- Titulares -->

@@ -138,8 +138,8 @@ export class FutbolPartidoDetalleComponent implements OnInit{
   }
 
   getStatPercentage(valA: any, valB: any): number {
-  const numA = parseFloat(valA?.toString().replace('%', '')) || 0;
-  const numB = parseFloat(valB?.toString().replace('%', '')) || 0;
+  const numA = parseFloat(valA?.toString().replace('%', ''));
+  const numB = parseFloat(valB?.toString().replace('%', ''));
   const total = numA + numB;
   return total ? (numA / total) * 100 : 50;
 }
@@ -167,10 +167,22 @@ getEventImage(event: any): string {
   return 'fas fa-info-circle text-muted';
 }
 
-
-
-
   goBack(): void {
     this.location.back();
   }
+
+  getGoalkeeper(players: any[]): any[] {
+    return players.filter(p => p.player.pos === 'G');
+  }
+  getDefender(players: any[]): any[] {
+    return players.filter(p => p.player.pos === 'D');
+  }
+  getMifielder(players: any[]): any[] {
+    return players.filter(p => p.player.pos === 'M');
+  }
+  getForward(players: any[]): any[] {
+    return players.filter(p => p.player.pos === 'F');
+  }
+
+
 }

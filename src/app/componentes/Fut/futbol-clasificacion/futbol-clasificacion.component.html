@@ -61,14 +61,16 @@
                   </span>
                 </td>
 
-                <td class="text-start d-flex align-items-center gap-2">
-                  <img 
-                    [src]="equipo.team.logo" 
-                    [alt]="equipo.team.name" 
-                    width="32" height="32"
-                  >
-                  <span class="fw-semibold text-nowrap">{{ equipo.team.name }}</span>
+                <td class="text-start align-middle">
+                  <div class="d-flex align-items-center gap-2">
+                    <img 
+                      [src]="equipo.team.logo" 
+                      [alt]="equipo.team.name" 
+                      width="32" height="32">
+                    <span class="fw-semibold text-nowrap">{{ equipo.team.name }}</span>
+                  </div>
                 </td>
+
 
                 <td class="text-center fw-bold">{{ equipo.points }}</td>
                 <td class="text-center">{{ equipo.all.played }}</td>
@@ -76,7 +78,20 @@
                 <td class="text-center">{{ equipo.all.draw }}</td>
                 <td class="text-center">{{ equipo.all.lose }}</td>
                 <td class="text-center">{{ equipo.goalsDiff }}</td>
-                <td class="text-center">{{ equipo.form }}</td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-1">
+                    <div *ngFor="let racha of equipo.form.split('')"
+                        class="text-white text-center rounded"
+                        [ngClass]="{
+                          'bg-success': racha === 'W',
+                          'bg-secondary': racha === 'D',
+                          'bg-danger': racha === 'L'
+                        }"
+                        style="width: 24px; height: 24px; line-height: 24px; font-weight: bold;">
+                      {{ racha }}
+                    </div>
+                  </div>
+                </td>              
               </tr>
             </tbody>
           </table>

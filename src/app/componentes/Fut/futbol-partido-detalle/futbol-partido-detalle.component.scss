@@ -1,24 +1,26 @@
 .campo {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  gap: 10px;
-  width: 350px;
-  height: 450px;
-  border: 1px solid #444;
-  background-color: #cdebdc;
-  justify-items: center;
-  align-items: center;
+  background: green;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  position: relative;
+  min-height: 400px;
 }
-.jugador {
-  width: 40px;
-  height: 40px;
-  background-color: #017b25;
+
+.fila-posicion {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.jugador-circulo {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  color: white;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  user-select: none;
+  border: 2px solid;
 }

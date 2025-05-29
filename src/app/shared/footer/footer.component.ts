@@ -10,7 +10,7 @@ import { TerminosComponent } from '../terminos/terminos.component';
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule, RouterModule, AvisoLegalComponent, PrivacidadComponent, TerminosComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'
 })
