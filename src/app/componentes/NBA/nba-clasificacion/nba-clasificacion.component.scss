@@ -37,3 +37,20 @@
   background-color: #D32F2F;
   color: #fff;
 }
+
+/* Estilos de ancho por columna */
+.col-numero {
+  width: 5%;
+  min-width: 50px;
+}
+.col-equipo {
+  width: 45%;
+  min-width: 180px;
+}
+.col-pg,
+.col-pp,
+.col-porcentaje {
+  width: 16.66%;
+  min-width: 60px;
+  text-align: center;
+}

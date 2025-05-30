@@ -5,43 +5,46 @@
 
   <main class="flex-grow-1 py-4 px-3 px-lg-5 bg-app">
     <div class="container-fluid">
-
       <!-- Selector de fecha -->
       <div class="mb-4 d-flex align-items-center gap-3 flex-wrap">
-        <label for="fecha" class="form-label fw-semibold mb-0">Selecciona una fecha:</label>
+        <label for="fecha" class="form-label fw-semibold mb-0"
+          >Selecciona una fecha:</label
+        >
         <input
           id="fecha"
           type="date"
           class="form-control form-control-sm rounded-pill px-3"
-          style="min-width: 160px; width: fit-content;"
+          style="min-width: 120px; width: fit-content"
           [(ngModel)]="fechaSeleccionada"
           [min]="minFecha"
           [max]="maxFecha"
           (change)="filtrarPorFecha()"
         />
-      </div>
-
-      <div class="col-auto d-flex align-items-center gap-2">
-          <label 
-            for="anoSelect" 
+        <div class="col-auto d-flex align-items-center gap-2">
+          <label
+            for="anoSelect"
             class="form-label mb-0 fw-medium"
-            [ngClass]="{ 'text-white': themeService.isDark() }">
+            [ngClass]="{ 'text-white': themeService.isDark() }"
+          >
             Temporada:
           </label>
-          <select 
-            id="anoSelect" 
+          <select
+            id="anoSelect"
             class="form-select form-select-sm rounded-pill px-3"
-            style="min-width: 80px;"
-            [(ngModel)]="selectedTemporada" 
-            (change)="onFiltroCambio()">
-            <option 
-              *ngFor="let ano of temporadas" 
+            style="min-width: 80px"
+            [(ngModel)]="selectedTemporada"
+            (change)="onFiltroCambio()"
+          >
+            <option
+              *ngFor="let ano of temporadas"
               [value]="ano"
-              [ngClass]="{ 'text-white': themeService.isDark() }">
+              [ngClass]="{ 'text-white': themeService.isDark() }"
+            >
               {{ ano }}
             </option>
           </select>
         </div>
+      </div>
 
       <!-- Cargando -->
       <div *ngIf="isLoading" class="text-center py-5">
@@ -56,17 +59,25 @@
       </div>
 
       <!-- Resultados del día -->
-      <div *ngIf="!isLoading && fechaSeleccionada && partidosFiltrados.length > 0"
-        class="shadow-sm rounded-4 overflow-hidden">
-
+      <div
+        *ngIf="!isLoading && fechaSeleccionada && partidosFiltrados.length > 0"
+        class="shadow-sm rounded-4 overflow-hidden"
+      >
         <h5 class="mt-4 mb-3 fw-bold text-primary">
-          {{ fechaSeleccionada | date:'fullDate' }}
+          {{ fechaSeleccionada | date : "fullDate" }}
         </h5>
 
         <div class="table-responsive">
-          <table class="table align-middle mb-0"
-            [ngClass]="themeService.isDark() ? 'table-dark table-striped' : 'table-light'">
-            <thead class="small text-uppercase" [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          <table
+            class="table align-middle mb-0"
+            [ngClass]="
+              themeService.isDark() ? 'table-dark table-striped' : 'table-light'
+            "
+          >
+            <thead
+              class="small text-uppercase"
+              [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'"
+            >
               <tr>
                 <th>Hora</th>
                 <th class="text-start">Local</th>
@@ -78,37 +89,67 @@
             <tbody>
               <tr *ngFor="let game of partidosFiltrados">
                 <!-- Hora -->
-                <td class="text-nowrap" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                  {{ game?.date?.start | date:'HH:mm' }}
+                <td
+                  class="text-nowrap"
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+                >
+                  {{ game?.date?.start | date : "HH:mm" }}
                 </td>
 
                 <!-- Equipo local -->
-                <td class="d-flex align-items-center gap-2 text-nowrap"
-                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                  <img [src]="game?.teams?.home?.logo" width="24" height="24" alt="Logo local">
+                <td
+                  class="d-flex align-items-center gap-2 text-nowrap"
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+                >
+                  <img
+                    [src]="game?.teams?.home?.logo"
+                    width="24"
+                    height="24"
+                    alt="Logo local"
+                  />
                   <span class="fw-semibold">{{ game?.teams?.home?.name }}</span>
                 </td>
 
                 <!-- Resultado -->
-                <td class="text-center fw-bold" [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                  {{ game?.scores?.home?.points ?? '-' }} - {{ game?.scores?.visitors?.points ?? '-' }}
+                <td
+                  class="text-center fw-bold"
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+                >
+                  {{ game?.scores?.home?.points ?? "-" }} -
+                  {{ game?.scores?.visitors?.points ?? "-" }}
                 </td>
 
                 <!-- Equipo visitante -->
-                <td class="d-flex align-items-center gap-2 text-nowrap"
-                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                  <img [src]="game?.teams?.visitors?.logo" width="24" height="24" alt="Logo visitante">
-                  <span class="fw-semibold">{{ game?.teams?.visitors?.name }}</span>
+                <td
+                  class="d-flex align-items-center gap-2 text-nowrap"
+                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+                >
+                  <img
+                    [src]="game?.teams?.visitors?.logo"
+                    width="24"
+                    height="24"
+                    alt="Logo visitante"
+                  />
+                  <span class="fw-semibold">{{
+                    game?.teams?.visitors?.name
+                  }}</span>
                 </td>
 
                 <!-- Estado -->
-                <td class="text-center text-nowrap fw-medium" [ngClass]="
-                  game.status.long === 'Finalizado' || game.status.long === 'Finished'
-                  ? ( themeService.isDark() ? 'text-white' : 'text-body' )
-                  : ( game.status.long === 'En juego' || game.status.long === 'In Progress'
-                  ? 'text-warning'
-                  : 'text-success' )
-                ">
+                <td
+                  class="text-center text-nowrap fw-medium"
+                  [ngClass]="
+                    game.status.long === 'Finalizado' ||
+                    game.status.long === 'Finished'
+                      ? themeService.isDark()
+                        ? 'text-white'
+                        : 'text-body'
+                      : game.status.long === 'En juego' ||
+                        game.status.long === 'In Progress'
+                      ? 'text-warning'
+                      : 'text-success'
+                  "
+                >
                   {{ game.status.long }}
                 </td>
               </tr>
@@ -118,16 +159,22 @@
       </div>
 
       <!-- No hay partidos en la fecha seleccionada -->
-      <div *ngIf="!isLoading && fechaSeleccionada && partidosFiltrados.length === 0"
-        class="alert alert-warning shadow-sm mt-4">
+      <div
+        *ngIf="
+          !isLoading && fechaSeleccionada && partidosFiltrados.length === 0
+        "
+        class="alert alert-warning shadow-sm mt-4"
+      >
         No hay partidos para la fecha seleccionada.
       </div>
 
       <!-- No hay partidos en la temporada -->
-      <div *ngIf="!isLoading && !errorMessage && partidos.length === 0" class="alert alert-info shadow-sm mt-4">
+      <div
+        *ngIf="!isLoading && !errorMessage && partidos.length === 0"
+        class="alert alert-info shadow-sm mt-4"
+      >
         No hay partidos disponibles en esta temporada.
       </div>
-
     </div>
   </main>
 </div>

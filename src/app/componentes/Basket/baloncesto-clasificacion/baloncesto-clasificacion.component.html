@@ -1,77 +1,131 @@
 <app-navbar></app-navbar>
 
-<div class="d-flex">
+<div class="d-flex min-vh-100 bg-app">
   <app-sidebar-nba></app-sidebar-nba>
 
-  <main class="flex-fill p-4">
-    <div class="container mt-4">
+  <main class="flex-fill py-4 px-3 px-lg-5 bg-app">
+    <div class="container-mt-4">
+      <!-- Tarjeta de Clasificación -->
+      <div
+        class="card rounded-4 shadow-sm border-0 overflow-hidden"
+        [ngClass]="
+          themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'
+        "
+      >
+        <!-- Cabecera -->
+        <div
+          class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3 border-bottom-0"
+          [ngClass]="
+            themeService.isDark()
+              ? 'bg-dark text-white border-dark'
+              : 'bg-light text-dark border-light'
+          "
+        >
+          <h5 class="mb-0 fw-bold">Clasificación</h5>
 
-      <!-- Selector de temporada -->
-      <div class="mb-4 d-flex align-items-center gap-2">
-        <label for="seasonSelect" class="form-label mb-0 fw-semibold">Temporada:</label>
-        <select id="seasonSelect"
-                class="form-select form-select-sm w-auto"
-                [(ngModel)]="selectedTemporada"
-                (change)="onFiltroCambio()">
-          <option *ngFor="let temporada of temporadas">
-            {{ temporada }}
-          </option>
-        </select>
+          <!-- Selector de temporada -->
+          <div class="d-flex align-items-center gap-2">
+            <label for="seasonSelect" class="form-label mb-0 fw-medium">
+              Temporada:
+            </label>
+            <select
+              id="seasonSelect"
+              class="form-select form-select-sm rounded-pill px-3"
+              [ngStyle]="leagueId === 120 ? { 'min-width': '80px' } : {'min-width': '115px' }"
+              [(ngModel)]="selectedTemporada"
+              (change)="onFiltroCambio()"
+            >
+              <option *ngFor="let temporada of temporadas">
+                {{ temporada }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tabla de clasificación -->
+        <div *ngIf="clasificacion.length" class="table-responsive">
+          <table
+            class="table align-middle mb-0"
+            [ngClass]="
+              themeService.isDark() ? 'table-dark table-striped' : 'table-light'
+            "
+          >
+            <thead
+              class="small text-uppercase"
+              [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'"
+            >
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col" class="text-start">Equipo</th>
+                <th scope="col" class="text-center">PJ</th>
+                <th scope="col" class="text-center">PG</th>
+                <th scope="col" class="text-center">PP</th>
+                <th scope="col" class="text-center">PF</th>
+                <th scope="col" class="text-center">PC</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let team of clasificacion[0]; let i = index">
+                <td class="text-start">
+                  <span
+                    class="badge rounded-pill fw-semibold px-2 py-1"
+                    [ngClass]="
+                      leagueId === 120
+                        ? {
+                            'bg-playoff': i < 6,
+                            'bg-playin': i >= 6 && i < 10,
+                            'bg-eliminated': i >= 10
+                          }
+                        : leagueId === 117
+                        ? {
+                            'bg-primary': i < 8,
+                            'bg-secondary': i >= 8 && i < 16,
+                            'bg-danger': i >= 16
+                          }
+                        : {}
+                    "
+                  >
+                    {{ team.position }}
+                  </span>
+                </td>
+                <td class="text-start align-middle">
+                  <div class="d-flex align-items-center gap-2">
+                    <img
+                      [src]="team.team.logo"
+                      [alt]="team.team.name"
+                      width="32"
+                      height="32"
+                    />
+                    <span class="fw-semibold text-nowrap">
+                      {{ team.team.name }}
+                    </span>
+                  </div>
+                </td>
+                <td class="text-center">{{ team.games.played }}</td>
+                <td class="text-center fw-bold">{{ team.games.win.total }}</td>
+                <td class="text-center">{{ team.games.lose.total }}</td>
+                <td class="text-center">{{ team.points.for }}</td>
+                <td class="text-center">{{ team.points.against }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Sin datos -->
+        <div
+          *ngIf="!clasificacion?.length && !errorMessage"
+          class="text-center my-4"
+        >
+          <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+            No hay clasificación disponible para esta temporada.
+          </p>
+        </div>
+
+        <!-- Error -->
+        <div *ngIf="errorMessage" class="alert alert-danger m-3 shadow-sm">
+          {{ errorMessage }}
+        </div>
       </div>
-
-      <!-- Error -->
-      <div *ngIf="errorMessage" class="alert alert-danger shadow-sm">
-        {{ errorMessage }}
-      </div>
-
-      <!-- Tabla de clasificación -->
-      <div *ngIf="(clasificacion?.length || 0) > 0" class="table-responsive shadow-sm rounded-4 overflow-hidden">
-        <table class="table align-middle mb-0"
-               [ngClass]="themeService.isDark() ? 'table-dark' : 'table-light'"
-               style="font-size: 0.92rem;">
-          <thead>
-            <tr class="text-uppercase small"
-                [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
-              <th class="text-center" style="width: 30px;">#</th>
-              <th class="text-start" style="min-width: 200px;">Equipo</th>
-              <th class="text-center" style="width: 60px;">PJ</th>
-              <th class="text-center" style="width: 60px;">G</th>
-              <th class="text-center" style="width: 60px;">P</th>
-              <th class="text-center" style="width: 70px;">PTOS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let team of clasificacion[0]; let i = index"
-                [ngClass]="{
-                  'bg-success-subtle': i < 6,
-                  'bg-warning-subtle': i >= 6 && i < 10,
-                  'bg-secondary-subtle': i >= 10
-                }">
-              <td class="text-center fw-semibold">{{ team.position }}</td>
-              <td class="text-start">
-                <div class="d-flex align-items-center gap-2">
-                  <img 
-                    [src]="team.team.logo"
-                    [alt]="team.team.name"
-                    width="24" height="24">
-                  <span class="fw-semibold text-nowrap">{{ team.team.name }}</span>
-                </div>
-              </td>
-              <td class="text-center">{{ team.games.played }}</td>
-              <td class="text-center">{{ team.games.win.total }}</td>
-              <td class="text-center">{{ team.games.lose.total }}</td>
-              <td class="text-center fw-bold">{{ team.points.for }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Sin datos -->
-      <div *ngIf="!errorMessage && clasificacion?.length === 0"
-           class="alert alert-info shadow-sm mt-4">
-        No hay clasificación disponible para esta temporada.
-      </div>
-
     </div>
   </main>
 </div>

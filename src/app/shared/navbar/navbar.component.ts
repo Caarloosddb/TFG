@@ -68,7 +68,7 @@ onSearch(): void {
 }
 
 buscarJugador(nombre: string): void {
-  const leagueId = 140; // Ej: LaLiga
+  const leagueId = 140;
   const season = 2024;
   const url = `https://v3.football.api-sports.io/players?search=${encodeURIComponent(nombre)}&league=${leagueId}&season=${season}`;
 

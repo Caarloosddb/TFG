@@ -6,11 +6,13 @@
   <!-- Contenido principal -->
   <main class="flex-fill py-4 px-3 px-lg-5 bg-app">
     <div class="container-fluid">
-
       <!-- Encabezado -->
       <div class="mb-4">
         <h2 class="text-primary fw-bold mb-1">Partidos de Hoy</h2>
-        <p class="mb-0" [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+        <p
+          class="mb-0"
+          [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'"
+        >
           {{ partidos.length }} partido(s) programado(s)
         </p>
       </div>
@@ -20,13 +22,14 @@
         <label for="fechaInput" class="form-label fw-semibold mb-0">
           Selecciona una fecha:
         </label>
-        <input 
+        <input
           id="fechaInput"
           type="date"
           class="form-control form-control-sm rounded-pill px-3"
-          style="width: fit-content; min-width: 160px;"
+          style="width: fit-content; min-width: 120px"
           [(ngModel)]="fechaSeleccionada"
-          (change)="onFechaCambio()" />
+          (change)="onFechaCambio()"
+        />
       </div>
 
       <!-- Error -->
@@ -35,60 +38,89 @@
       </div>
 
       <!-- Tabla de partidos -->
-      <div *ngIf="partidos.length > 0" class="table-responsive shadow-sm rounded-4 overflow-hidden">
-        <table class="table align-middle mb-0"
-               [ngClass]="themeService.isDark() ? 'table-dark table-striped' : 'table-light'">
+      <div
+        *ngIf="partidos.length > 0"
+        class="table-responsive shadow-sm rounded-4 overflow-hidden"
+      >
+        <table
+          class="table align-middle mb-0"
+          [ngClass]="
+            themeService.isDark() ? 'table-dark table-striped' : 'table-light'
+          "
+        >
           <thead>
             <tr>
               <th scope="col">Hora</th>
               <th scope="col" class="text-start">Local</th>
               <th scope="col" class="text-center">Resultado</th>
-              <th scope="col" class="text-start">Visitante</th>
+              <th scope="col" class="text-end">Visitante</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let partido of partidos"
-                [routerLink]="['/partido', partido.fixture.id]"
-                class="hoverable"
-                style="cursor: pointer;">
-              
+            <tr
+              *ngFor="let partido of partidos"
+              [routerLink]="['/partido', partido.fixture.id]"
+              class="hoverable"
+              style="cursor: pointer"
+            >
               <!-- Hora -->
-              <td class="text-nowrap" 
-                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                {{ partido.fixture.date | date: 'HH:mm' }}
+              <td
+                class="text-nowrap"
+                [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+              >
+                {{ partido.fixture.date | date : "HH:mm" }}
               </td>
 
               <!-- Local -->
-              <td class="text-start align-middle"
-                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                  <div class="d-flex align-items-center gap-2">
-                <img 
-                  [src]="partido.teams.home.logo" 
-                  alt="{{ partido.teams.home.name }}" 
-                  width="28" height="28" class="mb-0" />
-                <span class="fw-semibold">{{ partido.teams.home.name }}</span>
+              <td
+                class="text-start align-middle"
+                [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <img
+                    [src]="partido.teams.home.logo"
+                    alt="{{ partido.teams.home.name }}"
+                    width="28"
+                    height="28"
+                    class="mb-0"
+                  />
+                  <span class="fw-semibold">{{ partido.teams.home.name }}</span>
                 </div>
               </td>
 
               <!-- Resultado -->
-              <td class="text-center fw-bold"
-                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                <ng-container *ngIf="partido.goals.home !== null && partido.goals.away !== null; else pendiente">
+              <td
+                class="text-center fw-bold"
+                [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+              >
+                <ng-container
+                  *ngIf="
+                    partido.goals.home !== null && partido.goals.away !== null;
+                    else pendiente
+                  "
+                >
                   {{ partido.goals.home }} - {{ partido.goals.away }}
                 </ng-container>
                 <ng-template #pendiente>–</ng-template>
               </td>
 
               <!-- Visitante -->
-              <!-- Local -->
-              <td class="text-start align-middle"
-                  [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'">
-                  <div class="d-flex align-items-center gap-2">
-                <img 
-                  [src]="partido.teams.away.logo" 
-                  alt="{{ partido.teams.away.name }}" 
-                  width="28" height="28" class="mb-0" />
-                <span class="fw-semibold">{{ partido.teams.away.name }}</span>
+              <td
+                class="text-end align-middle"
+                [ngClass]="themeService.isDark() ? 'text-white' : 'text-body'"
+              >
+                <div
+                  class="d-flex align-items-center gap-2 justify-content-end"
+                >
+                  <span class="fw-semibold">{{ partido.teams.away.name }}</span>
+
+                  <img
+                    [src]="partido.teams.away.logo"
+                    alt="{{ partido.teams.away.name }}"
+                    width="28"
+                    height="28"
+                    class="mb-0"
+                  />
                 </div>
               </td>
             </tr>
@@ -102,7 +134,6 @@
           No hay partidos programados para esta fecha.
         </p>
       </div>
-
     </div>
   </main>
 </div>

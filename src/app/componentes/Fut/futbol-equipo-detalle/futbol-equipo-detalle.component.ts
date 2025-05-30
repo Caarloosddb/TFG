@@ -26,7 +26,7 @@ import { ThemeService } from '../../../core/theme.service';
 })
 export class FutbolEquipoDetalleComponent implements OnInit {
   leagueId!: number;
-  season!: number;
+  season!: number
   teamId!: number;
 
   teamInfo: any;
@@ -46,7 +46,7 @@ export class FutbolEquipoDetalleComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.teamId = +params['teamId'];
-      this.leagueId = +params['leagueId'];
+      this.leagueId = +params['leagueId'] || 140;
       this.season = +params['season'] || 2024;
 
     console.log('Params:', this.leagueId, this.season, this.teamId);

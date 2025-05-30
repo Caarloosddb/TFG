@@ -5,37 +5,55 @@
 
   <main class="flex-fill py-4 px-3 px-lg-5 bg-app">
     <div class="container-mt-4">
-
       <!-- Tarjeta de Clasificación -->
-      <div 
+      <div
         class="card rounded-4 shadow-sm border-0 overflow-hidden"
-        [ngClass]="themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'">
-
+        [ngClass]="
+          themeService.isDark() ? 'bg-dark text-white' : 'bg-white text-dark'
+        "
+      >
         <!-- Cabecera -->
-        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3 border-bottom-0"
-             [ngClass]="themeService.isDark() ? 'bg-dark text-white border-dark' : 'bg-light text-dark border-light'">
-          <h5 class="mb-0 fw-bold">Clasificación de la liga</h5>
+        <div
+          class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3 border-bottom-0"
+          [ngClass]="
+            themeService.isDark()
+              ? 'bg-dark text-white border-dark'
+              : 'bg-light text-dark border-light'
+          "
+        >
+          <h5 class="mb-0 fw-bold">Clasificación</h5>
 
           <!-- Selector de temporada -->
           <div class="d-flex align-items-center gap-2">
-            <label for="anoSelect" class="form-label mb-0 fw-medium">Temporada:</label>
-            <select 
-              id="anoSelect" 
+            <label for="anoSelect" class="form-label mb-0 fw-medium"
+              >Temporada:</label
+            >
+            <select
+              id="anoSelect"
               class="form-select form-select-sm rounded-pill px-3"
-              style="min-width: 90px;"
-              [(ngModel)]="selectedTemporada" 
-              (change)="onFiltroCambio()">
-              <option *ngFor="let ano of temporadas" [value]="ano">{{ ano }}</option>
+              style="min-width: 90px"
+              [(ngModel)]="selectedTemporada"
+              (change)="onFiltroCambio()"
+            >
+              <option *ngFor="let ano of temporadas" [value]="ano">
+                {{ ano }}
+              </option>
             </select>
           </div>
         </div>
 
-        <!-- Tabla -->
+        <!-- Tabla de clasificacion-->
         <div *ngIf="clasificacion.length" class="table-responsive">
-          <table class="table align-middle mb-0"
-                 [ngClass]="themeService.isDark() ? 'table-dark table-striped' : 'table-light'">
-            <thead class="small text-uppercase"
-                   [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
+          <table
+            class="table align-middle mb-0"
+            [ngClass]="
+              themeService.isDark() ? 'table-dark table-striped' : 'table-light'
+            "
+          >
+            <thead
+              class="small text-uppercase"
+              [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'"
+            >
               <tr>
                 <th scope="col">#</th>
                 <th scope="col" class="text-start">Equipo</th>
@@ -49,28 +67,39 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let equipo of clasificacion"
-                  [routerLink]="['/equipo', equipo.team.id, leagueId, selectedTemporada]"
-                  class="hoverable"
-                  style="cursor: pointer;">
-                  
+              <tr
+                *ngFor="let equipo of clasificacion"
+                [routerLink]="[
+                  '/equipo',
+                  equipo.team.id,
+                  leagueId,
+                  selectedTemporada
+                ]"
+                class="hoverable"
+                style="cursor: pointer"
+              >
                 <td>
-                  <span class="badge rounded-pill fw-semibold px-2 py-1"
-                        [ngClass]="getBadgeClass(equipo.description)">
+                  <span
+                    class="badge rounded-pill fw-semibold px-2 py-1"
+                    [ngClass]="getBadgeClass(equipo.description)"
+                  >
                     {{ equipo.rank }}
                   </span>
                 </td>
 
                 <td class="text-start align-middle">
                   <div class="d-flex align-items-center gap-2">
-                    <img 
-                      [src]="equipo.team.logo" 
-                      [alt]="equipo.team.name" 
-                      width="32" height="32">
-                    <span class="fw-semibold text-nowrap">{{ equipo.team.name }}</span>
+                    <img
+                      [src]="equipo.team.logo"
+                      [alt]="equipo.team.name"
+                      width="32"
+                      height="32"
+                    />
+                    <span class="fw-semibold text-nowrap">{{
+                      equipo.team.name
+                    }}</span>
                   </div>
                 </td>
-
 
                 <td class="text-center fw-bold">{{ equipo.points }}</td>
                 <td class="text-center">{{ equipo.all.played }}</td>
@@ -80,30 +109,39 @@
                 <td class="text-center">{{ equipo.goalsDiff }}</td>
                 <td class="text-center">
                   <div class="d-flex justify-content-center gap-1">
-                    <div *ngFor="let racha of equipo.form.split('')"
-                        class="text-white text-center rounded"
-                        [ngClass]="{
-                          'bg-success': racha === 'W',
-                          'bg-warning': racha === 'D',
-                          'bg-danger': racha === 'L'
-                        }"
-                        style="width: 24px; height: 24px; line-height: 24px; font-weight: bold;">
+                    <div
+                      *ngFor="let racha of equipo.form.split('')"
+                      class="text-white text-center rounded"
+                      [ngClass]="{
+                        'bg-success': racha === 'W',
+                        'bg-warning': racha === 'D',
+                        'bg-danger': racha === 'L'
+                      }"
+                      style="
+                        width: 24px;
+                        height: 24px;
+                        line-height: 24px;
+                        font-weight: bold;
+                      "
+                    >
                       {{ racha }}
                     </div>
                   </div>
-                </td>              
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <!-- Sin datos -->
-        <div *ngIf="!clasificacion.length && !errorMessage" class="text-center my-4">
+        <div
+          *ngIf="!clasificacion.length && !errorMessage"
+          class="text-center my-4"
+        >
           <p [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-muted'">
             No hay datos disponibles para esta temporada.
           </p>
         </div>
-
       </div>
     </div>
   </main>

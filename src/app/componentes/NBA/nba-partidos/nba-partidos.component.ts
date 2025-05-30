@@ -129,10 +129,6 @@ export class NbaPartidosComponent implements OnInit {
     });
   }
 
-  sortByKey = (a: any, b: any): number => {
-    return a.key.localeCompare(b.key);
-  };
-
   filtrarPorFecha(): void {
   if (this.fechaSeleccionada && this.partidosPorFecha[this.fechaSeleccionada]) {
     this.partidosFiltrados = this.partidosPorFecha[this.fechaSeleccionada];

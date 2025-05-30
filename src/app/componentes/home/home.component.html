@@ -188,7 +188,7 @@
                 </div>
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title">{{ art.title }}</h5>
-                  <p class="card-text text-muted small">{{ art.source.name }}</p>
+                  <p class="card-text small" [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-body'">{{ art.source.name }}</p>
                   <p class="card-text mb-4 flex-grow-1">
                     {{ art.description }}
                   </p>
@@ -232,7 +232,7 @@
                 </div>
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title">{{ art.title }}</h5>
-                  <p class="card-text text-muted small">{{ art.source.name }}</p>
+                  <p class="card-text small" [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-body'">{{ art.source.name }}</p>
                   <p class="card-text mb-4 flex-grow-1">
                     {{ art.description }}
                   </p>
@@ -276,7 +276,7 @@
                 </div>
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title">{{ art.title }}</h5>
-                  <p class="card-text text-muted small">{{ art.source.name }}</p>
+                  <p class="card-text small" [ngClass]="themeService.isDark() ? 'text-white-50' : 'text-body'">{{ art.source.name }}</p>
                   <p class="card-text mb-4 flex-grow-1">
                     {{ art.description }}
                   </p>
