@@ -8,6 +8,7 @@ export class FirestoreService {
 
   constructor(private firestore: Firestore) { }
   
+  //Logica para las preferncias de usuario de nacion equipo y jugador
   createUserProfile(
     uid: string,
     data: { nationality: string; favoriteTeam: string; favoritePlayer: string; }

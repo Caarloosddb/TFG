@@ -23,19 +23,18 @@ import { SidebarNBAComponent } from '../../../shared/sidebar-nba/sidebar-nba.com
   styleUrl: './baloncesto-partidos.component.scss',
 })
 export class BaloncestoPartidosComponent implements OnInit {
-  temporadasEl: any[] = ['2023', '2022', '2021'];
-  temporadasACB: any[] = ['2023-2024', '2022-2023', '2021-2022'];
-  temporadas: any[] = [];
+  temporadasEl: any[] = ['2023', '2022', '2021'];   // Temporadas de la Euroliga
+  temporadasACB: any[] = ['2023-2024', '2022-2023', '2021-2022']; // Temporadas de la ACB
+  temporadas: any[] = []; // Lista de temporadas que se mostrará al usuario
 
-  partidos: any[] = [];
+  partidos: any[] = []; // Lista de partidos de baloncesto
 
-  leagueId!: number;
-  season!: any;
+  leagueId!: number;  // ID de la liga (117 para ACB, 120 para Euroliga)
+  season!: any; // Temporada seleccionada por el usuario
 
-  selectedTemporada!: string;
-  selectedRonda!: string;
+  selectedTemporada!: string; // Temporada seleccionada por el usuario
 
-  errorMessage: string = '';
+  errorMessage: string = '';  // Mensaje de error en caso de que no se encuentren partidos o haya un error en la API
 
   constructor(
     private http: HttpClient,
@@ -46,54 +45,55 @@ export class BaloncestoPartidosComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.leagueId = +params['leagueId'];
-      this.season = params['season'];
+      this.leagueId = +params['leagueId'];  // Obtiene el ID de la liga desde los parámetros de la ruta y lo convierte a número
+      this.season = params['season']; // Obtiene la temporada desde los parámetros de la ruta
 
-      if(this.leagueId === 117){
-        this.temporadas = this.temporadasACB
+      if(this.leagueId === 117){  // Si la liga es ACB
+        this.temporadas = this.temporadasACB  // Asigna las temporadas de la ACB a la lista de temporadas
       }else {
-        this.temporadas = this.temporadasEl
+        this.temporadas = this.temporadasEl // Asigna las temporadas de la Euroliga a la lista de temporadas
       }
 
-      this.selectedTemporada = this.season;
+      this.selectedTemporada = this.season; // Establece la temporada seleccionada por el usuario
 
-      this.cargarPartidos();
+      this.cargarPartidos();  // Llama a la función para cargar los partidos de baloncesto
     });
   }
 
   onFiltroCambio() {
-    this.season = this.selectedTemporada;
-    this.actualizarRuta();
+    this.season = this.selectedTemporada; // Actualiza la temporada con la seleccionada por el usuario
+    this.actualizarRuta();  // Actualiza la ruta para reflejar el cambio de temporada
   }
 
   actualizarRuta() {
-    this.router.navigate(['/baloncesto-partidos', this.leagueId, this.season]);
+    this.router.navigate(['/baloncesto-partidos', this.leagueId, this.season]); // Navega a la ruta actualizada con el ID de la liga y la temporada seleccionada
   }
 
   cargarPartidos() {
+    // API Key
     const headers = new HttpHeaders({
       'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159',
     });
 
-    let url = `https://v1.basketball.api-sports.io/games?league=${this.leagueId}&season=${this.season}`;
+    let url = `https://v1.basketball.api-sports.io/games?league=${this.leagueId}&season=${this.season}`;  // URL de la API para obtener los partidos de baloncesto
 
-    console.log('Requesting URL:', url);
+    console.log('Requesting URL:', url);  // Muestra la URL solicitada en la consola para depuración
 
-    this.http.get<any>(url, { headers }).subscribe({
-      next: (data) => {
-        console.log('Datos recibidos:', data);
+    this.http.get<any>(url, { headers }).subscribe({  // Realiza la solicitud a la API
+      next: (data) => {   
+        console.log('Datos recibidos:', data);  // Muestra los datos recibidos de la API en la consola para depuración
 
-        if (data?.response?.length) {
-          this.partidos = data.response;
-          this.errorMessage = '';
+        if (data?.response?.length) { // Comprueba si hay datos en la respuesta de la API
+          this.partidos = data.response;  // Asigna los datos de los partidos a la variable partidos
+          this.errorMessage = ''; // Limpia el mensaje de error si hay partidos disponibles
         } else {
-          this.errorMessage = 'No hay partidos disponibles';
+          this.errorMessage = 'No hay partidos disponibles';  // Mensaje de error si no hay partidos disponibles
         }
       },
       error: (error) => {
-        console.error('Error en la API:', error);
-        this.errorMessage = 'Error al cargar los partidos';
-        this.partidos = [];
+        console.error('Error en la API:', error); // Muestra un mensaje de error si la API falla
+        this.errorMessage = 'Error al cargar los partidos'; // Mensaje de error si la API falla
+        this.partidos = []; // Limpia la lista de partidos en caso de error
       },
     });
   }

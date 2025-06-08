@@ -1,9 +1,8 @@
-/* Layout general sin margen arriba */
 .layout-wrapper {
   display: flex;
   flex-direction: row;
   min-height: 100vh;
-  margin-top: 0; /* sin margen superior */
+  margin-top: 0; 
 }
 
 /* Slider lateral ajustado al alto de la ventana - navbar */
@@ -13,7 +12,7 @@
 }
 
 .slider-inner {
-  height: calc(100vh - 56px); /* 56px = altura típica del navbar */
+  height: calc(100vh - 56px);
   position: sticky;
  
   overflow: hidden;

@@ -23,13 +23,13 @@ import { ThemeService } from '../../../core/theme.service';
   styleUrl: './futbol-partidos.component.scss',
 })
 export class FutbolPartidosComponent implements OnInit {
-  temporadas: number[] = [];
-  jornadas: number[] = [];
-  partidos: any[] = [];
-  rondas: any[] = [];
-  rondasEuropa: any[] = [];
+  temporadas: number[] = [];  // Lista de temporadas disponibles
+  jornadas: number[] = [];  // Lista de jornadas disponibles
+  partidos: any[] = []; // Lista de partidos de fútbol
+  rondas: any[] = []; // Lista de rondas disponibles
+  rondasEuropa: any[] = []; // Lista de rondas disponibles para competiciones europeas
 
-  endpoint: string = '';
+  endpoint: string = '';  // Endpoint de la API que se utilizará para obtener los partidos
   leagueId!: number;
   season!: number;
   round!: number;
@@ -49,12 +49,12 @@ export class FutbolPartidosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.temporadas = [
+    this.temporadas = [ // Lista de temporadas disponibles
       2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013,
       2012, 2011, 2010,
-    ];
-    this.rondas = ['Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];
-    this.rondasEuropa = [
+    ];  
+    this.rondas = ['Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];  // Lista de rondas disponibles para competiciones no europeas
+    this.rondasEuropa = [ // Lista de rondas disponibles para competiciones europeas
       'League Stage - 1',
       'League Stage - 2',
       'League Stage - 3',
@@ -68,12 +68,12 @@ export class FutbolPartidosComponent implements OnInit {
       'Semi-finals',
       'Final',
     ];
-    //Añadir if conference
 
     this.route.params.subscribe((params) => {
-      this.endpoint = params['endpoint'];
-      this.leagueId = +params['leagueId'];
-      this.season = +params['season'];
+      this.endpoint = params['endpoint']; // Obtiene el endpoint de la API desde los parámetros de la ruta
+      this.leagueId = +params['leagueId'];  // Obtiene el ID de la liga desde los parámetros de la ruta y lo convierte a número
+      this.season = +params['season'];  // Obtiene la temporada desde los parámetros de la ruta y lo convierte a número
+      // Establece el endpoint de la API dependiendo de la liga
       if (
         this.leagueId === 140 ||
         this.leagueId === 39 ||
@@ -86,20 +86,22 @@ export class FutbolPartidosComponent implements OnInit {
         this.knockout = params['round'];
       }
 
-      this.selectedRonda = this.knockout;
+      this.selectedRonda = this.knockout; // Establece la ronda seleccionada por el usuario
 
-      this.selectedTemporada = this.season;
+      this.selectedTemporada = this.season; // Establece la temporada seleccionada por el usuario
 
+      //Establece el numero de jornadas dependiendo de la liga
       if (this.leagueId === 78 || this.leagueId === 61) {
         this.jornadas = Array.from({ length: 34 }, (_, i) => i + 1);
       } else {
         this.jornadas = Array.from({ length: 38 }, (_, i) => i + 1);
       }
 
-      this.cargarPartidos();
+      this.cargarPartidos();  // Llama a la función para cargar los partidos de fútbol
     });
   }
 
+  // Método para ir a la jornada anterior o ronda anterior
   irJornadaAnterior() {
     if (
       this.leagueId === 140 ||
@@ -131,6 +133,7 @@ export class FutbolPartidosComponent implements OnInit {
     }
   }
 
+  // Método para ir a la siguiente jornada o ronda
   irJornadaSiguiente() {
     if (
       this.leagueId === 140 ||
@@ -163,11 +166,12 @@ export class FutbolPartidosComponent implements OnInit {
   }
 
   onFiltroCambio() {
-    this.season = this.selectedTemporada;
-    this.actualizarRuta();
+    this.season = this.selectedTemporada; // Actualiza la temporada con la seleccionada por el usuario
+    this.actualizarRuta();  // Actualiza la ruta para reflejar el cambio de temporada
   }
 
   actualizarRuta() {
+    // Actualiza la ruta dependiendo de la liga y el formato de la ronda
     if (
       this.leagueId === 140 ||
       this.leagueId === 39 ||
@@ -194,14 +198,16 @@ export class FutbolPartidosComponent implements OnInit {
   }
 
   cargarPartidos() {
+    // API Key
     const headers = new HttpHeaders({
       'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159',
     });
 
-    let url = '';
+    let url = ''; // Variable para almacenar la URL de la API
 
-    const roundText = encodeURIComponent(`Regular Season - ${this.round}`);
+    const roundText = encodeURIComponent(`Regular Season - ${this.round}`); // Codifica el texto de la ronda para usarlo en la URL
 
+    // Construye la URL dependiendo de la liga y el formato de la ronda
     if (
       this.leagueId === 140 ||
       this.leagueId === 39 ||
@@ -214,31 +220,32 @@ export class FutbolPartidosComponent implements OnInit {
       url = `https://v3.football.api-sports.io/${this.endpoint}?league=${this.leagueId}&season=${this.season}&round=${this.knockout}`;
     }
 
-    console.log('Requesting URL:', url);
+    console.log('Requesting URL:', url);  // Muestra la URL solicitada en la consola para depuración
 
-    this.http.get<any>(url, { headers }).subscribe({
-      next: (data) => {
-        console.log('Datos recibidos:', data);
+    this.http.get<any>(url, { headers }).subscribe({  // Realiza la solicitud a la API
+      next: (data) => { // Maneja la respuesta de la API
+        console.log('Datos recibidos:', data);  // Muestra los datos recibidos de la API en la consola para depuración
 
-        if (data?.response?.length) {
-          this.partidos = data.response;
-          this.errorMessage = '';
+        if (data?.response?.length) {   // Comprueba si hay partidos en la respuesta de la API
+          this.partidos = data.response;  // Asigna los partidos recibidos a la lista de partidos
+          this.errorMessage = ''; // Limpia el mensaje de error si hay partidos disponibles
         } else {
-          this.errorMessage = 'No hay partidos disponibles';
+          this.errorMessage = 'No hay partidos disponibles';  // Mensaje de error si no hay partidos disponibles
         }
       },
       error: (error) => {
-        console.error('Error en la API:', error);
-        this.errorMessage = 'Error al cargar los datos';
-        this.partidos = [];
+        console.error('Error en la API:', error);   // Muestra un mensaje de error si la API falla
+        this.errorMessage = 'Error al cargar los datos';  // Mensaje de error si la API falla
+        this.partidos = []; // Limpia la lista de partidos en caso de error
       },
     });
   }
 
+  // Método para obtener el texto de la jornada o ronda
   get textoJornada(): string {
-    const ligasConRound = [140, 39, 135, 78, 61];
-    return ligasConRound.includes(this.leagueId)
-      ? `Jornada ${this.round}`
-      : this.knockout;
+    const ligasConRound = [140, 39, 135, 78, 61];  // Ligas que utilizan el formato de jornada
+    return ligasConRound.includes(this.leagueId)   
+      ? `Jornada ${this.round}`  
+      : this.knockout;  
   }
 }

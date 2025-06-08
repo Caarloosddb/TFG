@@ -3,6 +3,7 @@ import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { map, tap } from 'rxjs/operators';
 
+//AuthGuard para proteger rutas para que requieran autenticación
 export const AuthGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);

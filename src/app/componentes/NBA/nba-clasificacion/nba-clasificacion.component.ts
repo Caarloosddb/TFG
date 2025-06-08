@@ -25,17 +25,17 @@ import { FooterComponent } from '../../../shared/footer/footer.component';
   styleUrls: ['./nba-clasificacion.component.scss']
 })
 export class NbaClasificacionComponent implements OnInit {
-  temporadas: number[] = [];
-  selectedTemporada!: number;
+  temporadas: number[] = [];  // Lista de temporadas disponibles
+  selectedTemporada!: number; // Temporada seleccionada por el usuario
 
 
-  clasificacion: any[] = [];
+  clasificacion: any[] = [];  // Clasificación general de la NBA
 
-  clasificacionEste: any[] = [];
-  clasificacionOeste: any[] = [];
+  clasificacionEste: any[] = [];  // Equipos de la conferencia Este
+  clasificacionOeste: any[] = []; // Equipos de la conferencia Oeste
 
-  leagueId!: string;
-  season!: number;
+  leagueId!: string;  // ID de la liga NBA
+  season!: number;  // Temporada seleccionada
 
 
   errorMessage: string = '';
@@ -48,64 +48,67 @@ export class NbaClasificacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-     this.temporadas = [2023, 2022, 2021];
+     this.temporadas = [2023, 2022, 2021];  // Inicializa las temporadas disponibles
 
       this.route.params.subscribe(params => {
-      this.leagueId = params['leagueId'];
-      this.season = +params['season'];
+      this.leagueId = params['leagueId']; // Obtiene el ID de la liga desde los parámetros de la ruta
+      this.season = +params['season'];  // Obtiene la temporada desde los parámetros de la ruta y la convierte a número
 
-      this.selectedTemporada = this.season;
-      this.cargarClasificacion();
+      this.selectedTemporada = this.season; // Establece la temporada seleccionada
+      this.cargarClasificacion(); // inicia la funcion cargarClasificacion
     });
   }
 
+  // Maneja el cambio de temporada cuando el usuario selecciona una nueva
     onFiltroCambio(): void {
-    this.season = this.selectedTemporada;
-    this.actualizarRuta();
+    this.season = this.selectedTemporada; // Actualiza la temporada con la seleccionada por el usuario
+    this.actualizarRuta();  // Actualiza la ruta para reflejar el cambio de temporada
   }
 
   actualizarRuta(): void {
-    this.router.navigate(['/nba-clasificacion', this.leagueId, this.season]);
+    this.router.navigate(['/nba-clasificacion', this.leagueId, this.season]); // Navega a la ruta actualizada con el ID de la liga y la temporada seleccionada
   }
 
 cargarClasificacion(): void {
+  //API Key
   const headers = new HttpHeaders({
     'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
   });
 
-  const url = `https://v2.nba.api-sports.io/standings?league=${this.leagueId}&season=${this.season}`;
-  console.log('Requesting URL:', url);
+  const url = `https://v2.nba.api-sports.io/standings?league=${this.leagueId}&season=${this.season}`; //URL de la API para obtener la clasificación de la NBA
+  console.log('Requesting URL:', url);  // Muestra la URL solicitada en la consola para depuración
 
   this.http.get<any>(url, { headers }).subscribe({
     next: (data) => {
-      console.log('Datos recibidos:', data);
-      if (data?.response?.length) {
-        this.clasificacion = data.response;
+      console.log('Datos recibidos:', data);  // Muestra los datos recibidos de la API en la consola para depuración
+      if (data?.response?.length) { // Comprueba si hay datos en la respuesta de la API
+        this.clasificacion = data.response; // Asigna los datos de la clasificación a la variable clasificacion
 
         // Filtrar y ordenar Este
         this.clasificacionEste = this.clasificacion
-          .filter(team => team.conference.name.toLowerCase() === 'east')
-          .sort((a, b) => b.conference.win - a.conference.win);
+          .filter(team => team.conference.name.toLowerCase() === 'east')  // Filtra los equipos de la conferencia Este
+          .sort((a, b) => b.conference.win - a.conference.win); // Ordena los equipos de la conferencia Este por victorias
 
         // Filtrar y ordenar Oeste
         this.clasificacionOeste = this.clasificacion
-          .filter(team => team.conference.name.toLowerCase() === 'west')
-          .sort((a, b) => b.conference.win - a.conference.win);
+          .filter(team => team.conference.name.toLowerCase() === 'west')  // Filtra los equipos de la conferencia Oeste
+          .sort((a, b) => b.conference.win - a.conference.win); // Ordena los equipos de la conferencia Oeste por victorias
 
         this.errorMessage = '';
       } else {
-        this.errorMessage = 'No hay datos disponibles';
-        this.clasificacion = [];
-        this.clasificacionEste = [];
-        this.clasificacionOeste = [];
+        this.errorMessage = 'No hay datos disponibles'; // Si no hay datos, muestra un mensaje de error
+        this.clasificacion = [];  // Limpia la clasificación
+        this.clasificacionEste = [];  // Limpia la clasificación Este
+        this.clasificacionOeste = []; // Limpia la clasificación Oeste 
+
       }
     },
     error: (error) => {
-      console.error('Error en la API:', error);
-      this.errorMessage = 'Error al cargar los datos';
-      this.clasificacion = [];
-      this.clasificacionEste = [];
-      this.clasificacionOeste = [];
+      console.error('Error en la API:', error);  // Si no hay respuesta de la API, muestra un mensaje de error
+      this.errorMessage = 'Error al cargar los datos';  // Mensaje de error si la API falla
+      this.clasificacion = [];  // Limpia la clasificación
+      this.clasificacionEste = [];  // Limpia la clasificación Este
+      this.clasificacionOeste = []; // Limpia la clasificación Oeste
     }
   });
 }

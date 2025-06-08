@@ -26,18 +26,18 @@ import { FooterComponent } from '../../../shared/footer/footer.component';
 })
 export class BaloncestoClasificacionComponent implements OnInit{
 
-  temporadasEl: any[] = ['2023', '2022', '2021'];
-  temporadasACB: any[] = ['2023-2024', '2022-2023', '2021-2022'];
-  temporadas: any[] = [];
+  temporadasEl: any[] = ['2023', '2022', '2021']; // Temporadas de la Euroliga
+  temporadasACB: any[] = ['2023-2024', '2022-2023', '2021-2022']; // Temporadas de la ACB
+  temporadas: any[] = []; // Lista de temporadas que se mostrará al usuario
 
-  selectedTemporada!: string;
+  selectedTemporada!: string; // Temporada seleccionada por el usuario
 
-  clasificacion: any[] = [];
+  clasificacion: any[] = [];  // Clasificación de baloncesto
 
-  leagueId!: number;
-  season!: string;
+  leagueId!: number;  // ID de la liga (117 para ACB, 120 para Euroliga)
+  season!: string;  // Temporada seleccionada por el usuario
 
-  errorMessage: string = '';
+  errorMessage: string = '';  // Mensaje de error en caso de que no se encuentren datos o haya un error en la API
 
   constructor(
     private http: HttpClient,
@@ -48,54 +48,54 @@ export class BaloncestoClasificacionComponent implements OnInit{
 
   ngOnInit(): void {
       this.route.params.subscribe(params => {
-      this.leagueId = +params['leagueId'];
-      this.season = params['season'];
+      this.leagueId = +params['leagueId'];  // Obtiene el ID de la liga desde los parámetros de la ruta y lo convierte a número
+      this.season = params['season']; // Obtiene la temporada desde los parámetros de la ruta
 
-      if(this.leagueId === 117){
-        this.temporadas = this.temporadasACB
+      if(this.leagueId === 117){  // Si la liga es ACB
+        this.temporadas = this.temporadasACB  // Asigna las temporadas de la ACB a la lista de temporadas
       }else {
-        this.temporadas = this.temporadasEl
+        this.temporadas = this.temporadasEl // Asigna las temporadas de la Euroliga a la lista de temporadas
       }
 
-      this.selectedTemporada = this.season;
-      this.cargarClasificacion();
+      this.selectedTemporada = this.season; // Establece la temporada seleccionada por el usuario
+      this.cargarClasificacion(); // Llama a la función para cargar la clasificación de baloncesto
     });
   }
 
     onFiltroCambio(): void {
-    this.season = this.selectedTemporada;
-    this.actualizarRuta();
+    this.season = this.selectedTemporada; // Actualiza la temporada con la seleccionada por el usuario
+    this.actualizarRuta();  // Actualiza la ruta para reflejar el cambio de temporada
   }
 
   actualizarRuta(): void {
-    this.router.navigate(['/baloncesto-clasificacion', this.leagueId, this.season]);
+    this.router.navigate(['/baloncesto-clasificacion', this.leagueId, this.season]);  // Navega a la ruta actualizada con el ID de la liga y la temporada seleccionada
   }
 
   cargarClasificacion(): void {
+  // API Key
   const headers = new HttpHeaders({
     'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
   });
 
-  const url = `https://v1.basketball.api-sports.io/standings?league=${this.leagueId}&season=${this.season}`;
+  const url = `https://v1.basketball.api-sports.io/standings?league=${this.leagueId}&season=${this.season}`;  // URL de la API para obtener la clasificación de baloncesto
   
-  console.log('Requesting URL:', url);
+  console.log('Requesting URL:', url);  // Muestra la URL solicitada en la consola para depuración
 
-  this.http.get<any>(url, { headers }).subscribe({
-    next: (data) => {
-      console.log('Datos recibidos:', data);
-      if (data?.response?.length) {
-        this.clasificacion = data.response;
-
-        this.errorMessage = '';
+  this.http.get<any>(url, { headers }).subscribe({  // Realiza la solicitud a la API
+    next: (data) => {   // Maneja la respuesta de la API
+      console.log('Datos recibidos:', data);  // Muestra los datos recibidos de la API en la consola para depuración
+      if (data?.response?.length) { // Comprueba si hay datos en la respuesta de la API
+        this.clasificacion = data.response; // Asigna los datos de la clasificación a la variable clasificacion
+        this.errorMessage = ''; // Limpia el mensaje de error si hay datos disponibles
       } else {
-        this.errorMessage = 'No hay datos disponibles';
-        this.clasificacion = [];
+        this.errorMessage = 'No hay datos disponibles'; // Mensaje de error si no hay datos disponibles
+        this.clasificacion = [];  // Limpia la lista de clasificación si no hay datos
       }
     },
-    error: (error) => {
-      console.error('Error en la API:', error);
-      this.errorMessage = 'Error al cargar los datos';
-      this.clasificacion = [];
+    error: (error) => { // Maneja el error de la API
+      console.error('Error en la API:', error); // Muestra un mensaje de error si la API falla
+      this.errorMessage = 'Error al cargar los datos';  // Mensaje de error si la API falla
+      this.clasificacion = [];  // Limpia la lista de clasificación en caso de error
     }
   });
 }

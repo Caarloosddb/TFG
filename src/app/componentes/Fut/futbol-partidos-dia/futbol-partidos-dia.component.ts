@@ -18,47 +18,48 @@ import { SidebarFutbolComponent } from '../../../shared/sidebar-futbol/sidebar-f
   styleUrl: './futbol-partidos-dia.component.scss'
 })
 export class FutbolPartidosDiaComponent {
-  partidos: any[] = [];
-  errorMessage: string = '';
-  fechaSeleccionada: string = '';
+  partidos: any[] = []; // Lista de partidos de fútbol
+  errorMessage: string = '';  // Mensaje de error en caso de que no se encuentren partidos o haya un error en la API
+  fechaSeleccionada: string = ''; // Fecha seleccionada por el usuario para filtrar los partidos
 
-  constructor(private http: HttpClient, public themeService: ThemeService) {}
+  constructor(private http: HttpClient, public themeService: ThemeService) {} 
 
   ngOnInit(): void {
-    const hoy = new Date().toISOString().split('T')[0];
-    this.fechaSeleccionada = hoy;
-    this.cargarPartidosDelDia();
+    const hoy = new Date().toISOString().split('T')[0]; // Obtiene la fecha actual en formato YYYY-MM-DD
+    this.fechaSeleccionada = hoy; // Inicializa la fecha seleccionada con la fecha actual
+    this.cargarPartidosDelDia();  // Llama a la función para cargar los partidos del día actual
   }
 
   onFechaCambio() {
-    this.cargarPartidosDelDia();
+    this.cargarPartidosDelDia();  // Llama a la función para cargar los partidos del día con la fecha seleccionada
   }
 
   cargarPartidosDelDia() {
+    // API Key
     const headers = new HttpHeaders({
       'x-apisports-key': '4fd2512f15f791542e09ceb9073e2159'
     });
 
-    const url = `https://v3.football.api-sports.io/fixtures?date=${this.fechaSeleccionada}`;
+    const url = `https://v3.football.api-sports.io/fixtures?date=${this.fechaSeleccionada}`;  // Construye la URL para solicitar los partidos del día seleccionado
 
-    console.log('Solicitando partidos del día:', url);
+    console.log('Solicitando partidos del día:', url);  // Muestra en la consola la URL que se está solicitando
 
-    this.http.get<any>(url, { headers }).subscribe({
-      next: (data) => {
-        console.log("Datos recibidos:", data);
+    this.http.get<any>(url, { headers }).subscribe({  // Realiza la solicitud GET a la API de fútbol
+      next: (data) => { // Maneja la respuesta de la API
+        console.log("Datos recibidos:", data);  // Muestra en la consola los datos recibidos de la API
 
-        if (data?.response?.length) {
-          this.partidos = data.response;
-          this.errorMessage = '';
+        if (data?.response?.length) {  // Verifica si hay partidos programados para el día seleccionado
+          this.partidos = data.response;  // Asigna los partidos recibidos a la lista de partidos
+          this.errorMessage = ''; // Limpia el mensaje de error si hay partidos disponibles
         } else {
-          this.errorMessage = "No hay partidos programados para hoy.";
-          this.partidos = [];
+          this.errorMessage = "No hay partidos programados para hoy.";  // Mensaje de error si no hay partidos programados
+          this.partidos = []; // Limpia la lista de partidos si no hay datos
         }
       },
-      error: (error) => {
-        console.error('Error al cargar los partidos:', error);
-        this.errorMessage = "Error al cargar los datos.";
-        this.partidos = [];
+      error: (error) => { // Maneja el error de la API
+        console.error('Error al cargar los partidos:', error);  // Muestra un mensaje de error en la consola si la API falla
+        this.errorMessage = "Error al cargar los datos."; // Mensaje de error si la API falla
+        this.partidos = []; // Limpia la lista de partidos en caso de error
       }
     });
   }

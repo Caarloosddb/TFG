@@ -9,7 +9,7 @@
       <ng-container
         *ngFor="
           let conf of [
-            { nombre: 'Este', data: clasificacionEste },
+            { nombre: 'Este', data: clasificacionEste }, 
             { nombre: 'Oeste', data: clasificacionOeste }
           ]
         "
@@ -46,7 +46,7 @@
                 [(ngModel)]="selectedTemporada"
                 (change)="onFiltroCambio()"
               >
-                <option *ngFor="let ano of temporadas" [value]="ano">
+                <option *ngFor="let ano of temporadas" [value]="ano"> <!-- Itera sobre las temporadas disponibles -->
                   {{ ano }}
                 </option>
               </select>

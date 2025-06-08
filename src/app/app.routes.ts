@@ -55,6 +55,7 @@ export const routes: Routes = [
     { path: 'privacidad', component: PrivacidadComponent },
     { path: 'terminos', component: TerminosComponent },
 
+    /*Redirecciones y rutas no encontradas */
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', redirectTo: 'home' }
 ];

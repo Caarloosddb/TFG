@@ -29,6 +29,7 @@ interface Favorite {
   styleUrls: ['./usuario.component.scss']
 })
 export class UsuarioComponent implements OnInit {
+  // Definimos las propiedades del usuario y sus favoritos
   user: User | null = null;
   userEmail = '';
   profilePic: string | ArrayBuffer = '';

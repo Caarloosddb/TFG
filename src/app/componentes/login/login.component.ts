@@ -28,18 +28,20 @@ export class LoginComponent {
     });
   }
 
+  // Método para manejar el envío del formulario de inicio de sesión
   onSubmit(): void {
-    const { email, password } = this.loginForm.value;
-    this.authService.login(email, password).subscribe({
-      next: () => this.router.navigate(['/home']),
-      error: () => this.error = 'Credenciales incorrectas'
+    const { email, password } = this.loginForm.value; // Obtiene los valores del formulario
+    this.authService.login(email, password).subscribe({ // Se suscribe al servicio de autenticación
+      next: () => this.router.navigate(['/home']),  // Si el inicio de sesión es exitoso, redirige al usuario a la página de inicio
+      error: () => this.error = 'Credenciales incorrectas'  // Si hay un error, muestra un mensaje de error
     });
   }
 
+  // Método para manejar el inicio de sesión con Google
   loginWithGoogle(): void {
-    this.authService.loginWithGoogle().subscribe({
-      next: () => this.router.navigate(['/home']),
-      error: () => this.error = 'Error con Google'
+    this.authService.loginWithGoogle().subscribe({  // Se suscribe al servicio de autenticación para iniciar sesión con Google
+      next: () => this.router.navigate(['/home']),  // Si el inicio de sesión es exitoso, redirige al usuario a la página de inicio
+      error: () => this.error = 'Error con Google'  // Si hay un error, muestra un mensaje de error
     });
   }
 }
